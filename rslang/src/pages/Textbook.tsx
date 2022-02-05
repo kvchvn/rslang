@@ -1,10 +1,10 @@
 import React from 'react';
-import { useData } from '../components/DataContext';
+import { useWordsData } from '../components/providers/WordsProvider';
 import Word from '../components/Textbook/Word';
 import { IWord } from '../services/interfaces';
 
 export default function Textbook() {
-  const { data, setNextPage, setPrevPage, setWordsGroup, showWord } = useData();
+  const { wordsPage, setNextPage, setPrevPage, setWordsGroup, showWordCard } = useWordsData();
 
   return (
     <div>
@@ -40,8 +40,8 @@ export default function Textbook() {
           </button>
         </li>
       </ul>
-      <ul onClick={showWord}>
-        {data.map((word: IWord) => (
+      <ul onClick={showWordCard}>
+        {wordsPage.map((word: IWord) => (
           <li key={word.id} data-id={word.id} className="word">
             {word.word}
           </li>

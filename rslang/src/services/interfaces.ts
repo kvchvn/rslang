@@ -1,3 +1,5 @@
+import React from 'react';
+
 // type aliases, interfaces, etc.
 export interface IWord {
   id: string;
@@ -17,3 +19,14 @@ export interface IWord {
 }
 
 export type WordsPage = Array<IWord>;
+
+export interface IChildren {
+  children: React.ReactNode;
+}
+
+export interface IWordsData {
+  wordsPage: WordsPage | [];
+  page: number;
+  group: number;
+  wordId: string;
+}

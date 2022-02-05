@@ -1,12 +1,14 @@
 import React from 'react';
-import { useData } from '../DataContext';
+import { useWordsData } from '../providers/WordsProvider';
 
 export default function Word() {
-  const { showedWord } = useData();
+  const { wordId } = useWordsData();
+
+  if (!wordId) return <p>No ID</p>;
 
   return (
     <div>
-      <p>{showedWord.word}</p>
+      <p>{wordId}</p>
     </div>
   );
 }
