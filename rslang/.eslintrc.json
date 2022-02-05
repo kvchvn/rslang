@@ -29,6 +29,9 @@
     ],
     "rules": {
         "react/jsx-filename-extension": [1, {"extensions": [".ts", ".tsx"]}],
+        "react/jsx-no-constructed-context-values": "off",
+        "jsx-a11y/click-events-have-key-events": "off",
+        "jsx-a11y/no-noninteractive-element-interactions": "off",
         "@typescript -eslint/ban-types": "off",
         "import/extensions": [
             "error",
@@ -37,7 +40,13 @@
               "ts": "never",
               "tsx": "never"
             }
-         ]
+         ],
+         "prettier/prettier": [
+            "error",
+            {
+              "endOfLine": "auto"
+            }
+          ]
     },
     "settings": {
         "import/resolver": {
