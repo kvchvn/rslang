@@ -30,3 +30,9 @@ export interface IWordsData {
   group: number;
   wordId: string;
 }
+
+export type UserWord = {
+  difficulty: string
+  id: string
+  wordId: string
+}

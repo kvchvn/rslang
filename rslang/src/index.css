@@ -10,3 +10,7 @@ li {
 li:hover {
   border: 1px solid red;
 }
+
+.word-box {
+  border: 1px solid red;
+}
