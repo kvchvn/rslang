@@ -2,9 +2,10 @@ import React from 'react';
 import { useWordsData } from '../components/providers/WordsProvider';
 import Word from '../components/Textbook/Word';
 import { IWord } from '../services/interfaces';
+import { MAX_PAGE_NUMBER } from '../services/requests';
 
 export default function Textbook() {
-  const { wordsPage, setNextPage, setPrevPage, setWordsGroup, showWordCard } = useWordsData();
+  const { wordsPage, page, setNextPage, setPrevPage, setWordsGroup, showWordCard } = useWordsData();
 
   return (
     <div>
@@ -39,6 +40,11 @@ export default function Textbook() {
             6
           </button>
         </li>
+        <li>
+          <button type="button" data-group="7">
+            7
+          </button>
+        </li>
       </ul>
       <ul onClick={showWordCard}>
         {wordsPage.map((word: IWord) => (
@@ -53,6 +59,9 @@ export default function Textbook() {
       <button type="button" onClick={setNextPage}>
         Next
       </button>
+      <span>
+        {page} of {MAX_PAGE_NUMBER}
+      </span>
       <Word />
     </div>
   );

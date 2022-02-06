@@ -23,15 +23,13 @@ export default function Word() {
         .then((userWord) => {
           if (userWord) {
             setWordStatus(userWord.difficulty);
-          } else {
-            setWordStatus('');
           }
         })
         .catch(() => {
           setWordStatus('');
         });
     }
-  }, [wordId]);
+  }, [wordId, wordStatus]);
 
   if (!word) {
     return <p>Loading...</p>;
@@ -43,6 +41,7 @@ export default function Word() {
     if (difficulty) {
       await createUserWord(USER_ID, word.id, difficulty, TOKEN);
     }
+    // should to mark word-card style straightway
   };
 
   return (

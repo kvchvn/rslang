@@ -1,6 +1,13 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { IChildren, IWordsData } from '../../services/interfaces';
-import { getWordsPage, MAX_PAGE_NUMBER } from '../../services/requests';
+import {
+  getAllUserWords,
+  getWordById,
+  getWordsPage,
+  MAX_PAGE_NUMBER,
+  TOKEN,
+  USER_ID,
+} from '../../services/requests';
 
 const WordsContext = React.createContext<any>({});
 export const useWordsData = () => useContext(WordsContext);
@@ -47,10 +54,22 @@ export default function WordsProvider({ children }: IChildren) {
   };
 
   const getWords = useMemo(() => {
-    getWordsPage(wordsData.group, wordsData.page).then((wordsPage) => {
-      const wordId = !wordsData.wordId ? wordsPage[0].id : wordsData.wordId;
-      setWordsData((prevData) => ({ ...prevData, wordsPage, wordId }));
-    });
+    if (wordsData.group < 6) {
+      getWordsPage(wordsData.group, wordsData.page).then((wordsPage) => {
+        const wordId = !wordsData.wordId ? wordsPage[0].id : wordsData.wordId;
+        setWordsData((prevData) => ({ ...prevData, wordsPage, wordId }));
+      });
+    } else {
+      getAllUserWords(USER_ID, TOKEN)
+        .then((userWords) => {
+          return Promise.all(userWords.map((userWord) => getWordById(userWord.wordId)));
+        })
+        .then((wordsPage) => {
+          console.log(wordsPage);
+          const wordId = !wordsData.wordId ? wordsPage[0].id : wordsData.wordId;
+          setWordsData((prevData) => ({ ...prevData, wordsPage, wordId }));
+        });
+    }
   }, [wordsData.page, wordsData.group, wordsData.wordId]);
 
   useEffect(() => getWords, [wordsData]);
@@ -60,6 +79,7 @@ export default function WordsProvider({ children }: IChildren) {
       value={{
         wordsPage: wordsData.wordsPage,
         wordId: wordsData.wordId,
+        page: wordsData.page,
         setNextPage,
         setPrevPage,
         setWordsGroup,
