@@ -15,8 +15,8 @@ export const useWordsData = () => useContext(WordsContext);
 export default function WordsProvider({ children }: IChildren) {
   const [wordsData, setWordsData] = useState<IWordsData>({
     wordsPage: [],
-    group: 1,
-    page: 1,
+    group: Number(localStorage.getItem('group')) || 1,
+    page: Number(localStorage.getItem('page')) || 1,
     wordId: '',
   });
 
@@ -70,6 +70,8 @@ export default function WordsProvider({ children }: IChildren) {
           setWordsData((prevData) => ({ ...prevData, wordsPage, wordId }));
         });
     }
+    localStorage.setItem('group', String(wordsData.group));
+    localStorage.setItem('page', String(wordsData.page));
   }, [wordsData.page, wordsData.group, wordsData.wordId]);
 
   useEffect(() => getWords, [wordsData]);
