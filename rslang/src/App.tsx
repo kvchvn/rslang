@@ -3,13 +3,12 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import About from './pages/About';
 import AudioCallGame from './pages/AudioCallGame';
-import Authorization from './pages/Authorization';
 import Main from './pages/Main';
 import NotFound from './pages/NotFound';
 import SprintGame from './pages/SprintGame';
 import Statistics from './pages/Statistics';
 import Textbook from './pages/Textbook';
-import Form from './components/Form';
+import Form from './pages/Form';
 
 function App() {
   return (

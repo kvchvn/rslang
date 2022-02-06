@@ -60,7 +60,8 @@ const FormRegistr: React.FC = () => {
   
   return (
     <>
-      <Stack spacing={2} direction="row">
+    <div className="formregistr">
+    <Stack spacing={2} direction="row">
         <Button variant="outlined" onClick={handleClickOpen}>
           Зарегистрироваться
         </Button>
@@ -69,7 +70,7 @@ const FormRegistr: React.FC = () => {
         <DialogTitle>Регистрация</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Для регистрации введите имя, Ваш email и придумайте пароль
+            Для регистрации введите имя, Ваш email и придумайте пароль (пароль не менее восьми символов)
           </DialogContentText>
           <TextField
             autoFocus
@@ -108,6 +109,8 @@ const FormRegistr: React.FC = () => {
           <Button onClick={handleRegistr}>Зарегистрироваться</Button>
         </DialogActions>
       </Dialog>
+    </div>
+     
     </>
   );
 }

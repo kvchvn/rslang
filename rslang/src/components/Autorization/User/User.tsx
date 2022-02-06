@@ -15,7 +15,7 @@ const User: React.FC<IUserFormState> = ({stateUser}) => {
     <>
       <div className="title-user">
         {
-          stateUser ? <p>Приветсвуем Вас, {userName[0].name}</p> : <p>нет пользователя</p>
+          stateUser ? <p>Приветсвуем Вас, {userName[0].name}</p> : <p>Пользователь не авторизован</p>
         }
       </div>
     </>
