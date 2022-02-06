@@ -9,6 +9,7 @@ import NotFound from './pages/NotFound';
 import SprintGame from './pages/SprintGame';
 import Statistics from './pages/Statistics';
 import Textbook from './pages/Textbook';
+import Form from './components/Form';
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
       <Navigation />
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/authorization" element={<Authorization />} />
+        <Route path="/authorization" element={<Form />} />
         <Route path="/textbook" element={<Textbook />} />
         <Route path="/sprint" element={<SprintGame />} />
         <Route path="/audiocall" element={<AudioCallGame />} />
