@@ -1,11 +1,11 @@
 import React from 'react';
 import { useWordsData } from '../components/providers/WordsProvider';
+import PageControls from '../components/Textbook/PageControls';
 import Word from '../components/Textbook/Word';
 import { IWord } from '../services/interfaces';
-import { MAX_PAGE_NUMBER } from '../services/requests';
 
 export default function Textbook() {
-  const { wordsPage, page, setNextPage, setPrevPage, setWordsGroup, showWordCard } = useWordsData();
+  const { wordsPage, setWordsGroup, showWordCard } = useWordsData();
 
   return (
     <div>
@@ -53,15 +53,7 @@ export default function Textbook() {
           </li>
         ))}
       </ul>
-      <button type="button" onClick={setPrevPage}>
-        Prev
-      </button>
-      <button type="button" onClick={setNextPage}>
-        Next
-      </button>
-      <span>
-        {page} of {MAX_PAGE_NUMBER}
-      </span>
+      <PageControls />
       <Word />
     </div>
   );

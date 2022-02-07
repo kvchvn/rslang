@@ -4,6 +4,7 @@ import {
   getAllUserWords,
   getWordById,
   getWordsPage,
+  MAX_GROUP_NUMBER,
   MAX_PAGE_NUMBER,
   TOKEN,
   USER_ID,
@@ -54,7 +55,7 @@ export default function WordsProvider({ children }: IChildren) {
   };
 
   const getWords = useMemo(() => {
-    if (wordsData.group < 6) {
+    if (wordsData.group <= MAX_GROUP_NUMBER) {
       getWordsPage(wordsData.group, wordsData.page).then((wordsPage) => {
         const wordId = !wordsData.wordId ? wordsPage[0].id : wordsData.wordId;
         setWordsData((prevData) => ({ ...prevData, wordsPage, wordId }));
@@ -62,13 +63,21 @@ export default function WordsProvider({ children }: IChildren) {
     } else {
       getAllUserWords(USER_ID, TOKEN)
         .then((userWords) => {
+          if (!userWords.length) {
+            return userWords as [];
+          }
           return Promise.all(userWords.map((userWord) => getWordById(userWord.wordId)));
         })
         .then((wordsPage) => {
-          console.log(wordsPage);
-          const wordId = !wordsData.wordId ? wordsPage[0].id : wordsData.wordId;
+          let wordId: string;
+          if (wordsPage.length) {
+            wordId = !wordsData.wordId ? wordsPage[0].id : wordsData.wordId;
+          } else {
+            wordId = '';
+          }
           setWordsData((prevData) => ({ ...prevData, wordsPage, wordId }));
-        });
+        })
+        .catch((error) => console.log(error));
     }
     localStorage.setItem('group', String(wordsData.group));
     localStorage.setItem('page', String(wordsData.page));
@@ -79,9 +88,7 @@ export default function WordsProvider({ children }: IChildren) {
   return (
     <WordsContext.Provider
       value={{
-        wordsPage: wordsData.wordsPage,
-        wordId: wordsData.wordId,
-        page: wordsData.page,
+        ...wordsData,
         setNextPage,
         setPrevPage,
         setWordsGroup,
