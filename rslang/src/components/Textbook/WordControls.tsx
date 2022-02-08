@@ -1,44 +1,47 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { createUserWord, removeUserWordById, TOKEN, USER_ID } from '../../services/requests';
-import { useWordsData } from '../providers/WordsProvider';
+import { DIFFICULT_WORD, WEAK_WORD } from '../../services/requests';
 
-export default function WordControls({ status }: any) {
-  const { wordId } = useWordsData();
+export default function WordControls({ status, markWord, unmarkWord }: any) {
+  const buttonUnmark = (
+    <button type="button" onClick={unmarkWord}>
+      Remove the word from {status}
+    </button>
+  );
 
-  const markWord = async (e: any) => {
-    const target = e.target as HTMLElement;
-    const difficulty = target.dataset.status;
-    if (difficulty) {
-      await createUserWord(USER_ID, wordId, difficulty, TOKEN);
-    }
-    // should to mark word-card style straightway
-  };
-
-  const unmarkWord = async () => {
-    removeUserWordById(USER_ID, wordId, TOKEN);
-  };
-
-  if (status) {
+  const createButtonMark = (wordStatus: string): React.ReactNode => {
     return (
-      <button type="button" onClick={unmarkWord}>
-        Remove the word from {status}
+      <button type="button" data-status={wordStatus} onClick={markWord}>
+        Add to {wordStatus}
       </button>
     );
+  };
+
+  let buttonsBox: React.ReactNode;
+  switch (status) {
+    case DIFFICULT_WORD:
+      buttonsBox = (
+        <>
+          {buttonUnmark}
+          {createButtonMark(WEAK_WORD)}
+        </>
+      );
+      break;
+    case WEAK_WORD:
+      buttonsBox = (
+        <>
+          {buttonUnmark}
+          {createButtonMark(DIFFICULT_WORD)}
+        </>
+      );
+      break;
+    default:
+      buttonsBox = (
+        <>
+          {createButtonMark(DIFFICULT_WORD)}
+          {createButtonMark(WEAK_WORD)}
+        </>
+      );
   }
 
-  return (
-    <div>
-      <button type="button" data-status="difficult" onClick={markWord}>
-        Add to difficult
-      </button>
-      <button type="button" data-status="weak" onClick={markWord}>
-        Add to weak
-      </button>
-    </div>
-  );
+  return <div>{buttonsBox}</div>;
 }
-
-WordControls.propTypes = {
-  status: PropTypes.string.isRequired,
-};

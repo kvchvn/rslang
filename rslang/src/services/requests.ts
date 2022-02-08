@@ -5,10 +5,12 @@ import { IWord, UserWord, WordsPage } from './interfaces';
 const BASIS_URL = 'https://rs-lang-1.herokuapp.com';
 export const MAX_PAGE_NUMBER = 30;
 export const MAX_GROUP_NUMBER = 6;
+export const DIFFICULT_WORD = 'difficult';
+export const WEAK_WORD = 'weak';
 // TEMPORARY DATA !!!
 export const TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDExNWQ4MDBjODUyMDAxNmJmZmQ0ZiIsImlhdCI6MTY0NDIzODMyMCwiZXhwIjoxNjQ0MjUyNzIwfQ.Nel74J7PDtyxOUwO8z287gW1nSCwE1QB80NMdqxdPdM';
-export const USER_ID = '620115d800c8520016bffd4f';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDM3Mjk0ZDU0ODU3MDAxNmNjOGFiYyIsImlhdCI6MTY0NDM5MzEyNSwiZXhwIjoxNjQ0NDA3NTI1fQ.SMtBMORhjenUWcgMkTm92QIUaL4q0K0xTTA9eD-mTHk';
+export const USER_ID = '62037294d548570016cc8abc';
 //
 
 export const getWordsPage = async (group: number, page: number) => {

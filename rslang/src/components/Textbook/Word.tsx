@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { IWord } from '../../services/interfaces';
-import { getUserWordById, getWordById, TOKEN, USER_ID } from '../../services/requests';
+import {
+  createUserWord,
+  getUserWordById,
+  getWordById,
+  removeUserWordById,
+  TOKEN,
+  USER_ID,
+} from '../../services/requests';
 import { useWordsData } from '../providers/WordsProvider';
 import WordControls from './WordControls';
 
@@ -26,6 +33,21 @@ export default function Word() {
     }
   }, [wordId, wordStatus]);
 
+  const markWord = (e: any) => {
+    const target = e.target as HTMLElement;
+    const difficulty = target.dataset.status;
+    if (difficulty) {
+      setWordStatus(difficulty);
+      createUserWord(USER_ID, wordId, difficulty, TOKEN);
+    }
+    // should to mark word-card style straightway
+  };
+
+  const unmarkWord = async () => {
+    setWordStatus('');
+    removeUserWordById(USER_ID, wordId, TOKEN);
+  };
+
   if (!word || !wordId) {
     return null;
   }
@@ -34,7 +56,7 @@ export default function Word() {
     <div className="word-box">
       <p>{word.word}</p>
       <p>{wordStatus}</p>
-      <WordControls status={wordStatus} />
+      <WordControls status={wordStatus} markWord={markWord} unmarkWord={unmarkWord} />
     </div>
   );
 }
