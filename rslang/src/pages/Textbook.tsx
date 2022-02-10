@@ -44,8 +44,12 @@ export default function Textbook() {
         </article>
       </section>
       <div className="textbook__links">
-        <Link to="/sprint">Sprint</Link>
-        <Link to="/audiocall">Audio Call</Link>
+        <Link to="/sprint" className="link textbook__link textbook__link_sprint">
+          Sprint
+        </Link>
+        <Link to="/audiocall" className="link textbook__link textbook__link_audiocall">
+          Audio Call
+        </Link>
       </div>
     </main>
   );

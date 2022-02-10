@@ -44,7 +44,6 @@
 .words-page__word {
   width: 45%;
   min-height: 30px;
-  font-size: 1.1rem;
   border: 1px solid black;
   cursor: pointer;
   text-align: center;
@@ -100,4 +99,18 @@
 
 .page-nav__button_current-page {
   background-color: blue;
+}
+
+.textbook__links {
+  padding: 5px;
+  border: 1px solid red;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.textbook__link {
+  border: 1px solid palevioletred;
+  width: 50%;
+  height: 100px;
 }

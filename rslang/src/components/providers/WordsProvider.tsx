@@ -1,11 +1,14 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { IChildren, IWordsData } from '../../services/interfaces';
 import {
+  createUserWord,
+  DIFFICULT_WORD,
   getAllUserWords,
   getWordById,
   getWordsPage,
   MAX_GROUP_NUMBER,
   MAX_PAGE_NUMBER,
+  removeUserWordById,
   TOKEN,
   USER_ID,
 } from '../../services/requests';
@@ -63,7 +66,7 @@ export default function WordsProvider({ children }: IChildren) {
     }
   };
 
-  const getWords = useMemo(() => {
+  const getWords = () => {
     if (wordsData.group <= MAX_GROUP_NUMBER) {
       getWordsPage(wordsData.group, wordsData.page).then((wordsPage) => {
         const wordId = !wordsData.wordId ? wordsPage[0].id : wordsData.wordId;
@@ -72,15 +75,20 @@ export default function WordsProvider({ children }: IChildren) {
     } else {
       getAllUserWords(USER_ID, TOKEN)
         .then((userWords) => {
+          console.log(userWords);
           if (!userWords.length) {
             return userWords as [];
           }
-          return Promise.all(userWords.map((userWord) => getWordById(userWord.wordId)));
+          return Promise.all(
+            userWords
+              .filter((userWord) => userWord.difficulty === DIFFICULT_WORD)
+              .map((userWord) => getWordById(userWord.wordId))
+          );
         })
         .then((wordsPage) => {
           let wordId: string;
           if (wordsPage.length) {
-            wordId = !wordsData.wordId ? wordsPage[0].id : wordsData.wordId;
+            wordId = wordsPage[0].id;
           } else {
             wordId = '';
           }
@@ -90,9 +98,26 @@ export default function WordsProvider({ children }: IChildren) {
     }
     localStorage.setItem('group', String(wordsData.group));
     localStorage.setItem('page', String(wordsData.page));
-  }, [wordsData.page, wordsData.group, wordsData.wordId]);
+  };
 
-  useEffect(() => getWords, [wordsData]);
+  const markWord = (e: any, wordId: string) => {
+    const target = e.target as HTMLElement;
+    const difficulty = target.dataset.status;
+    if (difficulty) {
+      target.setAttribute('disabled', 'disabled');
+      createUserWord(USER_ID, wordId, difficulty, TOKEN);
+    }
+    // should to mark word-card style straightway
+  };
+
+  const unmarkWord = async (wordId: string) => {
+    removeUserWordById(USER_ID, wordId, TOKEN);
+    const updatedWordId = wordsData.wordsPage[0] ? wordsData.wordsPage[0].id : '';
+    setWordsData((prevData) => ({ ...prevData, ...{ wordId: updatedWordId } }));
+    getWords();
+  };
+
+  useEffect(() => getWords(), [wordsData.page, wordsData.group, wordsData.wordsPage.length]);
 
   return (
     <WordsContext.Provider
@@ -103,6 +128,8 @@ export default function WordsProvider({ children }: IChildren) {
         setPage,
         setWordsGroup,
         showWordCard,
+        unmarkWord,
+        markWord,
       }}
     >
       {children}

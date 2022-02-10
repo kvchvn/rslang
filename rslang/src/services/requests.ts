@@ -9,8 +9,8 @@ export const DIFFICULT_WORD = 'difficult';
 export const WEAK_WORD = 'weak';
 // TEMPORARY DATA !!!
 export const TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDM3Mjk0ZDU0ODU3MDAxNmNjOGFiYyIsImlhdCI6MTY0NDM5MzEyNSwiZXhwIjoxNjQ0NDA3NTI1fQ.SMtBMORhjenUWcgMkTm92QIUaL4q0K0xTTA9eD-mTHk';
-export const USER_ID = '62037294d548570016cc8abc';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDRkMWJkMDcxMWYxMDAxNjEzNjJhZSIsImlhdCI6MTY0NDQ4MzAyMSwiZXhwIjoxNjQ0NDk3NDIxfQ.GCEgfpWlC1CwGyWeNgd8fzeGzbRqeAI-oACd17qiFb0';
+export const USER_ID = '6204d1bd0711f100161362ae';
 //
 
 export const getWordsPage = async (group: number, page: number) => {

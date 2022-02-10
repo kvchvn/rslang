@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { IWord } from '../../services/interfaces';
-import {
-  createUserWord,
-  getUserWordById,
-  getWordById,
-  removeUserWordById,
-  TOKEN,
-  USER_ID,
-} from '../../services/requests';
+import { getUserWordById, getWordById, TOKEN, USER_ID } from '../../services/requests';
 import { useWordsData } from '../providers/WordsProvider';
 import WordControls from './WordControls';
 
@@ -36,21 +29,6 @@ export default function Word() {
         });
     }
   }, [wordId, wordStatus]);
-
-  const markWord = (e: any) => {
-    const target = e.target as HTMLElement;
-    const difficulty = target.dataset.status;
-    if (difficulty) {
-      setWordStatus(difficulty);
-      createUserWord(USER_ID, wordId, difficulty, TOKEN);
-    }
-    // should to mark word-card style straightway
-  };
-
-  const unmarkWord = async () => {
-    setWordStatus('');
-    removeUserWordById(USER_ID, wordId, TOKEN);
-  };
 
   const playAudio = (sources: Array<string>) => {
     if (wordId !== sessionStorage.getItem('wordId')) return;
@@ -92,7 +70,7 @@ export default function Word() {
         <p dangerouslySetInnerHTML={{ __html: word.textExample }} />
         <p>{word.textExampleTranslate}</p>
       </div>
-      <WordControls status={wordStatus} markWord={markWord} unmarkWord={unmarkWord} />
+      <WordControls status={wordStatus} />
     </div>
   );
 }
