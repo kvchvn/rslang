@@ -29,9 +29,31 @@ export default function PageControls() {
       ) : (
         ''
       )}
+      {page > 2 ? (
+        <button
+          type="button"
+          onClick={() => setPage(page - 1)}
+          className="button page-nav__button page-nav__button_current-prev-page"
+        >
+          {page - 1}
+        </button>
+      ) : (
+        ''
+      )}
       <button type="button" className="button page-nav__button page-nav__button_current-page">
         {page}
       </button>
+      {page < MAX_PAGE_NUMBER - 1 ? (
+        <button
+          type="button"
+          onClick={() => setPage(page + 1)}
+          className="button page-nav__button page-nav__button_current-next-page"
+        >
+          {page + 1}
+        </button>
+      ) : (
+        ''
+      )}
       {page !== MAX_PAGE_NUMBER ? (
         <button
           type="button"
