@@ -37,18 +37,27 @@ export default function WordsProvider({ children }: IChildren) {
     }
   };
 
+  const setPage = (pageNumber: number): void => {
+    if (pageNumber >= 1 && pageNumber <= MAX_PAGE_NUMBER) {
+      const updatedPage = { page: pageNumber };
+      const wordId = '';
+      setWordsData((prevData) => ({ ...prevData, ...updatedPage, wordId }));
+    }
+  };
+
   const setWordsGroup = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
     if (target.hasAttribute('data-group')) {
       const updatedGroup = { group: Number(target.dataset.group) };
+      const updatedPage = { page: 1 };
       const wordId = '';
-      setWordsData((prevData) => ({ ...prevData, ...updatedGroup, wordId }));
+      setWordsData((prevData) => ({ ...prevData, ...updatedGroup, ...updatedPage, wordId }));
     }
   };
 
   const showWordCard = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
-    if (target.classList.contains('word')) {
+    if (target.classList.contains('words-page__word')) {
       const choosedWordId = { wordId: target.dataset.id as string };
       setWordsData((prevData) => ({ ...prevData, ...choosedWordId }));
     }
@@ -91,6 +100,7 @@ export default function WordsProvider({ children }: IChildren) {
         ...wordsData,
         setNextPage,
         setPrevPage,
+        setPage,
         setWordsGroup,
         showWordCard,
       }}

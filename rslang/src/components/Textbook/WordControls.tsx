@@ -4,14 +4,14 @@ import { DIFFICULT_WORD, WEAK_WORD } from '../../services/requests';
 export default function WordControls({ status, markWord, unmarkWord }: any) {
   const buttonUnmark = (
     <button type="button" onClick={unmarkWord}>
-      Remove the word from {status}
+      {status === DIFFICULT_WORD ? 'Убрать из сложных' : 'Изучать снова'}
     </button>
   );
 
   const createButtonMark = (wordStatus: string): React.ReactNode => {
     return (
       <button type="button" data-status={wordStatus} onClick={markWord}>
-        Add to {wordStatus}
+        {wordStatus === DIFFICULT_WORD ? 'Сложное' : 'Изученное'}
       </button>
     );
   };
