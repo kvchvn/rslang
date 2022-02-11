@@ -220,21 +220,21 @@
   transform: scale(0.9);
 }
 
-.button__mark_difficult[disabled] {
+.button__mark_difficult:disabled {
   transform: scale(4) translate(-30%, -10%);
   z-index: -1;
 }
 
-.button__mark_difficult[disabled] > .button__mark-text {
+.button__mark_difficult:disabled > .button__mark-text {
   transform: scale(0.3) translate(90%, 130%);
 }
 
-.button__mark_weak[disabled] {
+.button__mark_weak:disabled {
   transform: scale(4) translate(30%, -10%);
   z-index: -1;
 }
 
-.button__mark_weak[disabled] > .button__mark-text {
+.button__mark_weak:disabled > .button__mark-text {
   transform: scale(0.3) translate(-95%, 130%);
 }
 
@@ -284,6 +284,16 @@
   transition: all 0.25s;
 }
 
+.page-nav__button:disabled {
+  filter: grayscale(0.7);
+  transform: scale(0.9);
+  cursor: default;
+}
+
+.page-nav__button:disabled:hover {
+  background-color: rgb(248, 212, 144);
+}
+
 .page-nav__button:hover {
   background-color: rgba(100, 111, 138, 0.4);
 }
@@ -292,6 +302,10 @@
   background: no-repeat rgb(248, 212, 144) url('../assets/svg/arrow.svg') 50% 50% / contain;
   background-size: 60%;
   transform: rotateY(180deg);
+}
+
+.page-nav__button_prev-page:disabled {
+  transform: rotateY(180deg) scale(0.9);
 }
 
 .page-nav__button_next-page {

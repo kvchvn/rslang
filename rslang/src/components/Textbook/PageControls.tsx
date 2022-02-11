@@ -15,6 +15,7 @@ export default function PageControls() {
         type="button"
         onClick={setPrevPage}
         className="button page-nav__button page-nav__button_prev-page"
+        disabled={page === 1}
       />
       {page !== 1 ? (
         <button
@@ -67,6 +68,7 @@ export default function PageControls() {
         type="button"
         onClick={setNextPage}
         className="button page-nav__button page-nav__button_next-page"
+        disabled={page === MAX_PAGE_NUMBER}
       />
     </nav>
   );
