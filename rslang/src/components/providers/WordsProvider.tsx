@@ -93,6 +93,7 @@ export default function WordsProvider({ children }: IChildren) {
           } else {
             wordId = '';
           }
+          console.log(wordsPage);
           setWordsData((prevData) => ({ ...prevData, wordsPage, wordId }));
         })
         .catch((error) => console.log(error));

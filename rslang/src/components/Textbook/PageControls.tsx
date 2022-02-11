@@ -6,7 +6,7 @@ export default function PageControls() {
   const { wordsPage, page, setNextPage, setPrevPage, setPage } = useWordsData();
 
   if (!wordsPage.length) {
-    return <p>Здесь пока нет слов</p>;
+    return <p className="no-words-message">Здесь пока нет слов</p>;
   }
 
   return (

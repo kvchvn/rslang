@@ -28,3 +28,9 @@ a {
   margin: 0 auto;
   max-width: calc(100vw - 50px);
 }
+
+.no-words-message {
+  margin: auto auto;
+  letter-spacing: 1px;
+  font-size: 1.1rem;
+}
