@@ -6,7 +6,7 @@ export default function WordControls({ status }: any) {
   const { wordId, group, unmarkWord, markWord } = useWordsData();
 
   const buttonUnmark = (
-    <button type="button" onClick={() => unmarkWord(wordId)}>
+    <button type="button" onClick={() => unmarkWord(wordId)} className="button button__unmark">
       {status === DIFFICULT_WORD ? 'Убрать из сложных' : 'Изучать снова'}
     </button>
   );
@@ -17,10 +17,12 @@ export default function WordControls({ status }: any) {
         type="button"
         data-status={wordStatus}
         onClick={(e) => markWord(e, wordId)}
-        className="button"
+        className={`button button__mark button__mark_${wordStatus}`}
         disabled={wordStatus === status}
       >
-        {wordStatus === DIFFICULT_WORD ? 'Сложное' : 'Изученное'}
+        <span className="button__mark-text">
+          {wordStatus === DIFFICULT_WORD ? 'Сложное' : 'Изученное'}
+        </span>
       </button>
     );
   };
@@ -60,5 +62,5 @@ export default function WordControls({ status }: any) {
     }
   }
 
-  return <div>{buttonsBox}</div>;
+  return <div className="word__controls">{buttonsBox}</div>;
 }

@@ -15,9 +15,7 @@ export default function PageControls() {
         type="button"
         onClick={setPrevPage}
         className="button page-nav__button page-nav__button_prev-page"
-      >
-        НЗ
-      </button>
+      />
       {page !== 1 ? (
         <button
           type="button"
@@ -69,9 +67,7 @@ export default function PageControls() {
         type="button"
         onClick={setNextPage}
         className="button page-nav__button page-nav__button_next-page"
-      >
-        ВП
-      </button>
+      />
     </nav>
   );
 }

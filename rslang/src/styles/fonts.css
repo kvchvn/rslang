@@ -32,3 +32,9 @@
     url('../assets/fonts/Gilroy-Bold.eot');
   font-weight: 700;
 }
+
+@font-face {
+  font-family: 'Caveat';
+  src: local('Caveat-Bold'), local('Caveat Bold'), url('../assets/fonts/Caveat-Bold.eot'),
+    url('../assets/fonts/Caveat-Bold.woff2');
+}

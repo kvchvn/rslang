@@ -50,8 +50,9 @@ export default function WordsProvider({ children }: IChildren) {
 
   const setWordsGroup = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
-    if (target.hasAttribute('data-group')) {
-      const updatedGroup = { group: Number(target.dataset.group) };
+    const targetButton = target.closest('.group-nav__button') as HTMLElement;
+    if (targetButton && targetButton.hasAttribute('data-group')) {
+      const updatedGroup = { group: Number(targetButton.dataset.group) };
       const updatedPage = { page: 1 };
       const wordId = '';
       setWordsData((prevData) => ({ ...prevData, ...updatedGroup, ...updatedPage, wordId }));
@@ -102,9 +103,10 @@ export default function WordsProvider({ children }: IChildren) {
 
   const markWord = (e: any, wordId: string) => {
     const target = e.target as HTMLElement;
-    const difficulty = target.dataset.status;
+    const targetButton = target.closest('.button__mark') as HTMLElement;
+    const difficulty = targetButton.dataset.status;
     if (difficulty) {
-      target.setAttribute('disabled', 'disabled');
+      targetButton.setAttribute('disabled', 'disabled');
       createUserWord(USER_ID, wordId, difficulty, TOKEN);
     }
     // should to mark word-card style straightway

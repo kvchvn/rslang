@@ -43,7 +43,7 @@ export default function Word() {
   };
 
   if (!word || !wordId) {
-    return <p>Loading</p>;
+    return <div className="textbook__word-box word-box word" />;
   }
 
   const backgroundImage = {
@@ -55,20 +55,22 @@ export default function Word() {
       <div className="word__image" style={backgroundImage} />
       <div className="word__main-text">
         <p className="word__name">{word.word}</p>
-        <p className="word__transcription">{word.transcription}</p>
-        <p className="word__translation">{word.wordTranslate}</p>
+        <p>{word.transcription}</p>
+        <p>{word.wordTranslate}</p>
         <span
           className="word__audio"
           onClick={() => playAudio([word.audio, word.audioMeaning, word.audioExample])}
-        >
-          Sound
-        </span>
+        />
       </div>
       <div className="word__sub-text">
-        <p dangerouslySetInnerHTML={{ __html: word.textMeaning }} />
-        <p>{word.textMeaningTranslate}</p>
-        <p dangerouslySetInnerHTML={{ __html: word.textExample }} />
-        <p>{word.textExampleTranslate}</p>
+        <div className="word__meaning-box">
+          <p dangerouslySetInnerHTML={{ __html: word.textMeaning }} />
+          <p>{word.textMeaningTranslate}</p>
+        </div>
+        <div className="word__example-box">
+          <p dangerouslySetInnerHTML={{ __html: word.textExample }} />
+          <p>{word.textExampleTranslate}</p>
+        </div>
       </div>
       <WordControls status={wordStatus} />
     </div>

@@ -4,7 +4,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Gilroy Regular';
+  font-family: 'Gilroy Regular', sans-serif;
 }
 
 .button {
@@ -12,11 +12,6 @@
   display: block;
   border: none;
   cursor: pointer;
-}
-
-.button[disabled] {
-  border: 2px solid red;
-  background-color: palevioletred;
 }
 
 li {
@@ -32,14 +27,4 @@ a {
 .wrapper {
   margin: 0 auto;
   max-width: calc(100vw - 50px);
-}
-
-/* temporary style*/
-
-li:hover {
-  border: 1px solid red;
-}
-
-.word-box {
-  border: 1px solid red;
 }
