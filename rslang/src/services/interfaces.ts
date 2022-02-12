@@ -29,10 +29,22 @@ export interface IWordsData {
   page: number;
   group: number;
   wordId: string;
+  wordStatus: string;
 }
 
 export type UserWord = {
   difficulty: string
   id: string
   wordId: string
+}
+
+export interface IWordsProviderValue {
+  wordsData: IWordsData
+  setNextPage: () => void
+  setPrevPage: () => void
+  setPage: (pageNumber: number) => void
+  setWordsGroup: (e: React.MouseEvent<HTMLElement>) => void
+  showWordCard: (e: React.MouseEvent<HTMLElement>) => void
+  unmarkWord: (wordId: string) => void
+  markWord: (e: React.MouseEvent<HTMLElement>, wordId: string) => void
 }

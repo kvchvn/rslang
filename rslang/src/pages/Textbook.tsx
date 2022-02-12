@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import { useWordsData } from '../components/providers/WordsProvider';
 import PageControls from '../components/Textbook/PageControls';
 import Word from '../components/Textbook/Word';
-import { IWord } from '../services/interfaces';
+import { IWord, IWordsProviderValue } from '../services/interfaces';
 import { MAX_GROUP_NUMBER } from '../services/requests';
 
 export default function Textbook() {
-  const { group, wordId, wordsPage, setWordsGroup, showWordCard } = useWordsData();
+  const { wordsData, setWordsGroup, showWordCard } = useWordsData() as IWordsProviderValue;
 
   return (
     <main className="page textbook-page textbook">
@@ -26,7 +26,7 @@ export default function Textbook() {
                     key={index}
                     data-group={index + 1}
                     className={`button group-nav__button group-nav__button_${index + 1} ${
-                      index + 1 === group ? 'selected' : ''
+                      index + 1 === wordsData.group ? 'selected' : ''
                     }`}
                   >
                     <span
@@ -44,11 +44,11 @@ export default function Textbook() {
           <Word />
           <article className="textbook__words-page words-page">
             <ul onClick={showWordCard} className="words-page__words">
-              {wordsPage.map((word: IWord) => (
+              {wordsData.wordsPage.map((word: IWord) => (
                 <li
                   key={word.id}
                   data-id={word.id}
-                  className={`words-page__word ${word.id === wordId ? 'selected' : ''}`}
+                  className={`words-page__word ${word.id === wordsData.wordId ? 'selected' : ''}`}
                 >
                   {word.word}
                 </li>

@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { IChildren, IWordsData } from '../../services/interfaces';
+import { IChildren, IWordsData, IWordsProviderValue } from '../../services/interfaces';
 import {
   createUserWord,
   DIFFICULT_WORD,
   getAllUserWords,
+  getUserWordById,
   getWordById,
   getWordsPage,
   MAX_GROUP_NUMBER,
@@ -13,7 +14,7 @@ import {
   USER_ID,
 } from '../../services/requests';
 
-const WordsContext = React.createContext<any>({});
+const WordsContext = React.createContext<Partial<IWordsProviderValue>>({});
 export const useWordsData = () => useContext(WordsContext);
 
 export default function WordsProvider({ children }: IChildren) {
@@ -22,6 +23,7 @@ export default function WordsProvider({ children }: IChildren) {
     group: Number(localStorage.getItem('group')) || 1,
     page: Number(localStorage.getItem('page')) || 1,
     wordId: '',
+    wordStatus: '',
   });
 
   const setNextPage = () => {
@@ -48,7 +50,7 @@ export default function WordsProvider({ children }: IChildren) {
     }
   };
 
-  const setWordsGroup = (e: MouseEvent) => {
+  const setWordsGroup = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
     const targetButton = target.closest('.group-nav__button') as HTMLElement;
     if (targetButton && targetButton.hasAttribute('data-group')) {
@@ -59,7 +61,7 @@ export default function WordsProvider({ children }: IChildren) {
     }
   };
 
-  const showWordCard = (e: MouseEvent) => {
+  const showWordCard = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
     if (target.classList.contains('words-page__word')) {
       const choosedWordId = { wordId: target.dataset.id as string };
@@ -76,7 +78,6 @@ export default function WordsProvider({ children }: IChildren) {
     } else {
       getAllUserWords(USER_ID, TOKEN)
         .then((userWords) => {
-          console.log(userWords);
           if (!userWords.length) {
             return userWords as [];
           }
@@ -93,7 +94,6 @@ export default function WordsProvider({ children }: IChildren) {
           } else {
             wordId = '';
           }
-          console.log(wordsPage);
           setWordsData((prevData) => ({ ...prevData, wordsPage, wordId }));
         })
         .catch((error) => console.log(error));
@@ -102,30 +102,44 @@ export default function WordsProvider({ children }: IChildren) {
     localStorage.setItem('page', String(wordsData.page));
   };
 
-  const markWord = (e: any, wordId: string) => {
+  const getWordStatus = () => {
+    getUserWordById(USER_ID, wordsData.wordId, TOKEN)
+      .then((userWord) => {
+        if (userWord) {
+          const wordStatus = userWord.difficulty;
+          setWordsData((prevData) => ({ ...prevData, wordStatus }));
+        }
+      })
+      .catch(() => {
+        const wordStatus = '';
+        setWordsData((prevData) => ({ ...prevData, wordStatus }));
+      });
+  };
+
+  const markWord = (e: React.MouseEvent<HTMLElement>, wordId: string) => {
     const target = e.target as HTMLElement;
     const targetButton = target.closest('.button__mark') as HTMLElement;
     const difficulty = targetButton.dataset.status;
     if (difficulty) {
       targetButton.setAttribute('disabled', 'disabled');
       createUserWord(USER_ID, wordId, difficulty, TOKEN);
+      const wordStatus = difficulty;
+      setWordsData((prevData) => ({ ...prevData, wordStatus }));
     }
-    // should to mark word-card style straightway
   };
 
   const unmarkWord = async (wordId: string) => {
     removeUserWordById(USER_ID, wordId, TOKEN);
-    const updatedWordId = wordsData.wordsPage[0] ? wordsData.wordsPage[0].id : '';
-    setWordsData((prevData) => ({ ...prevData, ...{ wordId: updatedWordId } }));
     getWords();
   };
 
-  useEffect(() => getWords(), [wordsData.page, wordsData.group, wordsData.wordsPage.length]);
+  useEffect(() => getWordStatus(), [wordsData.wordId]);
+  useEffect(() => getWords(), [wordsData.page, wordsData.group, wordsData.wordId]);
 
   return (
     <WordsContext.Provider
       value={{
-        ...wordsData,
+        wordsData,
         setNextPage,
         setPrevPage,
         setPage,

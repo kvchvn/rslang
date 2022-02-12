@@ -1,12 +1,17 @@
 import React from 'react';
+import { IWordsProviderValue } from '../../services/interfaces';
 import { DIFFICULT_WORD, MAX_GROUP_NUMBER, WEAK_WORD } from '../../services/requests';
 import { useWordsData } from '../providers/WordsProvider';
 
 export default function WordControls({ status }: any) {
-  const { wordId, group, unmarkWord, markWord } = useWordsData();
+  const { wordsData, unmarkWord, markWord } = useWordsData() as IWordsProviderValue;
 
   const buttonUnmark = (
-    <button type="button" onClick={() => unmarkWord(wordId)} className="button button__unmark">
+    <button
+      type="button"
+      onClick={() => unmarkWord(wordsData.wordId)}
+      className="button button__unmark"
+    >
       {status === DIFFICULT_WORD ? 'Убрать из сложных' : 'Изучать снова'}
     </button>
   );
@@ -16,7 +21,7 @@ export default function WordControls({ status }: any) {
       <button
         type="button"
         data-status={wordStatus}
-        onClick={(e) => markWord(e, wordId)}
+        onClick={(e) => markWord(e, wordsData.wordId)}
         className={`button button__mark button__mark_${wordStatus}`}
         disabled={wordStatus === status}
       >
@@ -34,7 +39,7 @@ export default function WordControls({ status }: any) {
     </>
   );
 
-  if (group === MAX_GROUP_NUMBER + 1) {
+  if (wordsData.group === MAX_GROUP_NUMBER + 1) {
     switch (status) {
       case DIFFICULT_WORD:
         buttonsBox = (
