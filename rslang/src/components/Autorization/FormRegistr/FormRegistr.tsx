@@ -2,66 +2,72 @@ import React, { useState } from "react";
 import "./FormRegistr.css";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from "@mui/material";
-
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  TextField,
+} from "@mui/material";
 
 const FormRegistr: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const [localRegistr, setLocalRegistr] = useState([]);
+  const [name, setName] = useState("");
+  const [password, setPass] = useState("");
+  const [email, setEmail] = useState("");
   const handleClose = () => {
     setOpen(false);
   };
   const handleClickOpen = () => {
     setOpen(true);
   };
-
-
-  const [name, setName] = useState('');
-  const [password, setPass] = useState('');
-  const [email, setEmail] = useState('');
-  const handleChangePass: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> = (event) => {
+  const handleChangePass: React.ChangeEventHandler<
+    HTMLTextAreaElement | HTMLInputElement
+  > = (event) => {
     setPass(event.target.value);
-  }
-  const handleChangeEmail: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> = (event) => {
+  };
+  const handleChangeEmail: React.ChangeEventHandler<
+    HTMLTextAreaElement | HTMLInputElement
+  > = (event) => {
     setEmail(event.target.value);
-  }
-  const handleChangeName: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> = (event) => {
+  };
+  const handleChangeName: React.ChangeEventHandler<
+    HTMLTextAreaElement | HTMLInputElement
+  > = (event) => {
     setName(event.target.value);
-  }
-  
- 
-  const [ localRegistr, setLocalRegistr ] = useState([]);
+  };
 
   const handleRegistr = async () => {
     setOpen(false);
-    const rawResponse = await fetch('https://rs-lang-1.herokuapp.com/users', {
-      method: 'POST',
+    const rawResponse = await fetch("https://rs-lang-1.herokuapp.com/users", {
+      method: "POST",
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-          name,
-          password,
-          email
-      })
+        name,
+        password,
+        email,
+      }),
     });
     const content = await rawResponse.json();
 
-    let newArr: object[] = [...localRegistr, content]
+    let newArr: object[] = [...localRegistr, content];
     localStorage.setItem("registr", JSON.stringify(newArr));
 
     console.log(content);
-  
-    setPass('');
-    setEmail('');
-    setName('');
-    console.log('Зарегистрироваться');
+
+    setPass("");
+    setEmail("");
+    setName("");
   };
-  
+
   return (
-    <>
     <div className="formregistr">
-    <Stack spacing={2} direction="row">
+      <Stack spacing={2} direction="row">
         <Button variant="outlined" onClick={handleClickOpen}>
           Зарегистрироваться
         </Button>
@@ -70,7 +76,8 @@ const FormRegistr: React.FC = () => {
         <DialogTitle>Регистрация</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Для регистрации введите имя, Ваш email и придумайте пароль (пароль не менее восьми символов)
+            Для регистрации введите имя, Ваш email и придумайте пароль (пароль
+            не менее восьми символов)
           </DialogContentText>
           <TextField
             autoFocus
@@ -110,12 +117,7 @@ const FormRegistr: React.FC = () => {
         </DialogActions>
       </Dialog>
     </div>
-     
-    </>
   );
-}
+};
 
 export default FormRegistr;
-
-
-

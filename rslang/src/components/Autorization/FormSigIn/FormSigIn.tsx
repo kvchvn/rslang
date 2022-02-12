@@ -17,6 +17,9 @@ interface IFormSigin {
 
 const FormSigIn: React.FC<IFormSigin> = ({ changeFormStateUser }) => {
   const [open, setOpen] = React.useState(false);
+  const [localSigIn, setlocalSigIn] = useState([]);
+  const [password, setPass] = useState("");
+  const [email, setEmail] = useState("");
   const handleClose = () => {
     setOpen(false);
   };
@@ -24,8 +27,6 @@ const FormSigIn: React.FC<IFormSigin> = ({ changeFormStateUser }) => {
     setOpen(true);
   };
 
-  const [password, setPass] = useState("");
-  const [email, setEmail] = useState("");
   const handleChangePassSigIN: React.ChangeEventHandler<
     HTMLTextAreaElement | HTMLInputElement
   > = (event) => {
@@ -36,8 +37,6 @@ const FormSigIn: React.FC<IFormSigin> = ({ changeFormStateUser }) => {
   > = (event) => {
     setEmail(event.target.value);
   };
-
-  const [localSigIn, setlocalSigIn] = useState([]);
 
   const handleSigIn = async () => {
     setOpen(false);
@@ -53,60 +52,54 @@ const FormSigIn: React.FC<IFormSigin> = ({ changeFormStateUser }) => {
       }),
     });
     const content = await rawResponse.json();
-
     let newArr: object[] = [...localSigIn, content];
     localStorage.setItem("sigin", JSON.stringify(newArr));
-
-    console.log(content);
     setPass("");
     setEmail("");
     changeFormStateUser();
-    console.log("Войти");
   };
 
   return (
-    <>
-      <div className="formsigin">
-        <Stack spacing={2} direction="row">
-          <Button variant="outlined" onClick={handleClickOpen}>
-            Войти
-          </Button>
-        </Stack>
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Войти</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Для входа введите Ваш email и пароль
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="email"
-              label="Введите Email"
-              type="email"
-              fullWidth
-              variant="standard"
-              value={email}
-              onChange={handleChangeEmailSigIn}
-            />
-            <TextField
-              margin="dense"
-              id="pass"
-              label="Введите пароль"
-              type="password"
-              fullWidth
-              variant="standard"
-              value={password}
-              onChange={handleChangePassSigIN}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Закрыть</Button>
-            <Button onClick={handleSigIn}>Войти</Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    </>
+    <div className="formsigin">
+      <Stack spacing={2} direction="row">
+        <Button variant="outlined" onClick={handleClickOpen}>
+          Войти
+        </Button>
+      </Stack>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Войти</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Для входа введите Ваш email и пароль
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="email"
+            label="Введите Email"
+            type="email"
+            fullWidth
+            variant="standard"
+            value={email}
+            onChange={handleChangeEmailSigIn}
+          />
+          <TextField
+            margin="dense"
+            id="pass"
+            label="Введите пароль"
+            type="password"
+            fullWidth
+            variant="standard"
+            value={password}
+            onChange={handleChangePassSigIN}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Закрыть</Button>
+          <Button onClick={handleSigIn}>Войти</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 };
 

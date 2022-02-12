@@ -10,11 +10,11 @@
         "plugin:import/errors",
         "plugin:import/warnings",
         "plugin:import/typescript",
-        // "airbnb",
+        "airbnb",
         "plugin:prettier/recommended",
         "prettier"
     ],
-    // "parser": "@typescript-eslint/parser",
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true

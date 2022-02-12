@@ -9,7 +9,6 @@ interface IUserFormState {
 const User: React.FC<IUserFormState> = ({stateUser}) => {
 
   let userName = JSON.parse(localStorage.getItem("sigin")!);
-  console.log(stateUser);
   
   return (
     <>
