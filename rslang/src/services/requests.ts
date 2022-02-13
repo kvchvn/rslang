@@ -1,6 +1,10 @@
-// requests to the backend
-
-import { IWord, UserWord, WordsPage } from './interfaces';
+import {
+  AggregatedWordsPage,
+  AggregatedWordsResponse,
+  IWord,
+  UserWord,
+  WordsPage,
+} from './interfaces';
 
 const BASIS_URL = 'https://rs-lang-1.herokuapp.com';
 export const MAX_PAGE_NUMBER = 30;
@@ -99,4 +103,26 @@ export const updateUserWordById = async (
   });
   const userWord: UserWord = await response.json();
   return userWord;
+};
+
+export const getAggregatedWordsPage = async (
+  userId: string,
+  page: number,
+  token: string
+): Promise<AggregatedWordsPage> => {
+  // filter by difficulty: "difficult" and "both"
+  const filter =
+    '%7B%22%24or%22%3A%5B%7B%22userWord.difficulty%22%3A%22difficult%22%7D%2C%7B%22userWord.difficulty%22%3A%22both%22%7D%5D%7D';
+  const response: Response = await fetch(
+    `${BASIS_URL}/users/${userId}/aggregatedWords?page=${page - 1}&filter=${filter}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  const aggregatedWords: AggregatedWordsResponse = await response.json();
+  return aggregatedWords[0].paginatedResults;
 };

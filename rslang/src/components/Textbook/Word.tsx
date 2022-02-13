@@ -11,6 +11,8 @@ export default function Word() {
   sessionStorage.setItem('wordId', wordsData.wordId);
   const [wordCard, setWordCard] = useState<IWord>();
 
+  console.log('status: ', wordsData.wordStatus);
+
   useEffect(() => {
     if (wordsData.wordId) {
       setWordCard(wordsData.wordsPage.find((word) => word.id === wordsData.wordId));

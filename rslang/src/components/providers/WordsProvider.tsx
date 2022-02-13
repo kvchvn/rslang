@@ -1,12 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { IChildren, IWordsData, IWordsProviderValue } from '../../services/interfaces';
+import {
+  IChildren,
+  IWord,
+  IWordsData,
+  IWordsProviderValue,
+  WordsPage,
+} from '../../services/interfaces';
 import {
   createUserWord,
   DIFFICULT_WEAK_WORD,
   DIFFICULT_WORD,
-  getAllUserWords,
+  getAggregatedWordsPage,
   getUserWordById,
-  getWordById,
   getWordsPage,
   MAX_GROUP_NUMBER,
   MAX_PAGE_NUMBER,
@@ -64,6 +69,20 @@ export default function WordsProvider({ children }: IChildren) {
     }
   };
 
+  const getWordStatus = () => {
+    getUserWordById(USER_ID, wordsData.wordId, TOKEN)
+      .then((userWord) => {
+        if (userWord) {
+          const wordStatus = userWord.difficulty;
+          setWordsData((prevData) => ({ ...prevData, wordStatus }));
+        }
+      })
+      .catch(() => {
+        const wordStatus = '';
+        setWordsData((prevData) => ({ ...prevData, wordStatus }));
+      });
+  };
+
   const showWordCard = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
     if (target.classList.contains('words-page__word')) {
@@ -90,22 +109,21 @@ export default function WordsProvider({ children }: IChildren) {
         setWordsData((prevData) => ({ ...prevData, wordsPage, wordId }));
       });
     } else {
-      getAllUserWords(USER_ID, TOKEN)
-        .then((userWords) => {
-          if (!userWords.length) {
-            return userWords as [];
-          }
-          return Promise.all(
-            userWords
-              .filter((userWord) => userWord.difficulty === DIFFICULT_WORD || DIFFICULT_WEAK_WORD)
-              .map((userWord) => getWordById(userWord.wordId))
-          );
-        })
-        .then((wordsPage) => {
+      getAggregatedWordsPage(USER_ID, wordsData.page, TOKEN)
+        .then((aggregatedWordsPage) => {
           let wordId: string;
-          if (wordsPage.length) {
+          let wordsPage: WordsPage;
+          if (aggregatedWordsPage.length) {
+            wordsPage = aggregatedWordsPage.map((word) => {
+              const newWord = word;
+              newWord.id = word._id;
+              delete newWord._id;
+              delete newWord.userWord;
+              return newWord as IWord;
+            });
             wordId = wordsPage[0].id;
           } else {
+            wordsPage = [];
             wordId = '';
           }
           setWordsData((prevData) => ({ ...prevData, wordsPage, wordId }));
@@ -114,20 +132,6 @@ export default function WordsProvider({ children }: IChildren) {
     }
     localStorage.setItem('group', String(wordsData.group));
     localStorage.setItem('page', String(wordsData.page));
-  };
-
-  const getWordStatus = () => {
-    getUserWordById(USER_ID, wordsData.wordId, TOKEN)
-      .then((userWord) => {
-        if (userWord) {
-          const wordStatus = userWord.difficulty;
-          setWordsData((prevData) => ({ ...prevData, wordStatus }));
-        }
-      })
-      .catch(() => {
-        const wordStatus = '';
-        setWordsData((prevData) => ({ ...prevData, wordStatus }));
-      });
   };
 
   const markWord = (e: React.MouseEvent<HTMLElement>, wordId: string) => {
@@ -163,7 +167,7 @@ export default function WordsProvider({ children }: IChildren) {
     }
   };
 
-  useEffect(() => getWords(), [wordsData.page, wordsData.group, wordsData.wordId]);
+  useEffect(() => getWords(), [wordsData.page, wordsData.group]);
   useEffect(() => {
     if (wordsData.wordId) {
       getWordStatus();

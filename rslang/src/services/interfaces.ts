@@ -1,8 +1,5 @@
 import React from 'react';
-
-// type aliases, interfaces, etc.
-export interface IWord {
-  id: string;
+interface IWordStandard {
   group: number;
   page: number;
   word: string;
@@ -16,6 +13,10 @@ export interface IWord {
   textExampleTranslate: string;
   textMeaningTranslate: string;
   wordTranslate: string;
+}
+
+export interface IWord extends IWordStandard {
+  id: string;
 }
 
 export type WordsPage = Array<IWord>;
@@ -33,24 +34,44 @@ export interface IWordsData {
 }
 
 export type UserWord = {
-  difficulty: string
-  optional?: IOptionalParams
-  id: string
-  wordId: string
-}
+  difficulty: string;
+  optional?: IOptionalParams;
+  id: string;
+  wordId: string;
+};
 
 export interface IOptionalParams {
-  param: string
+  param: string;
 }
 
 export interface IWordsProviderValue {
-  wordsData: IWordsData
-  setNextPage: () => void
-  setPrevPage: () => void
-  setPage: (pageNumber: number) => void
-  setWordsGroup: (e: React.MouseEvent<HTMLElement>) => void
-  showWordCard: (e: React.MouseEvent<HTMLElement>) => void
-  unmarkWord: (e: React.MouseEvent<HTMLElement>, wordId: string) => void
-  markWord: (e: React.MouseEvent<HTMLElement>, wordId: string) => void
+  wordsData: IWordsData;
+  setNextPage: () => void;
+  setPrevPage: () => void;
+  setPage: (pageNumber: number) => void;
+  setWordsGroup: (e: React.MouseEvent<HTMLElement>) => void;
+  showWordCard: (e: React.MouseEvent<HTMLElement>) => void;
+  unmarkWord: (e: React.MouseEvent<HTMLElement>, wordId: string) => void;
+  markWord: (e: React.MouseEvent<HTMLElement>, wordId: string) => void;
 }
 
+export interface IAggregatedWord extends IWordStandard {
+  id?: string
+  _id?: string;
+  userWord?: {
+    difficulty: string;
+  };
+}
+
+export type AggregatedWordsPage = Array<IAggregatedWord>;
+
+export interface AggregatedWords {
+  paginatedResults: AggregatedWordsPage;
+  totalCount: [
+    {
+      count: number;
+    }
+  ];
+}
+
+export type AggregatedWordsResponse = [AggregatedWords];
