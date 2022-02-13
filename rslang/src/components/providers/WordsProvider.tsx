@@ -92,17 +92,6 @@ export default function WordsProvider({ children }: IChildren) {
   };
 
   const getWords = () => {
-    const savedPage = Number(localStorage.getItem('page'));
-    const savedGroup = Number(localStorage.getItem('group'));
-
-    if (
-      savedPage === wordsData.page &&
-      savedGroup === wordsData.group &&
-      wordsData.wordsPage.length
-    ) {
-      return;
-    }
-
     if (wordsData.group <= MAX_GROUP_NUMBER) {
       getWordsPage(wordsData.group, wordsData.page).then((wordsPage) => {
         const wordId = !wordsData.wordId ? wordsPage[0].id : wordsData.wordId;
@@ -136,16 +125,15 @@ export default function WordsProvider({ children }: IChildren) {
 
   const markWord = (e: React.MouseEvent<HTMLElement>, wordId: string) => {
     const target = e.target as HTMLElement;
-    const difficulty = target.dataset.status;
-    if (difficulty) {
-      target.setAttribute('disabled', 'disabled');
+    const settableDifficulty = target.dataset.status;
+    if (settableDifficulty) {
       let wordStatus: string;
       if (wordsData.wordStatus) {
         wordStatus = DIFFICULT_WEAK_WORD;
         updateUserWordById(USER_ID, wordId, wordStatus, TOKEN);
       } else {
-        wordStatus = difficulty;
-        createUserWord(USER_ID, wordId, difficulty, TOKEN);
+        wordStatus = settableDifficulty;
+        createUserWord(USER_ID, wordId, settableDifficulty, TOKEN);
       }
       setWordsData((prevData) => ({ ...prevData, wordStatus }));
     }
@@ -153,28 +141,27 @@ export default function WordsProvider({ children }: IChildren) {
 
   const unmarkWord = (e: React.MouseEvent<HTMLElement>, wordId: string) => {
     const target = e.target as HTMLElement;
-    const difficulty = target.dataset.status;
-    if (difficulty) {
+    const targetButton = target.closest('.button_unmark') as HTMLElement;
+    const removableDifficulty = targetButton.dataset.status;
+    if (removableDifficulty) {
       let wordStatus: string;
       if (wordsData.wordStatus === DIFFICULT_WEAK_WORD) {
-        console.log('update');
-        wordStatus = difficulty === DIFFICULT_WORD ? WEAK_WORD : DIFFICULT_WORD;
+        wordStatus = removableDifficulty === DIFFICULT_WORD ? WEAK_WORD : DIFFICULT_WORD;
         updateUserWordById(USER_ID, wordId, wordStatus, TOKEN);
       } else {
         removeUserWordById(USER_ID, wordId, TOKEN);
-        getWords();
       }
+      setWordsData((prevData) => ({ ...prevData, wordStatus }));
     }
   };
 
-  useEffect(() => getWords(), [wordsData.page, wordsData.group]);
+  useEffect(() => getWords(), [wordsData.page, wordsData.group, wordsData.wordStatus]);
   useEffect(() => {
     if (wordsData.wordId) {
       getWordStatus();
     }
-  }, [wordsData.wordId]);
+  }, [wordsData.wordId, wordsData.wordStatus]);
 
-  console.log(wordsData);
   return (
     <WordsContext.Provider
       value={{

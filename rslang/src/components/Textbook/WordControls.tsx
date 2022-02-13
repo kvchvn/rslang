@@ -3,7 +3,7 @@ import { IWordsProviderValue } from '../../services/interfaces';
 import { DIFFICULT_WEAK_WORD, DIFFICULT_WORD, WEAK_WORD } from '../../services/requests';
 import { useWordsData } from '../providers/WordsProvider';
 
-export default function WordControls({ status }: { status: string }) {
+export default function WordControls() {
   const { wordsData, unmarkWord, markWord } = useWordsData() as IWordsProviderValue;
 
   const createButtonUnmark = (requireWordStatus: string): React.ReactNode => {
@@ -12,17 +12,22 @@ export default function WordControls({ status }: { status: string }) {
         type="button"
         data-status={requireWordStatus}
         onClick={(e) => unmarkWord(e, wordsData.wordId)}
-        className={`button button__unmark button__unmark_${requireWordStatus}`}
+        className={`button button_unmark button_unmark_${requireWordStatus}`}
       >
-        {requireWordStatus === DIFFICULT_WORD ? 'Убрать из сложных' : 'Убрать из изученных'}
+        <span className="button_unmark_hover-text">
+          {requireWordStatus === DIFFICULT_WORD ? 'Убрать из сложных' : 'Убрать из изученных'}
+        </span>
+        <span className="button_unmark_text">
+          {requireWordStatus === DIFFICULT_WORD ? 'Сложное' : 'Изученное'}
+        </span>
       </button>
     );
   };
 
   const createButtonMark = (requireWordStatus: string): React.ReactNode => {
     let textContent: string;
-    // status is current status of word showed on the screen
-    switch (status) {
+
+    switch (wordsData.wordStatus) {
       case DIFFICULT_WORD:
         textContent = requireWordStatus === DIFFICULT_WORD ? 'Сложное' : 'В изученные';
         break;
@@ -41,8 +46,7 @@ export default function WordControls({ status }: { status: string }) {
         type="button"
         data-status={requireWordStatus}
         onClick={(e) => markWord(e, wordsData.wordId)}
-        className={`button button__mark button__mark_${requireWordStatus}`}
-        disabled={requireWordStatus === status}
+        className={`button button_mark button_mark_${requireWordStatus}`}
       >
         {textContent}
       </button>
@@ -56,7 +60,7 @@ export default function WordControls({ status }: { status: string }) {
     </>
   );
 
-  switch (status) {
+  switch (wordsData.wordStatus) {
     case DIFFICULT_WORD:
       buttonsBox = (
         <>
