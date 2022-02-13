@@ -272,6 +272,7 @@
 }
 
 .words-page__word {
+  position: relative;
   width: 45%;
   min-height: 35px;
   line-height: 35px;
@@ -285,6 +286,20 @@
 .words-page__word.selected {
   background-color: rgba(100, 111, 138, 0.4);
   color: white;
+}
+
+.words-page__word-mark {
+  position: absolute;
+  display: block;
+  top: -5px;
+  right: 0;
+  width: 15px;
+  height: 15px;
+}
+
+.word-mark_difficult,
+.word-mark_both {
+  background: no-repeat url('../assets/svg/star.svg') 50% 50% / contain;
 }
 
 .textbook-page__page-nav {

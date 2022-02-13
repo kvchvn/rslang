@@ -16,6 +16,7 @@ export default function WordsList() {
           }`}
         >
           {word.word}
+          <span className={`words-page__word-mark word-mark_${wordsData.wordStatus}`} />
         </li>
       ))}
     </ul>

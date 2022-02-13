@@ -1,4 +1,3 @@
-import '../styles/textbook.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PageControls from '../components/Textbook/PageControls';

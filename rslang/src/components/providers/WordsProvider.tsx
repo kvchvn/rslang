@@ -70,6 +70,7 @@ export default function WordsProvider({ children }: IChildren) {
   };
 
   const getWordStatus = () => {
+    console.log('get status');
     getUserWordById(USER_ID, wordsData.wordId, TOKEN)
       .then((userWord) => {
         if (userWord) {
@@ -92,6 +93,7 @@ export default function WordsProvider({ children }: IChildren) {
   };
 
   const getWords = () => {
+    console.log('get words');
     if (wordsData.group <= MAX_GROUP_NUMBER) {
       getWordsPage(wordsData.group, wordsData.page).then((wordsPage) => {
         const wordId = !wordsData.wordId ? wordsPage[0].id : wordsData.wordId;
@@ -107,7 +109,6 @@ export default function WordsProvider({ children }: IChildren) {
               const newWord = word;
               newWord.id = word._id;
               delete newWord._id;
-              delete newWord.userWord;
               return newWord as IWord;
             });
             wordId = wordsPage[0].id;
@@ -161,7 +162,7 @@ export default function WordsProvider({ children }: IChildren) {
       getWordStatus();
     }
   }, [wordsData.wordId, wordsData.wordStatus]);
-
+  console.log(wordsData);
   return (
     <WordsContext.Provider
       value={{

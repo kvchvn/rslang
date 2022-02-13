@@ -37,6 +37,7 @@
         "jsx-a11y/control-has-associated-label": "off",
         "@typescript -eslint/ban-types": "off",
         "no-underscore-dangle": "off",
+        "prefer-template": "off",
         "import/extensions": [
             "error",
             "ignorePackages",
