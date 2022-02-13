@@ -10,6 +10,7 @@ import {
   DialogActions,
   TextField,
 } from "@mui/material";
+import { changerRegistr } from "../../utils/api";
 
 const FormRegistr: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -41,25 +42,9 @@ const FormRegistr: React.FC = () => {
 
   const handleRegistr = async () => {
     setOpen(false);
-    const rawResponse = await fetch("https://rs-lang-1.herokuapp.com/users", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        password,
-        email,
-      }),
-    });
-    const content = await rawResponse.json();
-
+    const content = await changerRegistr(name, password, email);
     let newArr: object[] = [...localRegistr, content];
     localStorage.setItem("registr", JSON.stringify(newArr));
-
-    console.log(content);
-
     setPass("");
     setEmail("");
     setName("");

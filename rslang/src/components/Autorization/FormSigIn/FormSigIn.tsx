@@ -10,6 +10,7 @@ import {
   DialogActions,
   TextField,
 } from "@mui/material";
+import { changeSigIn } from "../../utils/api";
 
 interface IFormSigin {
   changeFormStateUser: () => void;
@@ -40,18 +41,7 @@ const FormSigIn: React.FC<IFormSigin> = ({ changeFormStateUser }) => {
 
   const handleSigIn = async () => {
     setOpen(false);
-    const rawResponse = await fetch("https://rs-lang-1.herokuapp.com/signin", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
-    const content = await rawResponse.json();
+    const content = await changeSigIn(email, password);
     let newArr: object[] = [...localSigIn, content];
     localStorage.setItem("sigin", JSON.stringify(newArr));
     setPass("");
