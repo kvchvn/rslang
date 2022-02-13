@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { IChildren, IWordsData, IWordsProviderValue } from '../../services/interfaces';
 import {
   createUserWord,
+  DIFFICULT_WEAK_WORD,
   DIFFICULT_WORD,
   getAllUserWords,
   getUserWordById,
@@ -11,7 +12,9 @@ import {
   MAX_PAGE_NUMBER,
   removeUserWordById,
   TOKEN,
+  updateUserWordById,
   USER_ID,
+  WEAK_WORD,
 } from '../../services/requests';
 
 const WordsContext = React.createContext<Partial<IWordsProviderValue>>({});
@@ -70,6 +73,17 @@ export default function WordsProvider({ children }: IChildren) {
   };
 
   const getWords = () => {
+    const savedPage = Number(localStorage.getItem('page'));
+    const savedGroup = Number(localStorage.getItem('group'));
+
+    if (
+      savedPage === wordsData.page &&
+      savedGroup === wordsData.group &&
+      wordsData.wordsPage.length
+    ) {
+      return;
+    }
+
     if (wordsData.group <= MAX_GROUP_NUMBER) {
       getWordsPage(wordsData.group, wordsData.page).then((wordsPage) => {
         const wordId = !wordsData.wordId ? wordsPage[0].id : wordsData.wordId;
@@ -83,7 +97,7 @@ export default function WordsProvider({ children }: IChildren) {
           }
           return Promise.all(
             userWords
-              .filter((userWord) => userWord.difficulty === DIFFICULT_WORD)
+              .filter((userWord) => userWord.difficulty === DIFFICULT_WORD || DIFFICULT_WEAK_WORD)
               .map((userWord) => getWordById(userWord.wordId))
           );
         })
@@ -118,24 +132,45 @@ export default function WordsProvider({ children }: IChildren) {
 
   const markWord = (e: React.MouseEvent<HTMLElement>, wordId: string) => {
     const target = e.target as HTMLElement;
-    const targetButton = target.closest('.button__mark') as HTMLElement;
-    const difficulty = targetButton.dataset.status;
+    const difficulty = target.dataset.status;
     if (difficulty) {
-      targetButton.setAttribute('disabled', 'disabled');
-      createUserWord(USER_ID, wordId, difficulty, TOKEN);
-      const wordStatus = difficulty;
+      target.setAttribute('disabled', 'disabled');
+      let wordStatus: string;
+      if (wordsData.wordStatus) {
+        wordStatus = DIFFICULT_WEAK_WORD;
+        updateUserWordById(USER_ID, wordId, wordStatus, TOKEN);
+      } else {
+        wordStatus = difficulty;
+        createUserWord(USER_ID, wordId, difficulty, TOKEN);
+      }
       setWordsData((prevData) => ({ ...prevData, wordStatus }));
     }
   };
 
-  const unmarkWord = async (wordId: string) => {
-    removeUserWordById(USER_ID, wordId, TOKEN);
-    getWords();
+  const unmarkWord = (e: React.MouseEvent<HTMLElement>, wordId: string) => {
+    const target = e.target as HTMLElement;
+    const difficulty = target.dataset.status;
+    if (difficulty) {
+      let wordStatus: string;
+      if (wordsData.wordStatus === DIFFICULT_WEAK_WORD) {
+        console.log('update');
+        wordStatus = difficulty === DIFFICULT_WORD ? WEAK_WORD : DIFFICULT_WORD;
+        updateUserWordById(USER_ID, wordId, wordStatus, TOKEN);
+      } else {
+        removeUserWordById(USER_ID, wordId, TOKEN);
+        getWords();
+      }
+    }
   };
 
-  useEffect(() => getWordStatus(), [wordsData.wordId]);
   useEffect(() => getWords(), [wordsData.page, wordsData.group, wordsData.wordId]);
+  useEffect(() => {
+    if (wordsData.wordId) {
+      getWordStatus();
+    }
+  }, [wordsData.wordId]);
 
+  console.log(wordsData);
   return (
     <WordsContext.Provider
       value={{

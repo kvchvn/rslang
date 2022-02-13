@@ -13,7 +13,7 @@ export default function Word() {
 
   useEffect(() => {
     if (wordsData.wordId) {
-      setWordCard(wordsData.wordsPage.find((word: any) => word.id === wordsData.wordId));
+      setWordCard(wordsData.wordsPage.find((word) => word.id === wordsData.wordId));
     }
   }, [wordsData.wordId]);
 

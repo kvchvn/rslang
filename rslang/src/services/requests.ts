@@ -5,11 +5,14 @@ import { IWord, UserWord, WordsPage } from './interfaces';
 const BASIS_URL = 'https://rs-lang-1.herokuapp.com';
 export const MAX_PAGE_NUMBER = 30;
 export const MAX_GROUP_NUMBER = 6;
+
 export const DIFFICULT_WORD = 'difficult';
 export const WEAK_WORD = 'weak';
+export const DIFFICULT_WEAK_WORD = 'both';
+
 // TEMPORARY DATA !!!
 export const TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDc3Yzk4NzczZWM1MDAxNmUwYmI3ZSIsImlhdCI6MTY0NDY1NzgzMiwiZXhwIjoxNjQ0NjcyMjMyfQ.1oA2SEQUhLWlFIFvguaWD0F1fjnGqEHmGGtpgqcropI';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDc3Yzk4NzczZWM1MDAxNmUwYmI3ZSIsImlhdCI6MTY0NDczODE2MywiZXhwIjoxNjQ0NzUyNTYzfQ.nrQUKKcZ6bdeQHywFTRo_S-0OLuDZWqyq-qtezndX3A';
 export const USER_ID = '62077c98773ec50016e0bb7e';
 //
 
@@ -77,4 +80,23 @@ export const removeUserWordById = async (userId: string, wordId: string, token: 
       'Content-Type': 'application/json',
     },
   });
+};
+
+export const updateUserWordById = async (
+  userId: string,
+  wordId: string,
+  difficulty: string,
+  token: string
+) => {
+  const response: Response = await fetch(`${BASIS_URL}/users/${userId}/words/${wordId}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ difficulty }),
+  });
+  const userWord: UserWord = await response.json();
+  return userWord;
 };

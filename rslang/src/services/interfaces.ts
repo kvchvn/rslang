@@ -34,8 +34,13 @@ export interface IWordsData {
 
 export type UserWord = {
   difficulty: string
+  optional?: IOptionalParams
   id: string
   wordId: string
+}
+
+export interface IOptionalParams {
+  param: string
 }
 
 export interface IWordsProviderValue {
@@ -45,6 +50,7 @@ export interface IWordsProviderValue {
   setPage: (pageNumber: number) => void
   setWordsGroup: (e: React.MouseEvent<HTMLElement>) => void
   showWordCard: (e: React.MouseEvent<HTMLElement>) => void
-  unmarkWord: (wordId: string) => void
+  unmarkWord: (e: React.MouseEvent<HTMLElement>, wordId: string) => void
   markWord: (e: React.MouseEvent<HTMLElement>, wordId: string) => void
 }
+

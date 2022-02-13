@@ -1,59 +1,21 @@
 import '../styles/textbook.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useWordsData } from '../components/providers/WordsProvider';
 import PageControls from '../components/Textbook/PageControls';
 import Word from '../components/Textbook/Word';
-import { IWord, IWordsProviderValue } from '../services/interfaces';
-import { MAX_GROUP_NUMBER } from '../services/requests';
+import WordsList from '../components/Textbook/WordsList';
+import GroupControls from '../components/Textbook/GroupControls';
 
 export default function Textbook() {
-  const { wordsData, setWordsGroup, showWordCard } = useWordsData() as IWordsProviderValue;
-
   return (
     <main className="page textbook-page textbook">
       <div className="wrapper">
         <h2 className="page__title textbook-page__title">Учебник</h2>
         <section className="page__main-content textbook-page__main-content">
-          <nav onClick={setWordsGroup} className="textbook__group-nav group-nav">
-            <h4 className="group-nav__title">Сложность</h4>
-            {Array(MAX_GROUP_NUMBER + 1)
-              .fill('')
-              .map((_, index) => {
-                return (
-                  <button
-                    type="button"
-                    key={index}
-                    data-group={index + 1}
-                    className={`button group-nav__button group-nav__button_${index + 1} ${
-                      index + 1 === wordsData.group ? 'selected' : ''
-                    }`}
-                  >
-                    <span
-                      className={`group-nav__button-background group-nav__button-background_${
-                        index + 1
-                      }`}
-                    />
-                    <span className="group-nav__button-text">
-                      {index === 6 ? 'Сложные слова' : `${index + 1}`}
-                    </span>
-                  </button>
-                );
-              })}
-          </nav>
+          <GroupControls />
           <Word />
           <article className="textbook__words-page words-page">
-            <ul onClick={showWordCard} className="words-page__words">
-              {wordsData.wordsPage.map((word: IWord) => (
-                <li
-                  key={word.id}
-                  data-id={word.id}
-                  className={`words-page__word ${word.id === wordsData.wordId ? 'selected' : ''}`}
-                >
-                  {word.word}
-                </li>
-              ))}
-            </ul>
+            <WordsList />
             <PageControls />
           </article>
         </section>

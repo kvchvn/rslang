@@ -191,15 +191,17 @@
   width: 100%;
 }
 
-.button__mark {
+.button__mark,
+.button__unmark {
   position: relative;
   width: 40%;
   min-width: 100px;
   max-height: 50px;
-  font-size: 1.05rem;
+  font-size: 1rem;
   border-radius: 30px;
   color: white;
   transition: all 0.5s;
+  opacity: 0.6;
 }
 
 .button__mark-text {
@@ -216,26 +218,20 @@
   background-color: rgba(0, 128, 0, 0.6);
 }
 
-.button__mark:hover {
+.button__unmark {
+  color: black;
+  background-color: rgba(128, 128, 128, 0.6);
+}
+
+.button__mark:hover,
+.button__unmark:hover {
   transform: scale(0.9);
+  opacity: 1;
 }
 
-.button__mark_difficult:disabled {
-  transform: scale(4) translate(-30%, -10%);
-  z-index: -1;
-}
-
-.button__mark_difficult:disabled > .button__mark-text {
-  transform: scale(0.3) translate(90%, 130%);
-}
-
-.button__mark_weak:disabled {
-  transform: scale(4) translate(30%, -10%);
-  z-index: -1;
-}
-
-.button__mark_weak:disabled > .button__mark-text {
-  transform: scale(0.3) translate(-95%, 130%);
+.button__mark:disabled {
+  transform: scale(0.8);
+  opacity: 1;
 }
 
 .textbook__words-page {
