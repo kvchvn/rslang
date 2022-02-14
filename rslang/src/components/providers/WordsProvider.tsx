@@ -10,6 +10,7 @@ import {
   createUserWord,
   DIFFICULT_WEAK_WORD,
   DIFFICULT_WORD,
+  DIFFICULT_WORD_GROUP_NUMBER,
   getAggregatedWordsPage,
   getUserWordById,
   getWordsPage,
@@ -79,7 +80,7 @@ export default function WordsProvider({ children }: IChildren) {
 
   const showAggregatedWordsPage = () => {
     const page = 1;
-    const group = MAX_GROUP_NUMBER + 1;
+    const group = DIFFICULT_WORD_GROUP_NUMBER;
 
     localStorage.setItem('group', String(group));
     localStorage.setItem('page', String(page));

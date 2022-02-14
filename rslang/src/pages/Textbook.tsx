@@ -6,6 +6,8 @@ import WordsList from '../components/Textbook/WordsList';
 import GroupControls from '../components/Textbook/GroupControls';
 
 export default function Textbook() {
+  const textbookBasisClassname = 'textbook__link_';
+
   return (
     <main className="page textbook-page textbook">
       <div className="wrapper">
@@ -19,19 +21,24 @@ export default function Textbook() {
           </article>
         </section>
         <div className="textbook__links">
-          <Link to="/sprint" className="link textbook__link textbook__link_sprint">
-            <div className="textbook__link_text">
-              <p className="textbook__link_title">Спринт</p>
-              <p className="textbook__link_description">Переведи как можно больше слов на время</p>
+          <Link to="/sprint" className={`link textbook__link ${textbookBasisClassname}sprint`}>
+            <div className={`${textbookBasisClassname}text`}>
+              <p className={`${textbookBasisClassname}title`}>Спринт</p>
+              <p className={`${textbookBasisClassname}description`}>
+                Переведи как можно больше слов на время
+              </p>
             </div>
-            <span className="textbook__link_picture" />
+            <span className={`${textbookBasisClassname}picture`} />
           </Link>
-          <Link to="/audiocall" className="link textbook__link textbook__link_audiocall">
-            <div className="textbook__link_text">
-              <p className="textbook__link_title">Аудиовызов</p>
-              <p className="textbook__link_description">Определи слово на слух</p>
+          <Link
+            to="/audiocall"
+            className={`link textbook__link ${textbookBasisClassname}audiocall`}
+          >
+            <div className={`${textbookBasisClassname}text`}>
+              <p className={`${textbookBasisClassname}title`}>Аудиовызов</p>
+              <p className={`${textbookBasisClassname}description`}>Определи слово на слух</p>
             </div>
-            <span className="textbook__link_picture" />
+            <span className={`${textbookBasisClassname}picture`} />
           </Link>
         </div>
       </div>

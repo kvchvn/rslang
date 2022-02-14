@@ -9,6 +9,8 @@ import {
 const BASIS_URL = 'https://rs-lang-1.herokuapp.com';
 export const MAX_PAGE_NUMBER = 30;
 export const MAX_GROUP_NUMBER = 6;
+export const DIFFICULT_WORD_GROUP_NUMBER = 7;
+export const FIRST_NUM = 1;
 
 export const DIFFICULT_WORD = 'difficult';
 export const WEAK_WORD = 'weak';

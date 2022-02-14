@@ -6,6 +6,8 @@ import { useWordsData } from '../providers/WordsProvider';
 export default function PageControls() {
   const { wordsData, setNextPage, setPrevPage, setPage } = useWordsData() as IWordsProviderValue;
 
+  const basisClassname = 'button page-nav__button page-nav__button_';
+
   if (!wordsData.wordsPage.length) {
     return <p className="no-words-message">Здесь пока нет слов</p>;
   }
@@ -19,15 +21,11 @@ export default function PageControls() {
       <button
         type="button"
         onClick={setPrevPage}
-        className="button page-nav__button page-nav__button_prev-page"
+        className={`${basisClassname}prev-page`}
         disabled={wordsData.page === 1}
       />
       {wordsData.page !== 1 ? (
-        <button
-          type="button"
-          onClick={() => setPage(1)}
-          className="button page-nav__button page-nav__button_first-page"
-        >
+        <button type="button" onClick={() => setPage(1)} className={`${basisClassname}first-page`}>
           1
         </button>
       ) : (
@@ -37,21 +35,21 @@ export default function PageControls() {
         <button
           type="button"
           onClick={() => setPage(wordsData.page - 1)}
-          className="button page-nav__button page-nav__button_current-prev-page"
+          className={`${basisClassname}current-prev-page`}
         >
           {wordsData.page - 1}
         </button>
       ) : (
         ''
       )}
-      <button type="button" className="button page-nav__button page-nav__button_current-page">
+      <button type="button" className={`${basisClassname}current-page`}>
         {wordsData.page}
       </button>
       {wordsData.page < MAX_PAGE_NUMBER - 1 ? (
         <button
           type="button"
           onClick={() => setPage(wordsData.page + 1)}
-          className="button page-nav__button page-nav__button_current-next-page"
+          className={`${basisClassname}current-next-page`}
         >
           {wordsData.page + 1}
         </button>
@@ -62,7 +60,7 @@ export default function PageControls() {
         <button
           type="button"
           onClick={() => setPage(MAX_PAGE_NUMBER)}
-          className="button page-nav__button page-nav__button_last-page"
+          className={`${basisClassname}last-page`}
         >
           {MAX_PAGE_NUMBER}
         </button>
@@ -72,7 +70,7 @@ export default function PageControls() {
       <button
         type="button"
         onClick={setNextPage}
-        className="button page-nav__button page-nav__button_next-page"
+        className={`${basisClassname}next-page`}
         disabled={wordsData.page === MAX_PAGE_NUMBER}
       />
     </nav>
