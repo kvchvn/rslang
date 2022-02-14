@@ -1,4 +1,5 @@
 import React from 'react';
+
 interface IWordStandard {
   group: number;
   page: number;
@@ -21,44 +22,10 @@ export interface IWord extends IWordStandard {
 
 export type WordsPage = Array<IWord>;
 
-export interface IChildren {
-  children: React.ReactNode;
-}
-
-export interface IWordsData {
-  wordsPage: WordsPage | [];
-  page: number;
-  group: number;
-  wordId: string;
-  wordStatus: string;
-}
-
-export type UserWord = {
-  difficulty: string;
-  optional?: IOptionalParams;
-  id: string;
-  wordId: string;
-};
-
-export interface IOptionalParams {
-  param: string;
-}
-
-export interface IWordsProviderValue {
-  wordsData: IWordsData;
-  setNextPage: () => void;
-  setPrevPage: () => void;
-  setPage: (pageNumber: number) => void;
-  setWordsGroup: (e: React.MouseEvent<HTMLElement>) => void;
-  showWordCard: (e: React.MouseEvent<HTMLElement>) => void;
-  unmarkWord: (e: React.MouseEvent<HTMLElement>, wordId: string) => void;
-  markWord: (e: React.MouseEvent<HTMLElement>, wordId: string) => void;
-}
-
 export interface IAggregatedWord extends IWordStandard {
-  id?: string
+  id?: string;
   _id?: string;
-  userWord?: {
+  userWord: {
     difficulty: string;
   };
 }
@@ -75,3 +42,38 @@ export interface AggregatedWords {
 }
 
 export type AggregatedWordsResponse = [AggregatedWords];
+
+export interface IChildren {
+  children: React.ReactNode;
+}
+
+export interface IWordsData {
+  wordsPage: WordsPage | [];
+  userWords: AggregatedWordsPage | [];
+  page: number;
+  group: number;
+  wordId: string;
+  wordStatus: string;
+}
+
+export interface IOptionalParams {
+  param: string;
+}
+
+export type UserWord = {
+  difficulty: string;
+  optional?: IOptionalParams;
+  id: string;
+  wordId: string;
+};
+
+export interface IWordsProviderValue {
+  wordsData: IWordsData;
+  setNextPage: () => void;
+  setPrevPage: () => void;
+  setPage: (pageNumber: number) => void;
+  setWordsGroup: (e: React.MouseEvent<HTMLElement>) => void;
+  showWordCard: (e: React.MouseEvent<HTMLElement>) => void;
+  unmarkWord: (e: React.MouseEvent<HTMLElement>, wordId: string) => void;
+  markWord: (e: React.MouseEvent<HTMLElement>, wordId: string) => void;
+}

@@ -28,100 +28,131 @@ export const useWordsData = () => useContext(WordsContext);
 export default function WordsProvider({ children }: IChildren) {
   const [wordsData, setWordsData] = useState<IWordsData>({
     wordsPage: [],
+    userWords: [],
     group: Number(localStorage.getItem('group')) || 1,
     page: Number(localStorage.getItem('page')) || 1,
     wordId: '',
     wordStatus: '',
   });
 
+  const getWordStatus = (wordId: string) => {
+    return getUserWordById(USER_ID, wordId, TOKEN)
+      .then((userWord) => {
+        if (userWord) {
+          const wordStatus = userWord.difficulty;
+          return wordStatus;
+        }
+        throw new Error();
+      })
+      .catch(() => {
+        const wordStatus = '';
+        return wordStatus;
+      });
+  };
+
+  const getUserWords = async (choosedGroup: number, choosedPage: number) => {
+    const withWeakWords = true;
+    const userWords = await getAggregatedWordsPage(
+      USER_ID,
+      choosedPage,
+      TOKEN,
+      withWeakWords,
+      choosedGroup
+    );
+    return userWords;
+  };
+
+  const showWordsPage = (choosedGroup: number, choosedPage: number) => {
+    getWordsPage(choosedGroup, choosedPage).then(async (wordsPage) => {
+      const group = choosedGroup;
+      const page = choosedPage;
+
+      localStorage.setItem('group', String(group));
+      localStorage.setItem('page', String(page));
+
+      const wordId = wordsPage[0].id;
+      const userWords = await getUserWords(choosedGroup, choosedPage);
+      const wordStatus = (await getWordStatus(wordId)) || '';
+      setWordsData({ wordsPage, userWords, group, page, wordId, wordStatus });
+    });
+  };
+
+  const showAggregatedWordsPage = () => {
+    const page = 1;
+    const group = MAX_GROUP_NUMBER + 1;
+
+    localStorage.setItem('group', String(group));
+    localStorage.setItem('page', String(page));
+
+    const withWeakWords = false;
+    getAggregatedWordsPage(USER_ID, page, TOKEN, withWeakWords).then(
+      async (aggregatedWordsPage) => {
+        let wordId: string;
+        let wordStatus: string;
+        let wordsPage: WordsPage;
+        if (aggregatedWordsPage.length) {
+          wordsPage = aggregatedWordsPage.map((word) => {
+            const newWord = word;
+            newWord.id = word._id;
+            delete newWord._id;
+            return newWord as IWord;
+          });
+          wordId = wordsPage[0].id;
+          wordStatus = (await getWordStatus(wordId)) || '';
+        } else {
+          wordsPage = [];
+          wordId = '';
+          wordStatus = '';
+        }
+        setWordsData({ wordsPage, ...{ userWords: [] }, wordId, page, group, wordStatus });
+      }
+    );
+  };
+
   const setNextPage = () => {
     if (wordsData.page < MAX_PAGE_NUMBER) {
-      const updatedPage = { page: wordsData.page + 1 };
-      const wordId = '';
-      setWordsData((prevData) => ({ ...prevData, ...updatedPage, wordId }));
+      showWordsPage(wordsData.group, wordsData.page + 1);
     }
   };
 
   const setPrevPage = () => {
     if (wordsData.page > 1) {
-      const updatedPage = { page: wordsData.page - 1 };
-      const wordId = '';
-      setWordsData((prevData) => ({ ...prevData, ...updatedPage, wordId }));
+      showWordsPage(wordsData.group, wordsData.page - 1);
     }
   };
 
-  const setPage = (pageNumber: number): void => {
-    if (pageNumber >= 1 && pageNumber <= MAX_PAGE_NUMBER) {
-      const updatedPage = { page: pageNumber };
-      const wordId = '';
-      setWordsData((prevData) => ({ ...prevData, ...updatedPage, wordId }));
+  const setPage = (choosedPage: number): void => {
+    if (choosedPage >= 1 && choosedPage <= MAX_PAGE_NUMBER) {
+      showWordsPage(wordsData.group, choosedPage);
     }
   };
 
   const setWordsGroup = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
     const targetButton = target.closest('.group-nav__button') as HTMLElement;
-    if (targetButton && targetButton.hasAttribute('data-group')) {
-      const updatedGroup = { group: Number(targetButton.dataset.group) };
-      const updatedPage = { page: 1 };
-      const wordId = '';
-      setWordsData((prevData) => ({ ...prevData, ...updatedGroup, ...updatedPage, wordId }));
-    }
-  };
 
-  const getWordStatus = () => {
-    console.log('get status');
-    getUserWordById(USER_ID, wordsData.wordId, TOKEN)
-      .then((userWord) => {
-        if (userWord) {
-          const wordStatus = userWord.difficulty;
-          setWordsData((prevData) => ({ ...prevData, wordStatus }));
-        }
-      })
-      .catch(() => {
-        const wordStatus = '';
-        setWordsData((prevData) => ({ ...prevData, wordStatus }));
-      });
+    if (targetButton && targetButton.hasAttribute('data-group')) {
+      const group = Number(targetButton.dataset.group);
+      const page = 1;
+
+      if (group <= MAX_GROUP_NUMBER) {
+        showWordsPage(group, page);
+      } else {
+        showAggregatedWordsPage();
+      }
+    }
   };
 
   const showWordCard = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
     if (target.classList.contains('words-page__word')) {
-      const choosedWordId = { wordId: target.dataset.id as string };
-      setWordsData((prevData) => ({ ...prevData, ...choosedWordId }));
+      const wordId = target.dataset.id;
+      if (wordId) {
+        getWordStatus(wordId).then((wordStatus) => {
+          setWordsData((prevData) => ({ ...prevData, wordId, wordStatus }));
+        });
+      }
     }
-  };
-
-  const getWords = () => {
-    console.log('get words');
-    if (wordsData.group <= MAX_GROUP_NUMBER) {
-      getWordsPage(wordsData.group, wordsData.page).then((wordsPage) => {
-        const wordId = !wordsData.wordId ? wordsPage[0].id : wordsData.wordId;
-        setWordsData((prevData) => ({ ...prevData, wordsPage, wordId }));
-      });
-    } else {
-      getAggregatedWordsPage(USER_ID, wordsData.page, TOKEN)
-        .then((aggregatedWordsPage) => {
-          let wordId: string;
-          let wordsPage: WordsPage;
-          if (aggregatedWordsPage.length) {
-            wordsPage = aggregatedWordsPage.map((word) => {
-              const newWord = word;
-              newWord.id = word._id;
-              delete newWord._id;
-              return newWord as IWord;
-            });
-            wordId = wordsPage[0].id;
-          } else {
-            wordsPage = [];
-            wordId = '';
-          }
-          setWordsData((prevData) => ({ ...prevData, wordsPage, wordId }));
-        })
-        .catch((error) => console.log(error));
-    }
-    localStorage.setItem('group', String(wordsData.group));
-    localStorage.setItem('page', String(wordsData.page));
   };
 
   const markWord = (e: React.MouseEvent<HTMLElement>, wordId: string) => {
@@ -136,7 +167,9 @@ export default function WordsProvider({ children }: IChildren) {
         wordStatus = settableDifficulty;
         createUserWord(USER_ID, wordId, settableDifficulty, TOKEN);
       }
-      setWordsData((prevData) => ({ ...prevData, wordStatus }));
+      getUserWords(wordsData.group, wordsData.page).then((userWords) => {
+        setWordsData((prevData) => ({ ...prevData, wordStatus, userWords }));
+      });
     }
   };
 
@@ -149,20 +182,32 @@ export default function WordsProvider({ children }: IChildren) {
       if (wordsData.wordStatus === DIFFICULT_WEAK_WORD) {
         wordStatus = removableDifficulty === DIFFICULT_WORD ? WEAK_WORD : DIFFICULT_WORD;
         updateUserWordById(USER_ID, wordId, wordStatus, TOKEN);
+        getUserWords(wordsData.group, wordsData.page).then((userWords) => {
+          setWordsData((prevData) => ({ ...prevData, wordStatus, userWords }));
+        });
       } else {
         removeUserWordById(USER_ID, wordId, TOKEN);
+        if (wordsData.group <= MAX_GROUP_NUMBER) {
+          getUserWords(wordsData.group, wordsData.page).then((userWords) => {
+            setWordsData((prevData) => ({ ...prevData, wordStatus, userWords }));
+          });
+        } else {
+          showAggregatedWordsPage();
+        }
       }
-      setWordsData((prevData) => ({ ...prevData, wordStatus }));
     }
   };
 
-  useEffect(() => getWords(), [wordsData.page, wordsData.group, wordsData.wordStatus]);
   useEffect(() => {
-    if (wordsData.wordId) {
-      getWordStatus();
+    const { group } = wordsData;
+    const { page } = wordsData;
+    if (group <= MAX_GROUP_NUMBER) {
+      showWordsPage(group, page);
+    } else {
+      showAggregatedWordsPage();
     }
-  }, [wordsData.wordId, wordsData.wordStatus]);
-  console.log(wordsData);
+  }, []);
+
   return (
     <WordsContext.Provider
       value={{

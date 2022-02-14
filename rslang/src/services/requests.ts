@@ -16,7 +16,7 @@ export const DIFFICULT_WEAK_WORD = 'both';
 
 // TEMPORARY DATA !!!
 export const TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDc3Yzk4NzczZWM1MDAxNmUwYmI3ZSIsImlhdCI6MTY0NDc3NTcwOSwiZXhwIjoxNjQ0NzkwMTA5fQ.IM5nEtsrjefqa5aaYnGqLtURpc_5eXwdY4EIO0CXMxU';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDc3Yzk4NzczZWM1MDAxNmUwYmI3ZSIsImlhdCI6MTY0NDg1MjY1MCwiZXhwIjoxNjQ0ODY3MDUwfQ.LVbQNm08dW7w_uQB61bXnvC4i_IZ-q5siY4ZlcyWeN4';
 export const USER_ID = '62077c98773ec50016e0bb7e';
 
 export const getWordsPage = async (group: number, page: number) => {
@@ -108,15 +108,17 @@ export const getAggregatedWordsPage = async (
   userId: string,
   page: number,
   token: string,
-  group?: string
+  filterWithWeakWords: boolean,
+  group?: number
 ): Promise<AggregatedWordsPage> => {
   // filter by difficulty: "difficult" and "both"
-  const filter =
-    '%7B%22%24or%22%3A%5B%7B%22userWord.difficulty%22%3A%22difficult%22%7D%2C%7B%22userWord.difficulty%22%3A%22both%22%7D%5D%7D';
+  const filter = filterWithWeakWords
+    ? '%7B%22%24or%22%3A%5B%7B%22userWord.difficulty%22%3A%22difficult%22%7D%2C%7B%22userWord.difficulty%22%3A%22weak%22%7D%2C%7B%22userWord.difficulty%22%3A%22both%22%7D%5D%7D'
+    : '%7B%22%24or%22%3A%5B%7B%22userWord.difficulty%22%3A%22difficult%22%7D%2C%7B%22userWord.difficulty%22%3A%22both%22%7D%5D%7D';
   const response: Response = await fetch(
-    `${BASIS_URL}/users/${userId}/aggregatedWords?${group ? 'group=' + group + '&' : ''}page=${
-      page - 1
-    }&filter=${filter}`,
+    `${BASIS_URL}/users/${userId}/aggregatedWords?${
+      group ? 'group=' + (group - 1) + '&' : ''
+    }page=${page - 1}&filter=${filter}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
