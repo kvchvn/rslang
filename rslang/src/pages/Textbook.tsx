@@ -21,7 +21,11 @@ export default function Textbook() {
           </article>
         </section>
         <div className="textbook__links">
-          <Link to="/sprint" className={`link textbook__link ${textbookBasisClassname}sprint`}>
+          <Link
+            to="/sprint"
+            state="textbook"
+            className={`link textbook__link ${textbookBasisClassname}sprint`}
+          >
             <div className={`${textbookBasisClassname}text`}>
               <p className={`${textbookBasisClassname}title`}>Спринт</p>
               <p className={`${textbookBasisClassname}description`}>
