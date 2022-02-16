@@ -1,0 +1,83 @@
+.sprint {
+  height: 70vh;
+  border: 1px solid green;
+}
+
+.sprint-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.sprint-page__main-content {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.sprint-page__game-info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.sprint-page__progress-box {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+}
+
+.sprint-page__result-box {
+  width: 70px;
+  height: 70px;
+  border: 1px solid orangered;
+}
+
+.words-comparing {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 80%;
+  height: 40%;
+  border: 1px solid blue;
+}
+
+.words-comparing__word {
+  width: 50%;
+  border: 1px solid blue;
+}
+
+.words-comparing__translated-word {
+  bottom: 0;
+  right: 0;
+  align-self: flex-end;
+  text-align: right;
+}
+
+.words-comparing__center-line {
+  display: block;
+  background-color: coral;
+  width: 5px;
+  height: 100%;
+}
+
+.sprint-page__buttons-box {
+  display: flex;
+  width: 50%;
+  height: 50px;
+  border: 1px solid red;
+}
+
+.sprint-page__button {
+  width: 50%;
+}
+
+.sprint-page__button_true {
+  background-color: rgba(128, 128, 128, 0.6);
+}

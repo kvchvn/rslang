@@ -1,11 +1,17 @@
 @import url('styles/fonts.css');
 @import url('styles/textbook.css');
+@import url('styles/sprint.css');
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: 'Gilroy Regular', sans-serif;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
 }
 
 .button {
@@ -26,6 +32,7 @@ a {
 
 .wrapper {
   margin: 0 auto;
+  width: 90%;
   max-width: calc(100vw - 50px);
 }
 

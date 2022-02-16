@@ -7,6 +7,7 @@ import {
 } from './interfaces';
 
 const BASIS_URL = 'https://rs-lang-1.herokuapp.com';
+export const MAX_WORDS_ON_PAGE = 20;
 export const MAX_PAGE_NUMBER = 30;
 export const MAX_GROUP_NUMBER = 6;
 export const DIFFICULT_WORD_GROUP_NUMBER = 7;

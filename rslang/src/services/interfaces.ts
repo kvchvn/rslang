@@ -78,3 +78,12 @@ export interface IWordsProviderValue {
   unmarkWord: (e: React.MouseEvent<HTMLElement>, wordId: string) => void;
   markWord: (e: React.MouseEvent<HTMLElement>, wordId: string) => void;
 }
+
+export interface ISprintGameData {
+  step: number
+  originalWord: string
+  translatedWord: string
+  answer: boolean
+  rowProgress: number
+  totalProgress: Array<boolean>
+}
