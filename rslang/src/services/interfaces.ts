@@ -86,6 +86,7 @@ export interface ISprintGameData {
   answer: boolean
   rowProgress: number
   totalProgress: Array<boolean>
+  isEnded: boolean
 }
 
 export interface IUserData {
@@ -94,4 +95,9 @@ export interface IUserData {
   refreshToken: string
   userId: string
   name: string
+}
+
+export interface ISprintGameButtonsProps {
+  answer: boolean
+  getUserAnswer: (e: React.MouseEvent<HTMLElement>) => void
 }
