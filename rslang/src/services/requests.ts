@@ -1,6 +1,7 @@
 import {
   AggregatedWordsPage,
   AggregatedWordsResponse,
+  IUserData,
   IWord,
   UserWord,
   WordsPage,
@@ -17,10 +18,14 @@ export const DIFFICULT_WORD = 'difficult';
 export const WEAK_WORD = 'weak';
 export const DIFFICULT_WEAK_WORD = 'both';
 
-// TEMPORARY DATA !!!
-export const TOKEN =
+const userData = localStorage.getItem('sigin');
+const parsedUserData: [IUserData] = userData ? JSON.parse(userData) : null;
+
+export const TOKEN = parsedUserData ? parsedUserData[0].token : '';
+export const USER_ID = parsedUserData ? parsedUserData[0].userId : '';
+/* export const TOKEN =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDc3Yzk4NzczZWM1MDAxNmUwYmI3ZSIsImlhdCI6MTY0NDk0NjU3OSwiZXhwIjoxNjQ0OTYwOTc5fQ.s1kibtEOWnnXEPRf45wi-DyDSv5zodb1icHucCT7b4c';
-export const USER_ID = '62077c98773ec50016e0bb7e';
+export const USER_ID = '62077c98773ec50016e0bb7e'; */
 
 export const getWordsPage = async (group: number, page: number) => {
   const response: Response = await fetch(`${BASIS_URL}/words?group=${group - 1}&page=${page - 1}`);
@@ -35,6 +40,8 @@ export const getWordById = async (wordId: string) => {
 };
 
 export const getAllUserWords = async (userId: string, token: string) => {
+  if (!userId || !token) return [];
+
   const response: Response = await fetch(`${BASIS_URL}/users/${userId}/words`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -114,6 +121,8 @@ export const getAggregatedWordsPage = async (
   filterWithWeakWords: boolean,
   group?: number
 ): Promise<AggregatedWordsPage> => {
+  if (!userId || !token) return [];
+
   // filter by difficulty: "difficult" and "both"
   const filter = filterWithWeakWords
     ? '%7B%22%24or%22%3A%5B%7B%22userWord.difficulty%22%3A%22difficult%22%7D%2C%7B%22userWord.difficulty%22%3A%22weak%22%7D%2C%7B%22userWord.difficulty%22%3A%22both%22%7D%5D%7D'

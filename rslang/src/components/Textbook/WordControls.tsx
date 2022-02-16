@@ -1,12 +1,20 @@
 import React from 'react';
 import { IWordsProviderValue } from '../../services/interfaces';
-import { DIFFICULT_WEAK_WORD, DIFFICULT_WORD, WEAK_WORD } from '../../services/requests';
+import {
+  DIFFICULT_WEAK_WORD,
+  DIFFICULT_WORD,
+  TOKEN,
+  USER_ID,
+  WEAK_WORD,
+} from '../../services/requests';
 import { useWordsData } from '../providers/WordsProvider';
 import ButtonMark from './ButtonMark';
 import ButtonUnmark from './ButtonUnmark';
 
 export default function WordControls() {
   const { wordsData } = useWordsData() as IWordsProviderValue;
+
+  if (!USER_ID || !TOKEN) return null;
 
   let buttonsBox = (
     <>

@@ -87,3 +87,11 @@ export interface ISprintGameData {
   rowProgress: number
   totalProgress: Array<boolean>
 }
+
+export interface IUserData {
+  message: string
+  token: string
+  refreshToken: string
+  userId: string
+  name: string
+}

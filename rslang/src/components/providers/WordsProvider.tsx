@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
+  AggregatedWordsPage,
   IChildren,
   IWord,
   IWordsData,
@@ -51,16 +52,11 @@ export default function WordsProvider({ children }: IChildren) {
       });
   };
 
-  const getUserWords = async (choosedGroup: number, choosedPage: number) => {
+  const getUserWords = (choosedGroup: number, choosedPage: number) => {
     const withWeakWords = true;
-    const userWords = await getAggregatedWordsPage(
-      USER_ID,
-      choosedPage,
-      TOKEN,
-      withWeakWords,
-      choosedGroup
-    );
-    return userWords;
+    return getAggregatedWordsPage(USER_ID, choosedPage, TOKEN, withWeakWords, choosedGroup)
+      .then((userWords) => userWords)
+      .catch(() => []);
   };
 
   const showWordsPage = (choosedGroup: number, choosedPage: number) => {
@@ -72,7 +68,10 @@ export default function WordsProvider({ children }: IChildren) {
       localStorage.setItem('page', String(page));
 
       const wordId = wordsPage[0].id;
-      const userWords = await getUserWords(choosedGroup, choosedPage);
+      let userWords: AggregatedWordsPage = [];
+      if (USER_ID && TOKEN) {
+        userWords = await getUserWords(choosedGroup, choosedPage);
+      }
       const wordStatus = (await getWordStatus(wordId)) || '';
       setWordsData({ wordsPage, userWords, group, page, wordId, wordStatus });
     });
@@ -157,6 +156,8 @@ export default function WordsProvider({ children }: IChildren) {
   };
 
   const markWord = (e: React.MouseEvent<HTMLElement>, wordId: string) => {
+    if (!USER_ID || !TOKEN) return;
+
     const target = e.target as HTMLElement;
     const settableDifficulty = target.dataset.status;
     if (settableDifficulty) {
@@ -175,6 +176,8 @@ export default function WordsProvider({ children }: IChildren) {
   };
 
   const unmarkWord = (e: React.MouseEvent<HTMLElement>, wordId: string) => {
+    if (!USER_ID || !TOKEN) return;
+
     const target = e.target as HTMLElement;
     const targetButton = target.closest('.button_unmark') as HTMLElement;
     const removableDifficulty = targetButton.dataset.status;

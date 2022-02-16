@@ -1,16 +1,24 @@
 import React from 'react';
 import { IWordsProviderValue } from '../../services/interfaces';
-import { DIFFICULT_WORD_GROUP_NUMBER, FIRST_NUM, MAX_GROUP_NUMBER } from '../../services/requests';
+import {
+  DIFFICULT_WORD_GROUP_NUMBER,
+  FIRST_NUM,
+  MAX_GROUP_NUMBER,
+  TOKEN,
+  USER_ID,
+} from '../../services/requests';
 import { useWordsData } from '../providers/WordsProvider';
 
 export default function GroupControls() {
   const { wordsData, setWordsGroup } = useWordsData() as IWordsProviderValue;
   const basisButtonClassname = 'button group-nav__button group-nav__button_';
   const basisBackgroundClassname = 'group-nav__button-background group-nav__button-background_';
+  const GROUP_AMOUNT = !USER_ID || !TOKEN ? MAX_GROUP_NUMBER : DIFFICULT_WORD_GROUP_NUMBER;
+
   return (
     <nav onClick={setWordsGroup} className="textbook__group-nav group-nav">
       <h4 className="group-nav__title">Сложность</h4>
-      {Array(DIFFICULT_WORD_GROUP_NUMBER)
+      {Array(GROUP_AMOUNT)
         .fill('')
         .map((_, index) => {
           return (
