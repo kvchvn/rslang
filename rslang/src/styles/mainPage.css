@@ -1,0 +1,214 @@
+.team__wrapper {
+    width: 100%;
+    margin-top: 70px;
+    margin-bottom: 35px;
+    font-size: 21px;
+}
+
+.team__cards {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.team__title {
+    margin-left: 100px;
+    border-top: 2px solid grey;
+    width: 90%;
+}
+
+.team__card {
+    width: 240px;
+    background-color: #e3e2e2;
+    border-radius: 1rem;
+    text-align: center;
+    font-size: 21px;
+    display: flex;
+    flex-direction: column;
+    padding: 2px;
+}
+
+.team__card__name {
+    line-height: 1.4rem;
+}
+
+.team__card__info {
+    font-size: 0.8rem;
+    line-height: 0.9rem;
+    font-style: italic;
+    margin: 0 2px;
+}
+
+.team__card__main__info {
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.1rem;
+}
+
+.team__card__main {
+    font-weight: 600;
+}
+
+.team__card__main__avatar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.team__card__main_avatar_1 {
+    background-image: url(../assets/png/AntonAvatar.jpg);
+    background-size: cover;
+}
+.team__card__main_avatar_2 {
+    background-image: url(../assets/png/avatar.png);
+}
+.team__card__main_avatar_3 {
+    background-image: url(../assets/png/avatar.png);
+}
+
+.avatar__frame {
+    background-repeat: no-repeat no-repeat;
+    background-size:contain;
+    width: 140px;
+    height: 140px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    box-shadow: 0px 0px 9px 5px rgba(101, 117, 126, 0.58);
+    margin: 10px 0;
+}
+
+.team__card__info__contacts {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top:5px;
+}
+
+.git__icon {
+    background-image: url(../assets/png/GitHub-Emblem.png);
+    width: 120px;
+    height: 50px;
+    background-repeat: no-repeat no-repeat;
+    background-size:contain;
+}
+
+.git__icon:hover {
+    transform: scale(1.1);
+    transition: 0.3s transform;
+}
+
+.img {
+    max-width: 100%;
+    height: 100%;
+}
+
+.main {
+    background: #cbcdce;
+    color: black;
+    font-weight: bold;
+    letter-spacing: 1px;
+    width: 100%;
+}
+
+.main .right__column__text {
+    padding: 70px 30px 60px;
+}
+
+.main .right__column__text h1 {
+    color: black;
+    font-size: 42px;
+    text-transform: uppercase;
+}
+
+.main .right__column__text p {
+    font-size: 18px;
+}
+
+.zerogrid {
+    position: relative;
+    margin: 0 auto;
+    padding: 0px;
+}
+
+.zerogrid:after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.zerogrid .row:before,.row:after { content: '\0020'; display: block; overflow: hidden; visibility: hidden; width: 0; height: 0; }
+.zerogrid .row:after{clear: both; }
+.zerogrid .row{zoom: 1;}
+
+.left__column {
+    float:left;
+    display: inline-block;
+    width:66.66%;
+}
+
+.right__column {
+    float:left;
+    display: inline-block;
+    width:33.33%;
+}
+
+.right__column__text p {
+    margin: 20px 0;
+}
+
+@media screen and (max-width: 1100px) {
+    .team__card {
+        width: 210px;
+    }
+}
+
+@media screen and (max-width: 920px) {
+    .team__card {
+        width: 200px;
+        height: 310px;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .team__card {
+        width: 180px;
+        height: 330px;
+    }
+}
+
+@media screen and (max-width: 710px) {
+    .team__card {
+        width: 300px;
+        height: 280px;
+        margin: 5px 0;
+    }
+    .team__cards {
+        flex-direction: column;
+    }
+}
+
+@media only screen and (min-width: 1060px) and (max-width: 1199px) {
+    .zerogrid {
+        width:1050px;
+    }
+}
+
+@media only screen and (min-width: 300px) and (max-width: 1059px) {
+    .right__column {
+        width: auto;
+    }
+    .left__column {
+        width: auto;
+    }
+}
+
+
+
