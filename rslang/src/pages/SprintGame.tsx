@@ -1,34 +1,69 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import WordsComparing from '../components/SprintGame/WordsComparing';
 import GameProgress from '../components/SprintGame/GameProgress';
 import GameButtons from '../components/SprintGame/GameButtons';
 import { useWordsData } from '../components/providers/WordsProvider';
 import { ISprintGameData, IWordsProviderValue } from '../services/interfaces';
-import { MAX_WORDS_ON_PAGE } from '../services/requests';
+import {
+  DIFFICULT_WORD_GROUP_NUMBER,
+  FIRST_PAGE_NUMBER,
+  MAX_GROUP_NUMBER,
+  MAX_WORDS_ON_PAGE,
+  TOKEN,
+  USER_ID,
+} from '../services/requests';
 import Timer from '../components/SprintGame/Timer';
+import GameResults from '../components/SprintGame/GameResults';
+import PageTemplate from '../components/SprintGame/PageTemplate';
 
 const FROM_TEXTBOOK_PAGE = 'textbook';
+const FROM_MAIN_PAGE = 'main';
+const POINTS_FOR_RIGHT_ANSWER = 10;
+const ADD_COMBO_FOR_RIGHT_ANSWERS_AMOUNT = 4;
 
 export default function SprintGame() {
   const location = useLocation();
-  const { wordsData } = useWordsData() as IWordsProviderValue;
+  const GROUP_AMOUNT = USER_ID && TOKEN ? DIFFICULT_WORD_GROUP_NUMBER : MAX_GROUP_NUMBER;
+  const classnames = {
+    gameInfo: 'sprint-page__game-info',
+    buttonGroup: 'button group-nav__button',
+  };
+
+  const { wordsData, setWordsGroup, setPrevPage } = useWordsData() as IWordsProviderValue;
   const [gameData, setGameData] = useState<ISprintGameData>({
     step: 0,
     originalWord: '',
     translatedWord: '',
     answer: false,
-    rowProgress: 0,
-    totalProgress: [],
+    rowRightAnswers: 0,
+    totalAnswers: [],
+    score: 0,
     isEnded: false,
   });
 
   const getRandomNumber = (min: number, max: number) =>
     Math.floor(Math.random() * (max - min) + min);
 
+  const endRound = () => {
+    const isEnded = true;
+    setGameData((prevData) => ({ ...prevData, isEnded }));
+  };
+
   const saveRoundAndPlayNext = (nextStep?: number, prevRoundResult?: boolean) => {
     if (!wordsData.wordsPage.length) return;
     if (gameData.isEnded) return;
+
+    if (nextStep === wordsData.wordsPage.length) {
+      if (wordsData.page === FIRST_PAGE_NUMBER) {
+        endRound();
+        return;
+      }
+      setPrevPage();
+      const step = nextStep;
+      setGameData((prevData) => ({ ...prevData, step }));
+      return;
+    }
 
     const step = nextStep || 0;
     const minValue = step < 10 ? 0 : Math.round(MAX_WORDS_ON_PAGE / 2);
@@ -47,10 +82,13 @@ export default function SprintGame() {
       answer = false;
     }
 
-    const rowProgress = prevRoundResult ? gameData.rowProgress + 1 : 0;
-    let { totalProgress } = gameData;
+    const rowRightAnswers = prevRoundResult ? gameData.rowRightAnswers + 1 : 0;
+    const combos = Math.ceil(rowRightAnswers / ADD_COMBO_FOR_RIGHT_ANSWERS_AMOUNT);
+    const score = gameData.score + POINTS_FOR_RIGHT_ANSWER * combos;
+
+    let { totalAnswers } = gameData;
     if (prevRoundResult !== undefined) {
-      totalProgress = [...gameData.totalProgress, prevRoundResult];
+      totalAnswers = [...gameData.totalAnswers, prevRoundResult];
     }
 
     setGameData((prevData) => ({
@@ -59,8 +97,9 @@ export default function SprintGame() {
       originalWord,
       translatedWord,
       answer,
-      rowProgress,
-      totalProgress,
+      rowRightAnswers,
+      totalAnswers,
+      score,
     }));
   };
 
@@ -70,42 +109,53 @@ export default function SprintGame() {
     saveRoundAndPlayNext(gameData.step + 1, userAnswer);
   };
 
-  const endRound = () => {
-    const isEnded = true;
-    setGameData((prevData) => ({ ...prevData, isEnded }));
-  };
-
   useEffect(() => saveRoundAndPlayNext(), [wordsData]);
-  console.log(gameData);
 
-  if (gameData.isEnded) {
-    // create box with results
-    return <h1>END GAME</h1>;
-  }
-
-  if (location.state === FROM_TEXTBOOK_PAGE) {
+  if (location.state === FROM_TEXTBOOK_PAGE || location.state === FROM_MAIN_PAGE) {
     return (
-      <main className="page sprints-page sprint">
-        <div className="wrapper sprint-wrapper">
-          <h2 className="page__title sprint-page__title">Спринт</h2>
-          <section className="page__main-content sprint-page__main-content">
-            <div className="sprint-page__game-info">
-              <GameProgress
-                rowProgress={gameData.rowProgress}
-                totalProgress={gameData.totalProgress}
-              />
-              <Timer endRound={endRound} />
-            </div>
-            <WordsComparing
-              originalWord={gameData.originalWord}
-              translatedWord={gameData.translatedWord}
-            />
-            <GameButtons answer={gameData.answer} getUserAnswer={getUserAnswer} />
-          </section>
+      <PageTemplate>
+        <div className={classnames.gameInfo}>
+          <GameProgress
+            rowRightAnswers={gameData.rowRightAnswers}
+            totalAnswers={gameData.totalAnswers}
+            score={gameData.score}
+          />
+          <Timer endRound={endRound} isEnded={gameData.isEnded} />
         </div>
-      </main>
+        <WordsComparing
+          originalWord={gameData.originalWord}
+          translatedWord={gameData.translatedWord}
+        />
+        <GameButtons answer={gameData.answer} getUserAnswer={getUserAnswer} />
+        {gameData.isEnded ? (
+          <GameResults totalAnswers={gameData.totalAnswers} score={gameData.score} />
+        ) : null}
+      </PageTemplate>
     );
   }
 
-  return <p>from main menu</p>;
+  return (
+    <PageTemplate>
+      <ul>
+        {Array(GROUP_AMOUNT)
+          .fill('')
+          .map((_, index) => {
+            return (
+              <button
+                type="button"
+                key={index}
+                data-group={index + 1}
+                className={`${classnames.buttonGroup}`}
+                onClick={(e) => setWordsGroup(e)}
+              >
+                {index === MAX_GROUP_NUMBER ? 'Сложные слова' : `${index + 1}`}
+              </button>
+            );
+          })}
+      </ul>
+      <Link to="/sprint" state="main">
+        Играть
+      </Link>
+    </PageTemplate>
+  );
 }

@@ -7,11 +7,18 @@ export default function WordsComparing({
   originalWord: string;
   translatedWord: string;
 }) {
+  const classnames = {
+    box: 'sprint-page__words-comparing words-comparing',
+    originalWord: 'words-comparing__word words-comparing__original-word',
+    centerLine: 'words-comparing__center-line',
+    translatedWord: 'words-comparing__word words-comparing__translated-word',
+  }
+
   return (
-    <div className="sprint-page__words-comparing words-comparing">
-      <p className="words-comparing__word words-comparing__original-word">{originalWord}</p>
-      <span className="words-comparing__center-line" />
-      <p className="words-comparing__word words-comparing__translated-word">{translatedWord}</p>
+    <div className={classnames.box}>
+      <p className={classnames.originalWord}>{originalWord}</p>
+      <span className={classnames.centerLine} />
+      <p className={classnames.translatedWord}>{translatedWord}</p>
     </div>
   );
 }

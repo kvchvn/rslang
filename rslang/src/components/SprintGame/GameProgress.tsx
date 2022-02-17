@@ -1,26 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+
+const ADD_COMBO_FOR_RIGHT_ANSWERS_AMOUNT = 4;
 
 export default function GameProgress({
-  rowProgress,
-  totalProgress,
+  rowRightAnswers,
+  totalAnswers,
+  score,
 }: {
-  rowProgress: number;
-  totalProgress: Array<boolean>;
+  rowRightAnswers: number;
+  totalAnswers: Array<boolean>;
+  score: number;
 }) {
-  const [points, setPoints] = useState(0);
-  const rightAnswers = totalProgress.filter((elem) => elem).length;
-  const combos = Math.ceil(rowProgress / 4);
-
-  useEffect(() => {
-    if (rowProgress === 0) setPoints(0);
-    setPoints(points + 10 * combos);
-  }, [rowProgress, totalProgress.length]);
+  const combos = Math.ceil(rowRightAnswers / ADD_COMBO_FOR_RIGHT_ANSWERS_AMOUNT);
+  const rightAnswers = totalAnswers.filter((elem: boolean) => elem).length;
+  const classnames = {
+    box: 'sprint-page__progress-box progress-box',
+    combos: 'progress-box__row-progress',
+    score: 'progress-box__score',
+    rightAnswers: 'progress-box__right-answers',
+  };
 
   return (
-    <div className="sprint-page__progress-box progress-box">
-      <p className="progress-box__row-progress">{`Комбо: ${combos}`}</p>
-      <p className="progress-box__total-points">{`Очки: ${points}`}</p>
-      <p className="progress-box__total-progress">{`Правильных ответов: ${rightAnswers}`}</p>
+    <div className={classnames.box}>
+      <p className={classnames.combos}>{`Комбо: ${combos}`}</p>
+      <p className={classnames.score}>{`Счет: ${score}`}</p>
+      <p className={classnames.rightAnswers}>{`Правильных ответов: ${rightAnswers}`}</p>
     </div>
   );
 }

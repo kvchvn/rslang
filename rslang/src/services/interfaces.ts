@@ -80,24 +80,25 @@ export interface IWordsProviderValue {
 }
 
 export interface ISprintGameData {
-  step: number
-  originalWord: string
-  translatedWord: string
-  answer: boolean
-  rowProgress: number
-  totalProgress: Array<boolean>
-  isEnded: boolean
+  step: number;
+  originalWord: string;
+  translatedWord: string;
+  answer: boolean;
+  rowRightAnswers: number;
+  totalAnswers: Array<boolean>;
+  score: number;
+  isEnded: boolean;
 }
 
 export interface IUserData {
-  message: string
-  token: string
-  refreshToken: string
-  userId: string
-  name: string
+  message: string;
+  token: string;
+  refreshToken: string;
+  userId: string;
+  name: string;
 }
 
 export interface ISprintGameButtonsProps {
-  answer: boolean
-  getUserAnswer: (e: React.MouseEvent<HTMLElement>) => void
+  answer: boolean;
+  getUserAnswer: (e: React.MouseEvent<HTMLElement>) => void;
 }

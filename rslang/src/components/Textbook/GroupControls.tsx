@@ -2,7 +2,7 @@ import React from 'react';
 import { IWordsProviderValue } from '../../services/interfaces';
 import {
   DIFFICULT_WORD_GROUP_NUMBER,
-  FIRST_NUM,
+  FIRST_GROUP_NUMBER,
   MAX_GROUP_NUMBER,
   TOKEN,
   USER_ID,
@@ -27,7 +27,7 @@ export default function GroupControls() {
               key={index}
               data-group={index + 1}
               className={`${basisButtonClassname}${index + 1} ${
-                index + FIRST_NUM === wordsData.group ? 'selected' : ''
+                index + FIRST_GROUP_NUMBER === wordsData.group ? 'selected' : ''
               }`}
             >
               <span className={`${basisBackgroundClassname}${index + 1}`} />

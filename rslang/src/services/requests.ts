@@ -12,7 +12,8 @@ export const MAX_WORDS_ON_PAGE = 20;
 export const MAX_PAGE_NUMBER = 30;
 export const MAX_GROUP_NUMBER = 6;
 export const DIFFICULT_WORD_GROUP_NUMBER = 7;
-export const FIRST_NUM = 1;
+export const FIRST_PAGE_NUMBER = 1;
+export const FIRST_GROUP_NUMBER = 1;
 
 export const DIFFICULT_WORD = 'difficult';
 export const WEAK_WORD = 'weak';
