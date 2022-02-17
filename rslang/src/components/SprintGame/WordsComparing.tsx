@@ -12,7 +12,7 @@ export default function WordsComparing({
     originalWord: 'words-comparing__word words-comparing__original-word',
     centerLine: 'words-comparing__center-line',
     translatedWord: 'words-comparing__word words-comparing__translated-word',
-  }
+  };
 
   return (
     <div className={classnames.box}>

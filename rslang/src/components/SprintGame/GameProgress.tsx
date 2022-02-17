@@ -11,7 +11,7 @@ export default function GameProgress({
   totalAnswers: Array<boolean>;
   score: number;
 }) {
-  const combos = Math.ceil(rowRightAnswers / ADD_COMBO_FOR_RIGHT_ANSWERS_AMOUNT);
+  const combos = Math.ceil(rowRightAnswers / ADD_COMBO_FOR_RIGHT_ANSWERS_AMOUNT) || 1;
   const rightAnswers = totalAnswers.filter((elem: boolean) => elem).length;
   const classnames = {
     box: 'sprint-page__progress-box progress-box',

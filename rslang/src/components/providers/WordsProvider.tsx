@@ -12,6 +12,7 @@ import {
   DIFFICULT_WEAK_WORD,
   DIFFICULT_WORD,
   DIFFICULT_WORD_GROUP_NUMBER,
+  FIRST_PAGE_NUMBER,
   getAggregatedWordsPage,
   getUserWordById,
   getWordsPage,
@@ -127,13 +128,19 @@ export default function WordsProvider({ children }: IChildren) {
     }
   };
 
-  const setWordsGroup = (e: React.MouseEvent<HTMLElement>) => {
+  const setWordsGroup = (e: React.MouseEvent<HTMLElement>, isGame?: boolean) => {
     const target = e.target as HTMLElement;
     const targetButton = target.closest('.group-nav__button') as HTMLElement;
 
     if (targetButton && targetButton.hasAttribute('data-group')) {
       const group = Number(targetButton.dataset.group);
-      const page = 1;
+      let page = 1;
+
+      if (isGame) {
+        const getRandomNumber = (min: number, max: number) =>
+          Math.floor(Math.random() * (max - min) + min);
+        page = getRandomNumber(FIRST_PAGE_NUMBER, MAX_PAGE_NUMBER);
+      }
 
       if (group <= MAX_GROUP_NUMBER) {
         showWordsPage(group, page);

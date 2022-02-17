@@ -4,13 +4,19 @@ import WordsComparing from '../components/SprintGame/WordsComparing';
 import GameProgress from '../components/SprintGame/GameProgress';
 import GameButtons from '../components/SprintGame/GameButtons';
 import { useWordsData } from '../components/providers/WordsProvider';
-import { ISprintGameData, IWordsProviderValue } from '../services/interfaces';
+import {
+  ISprintGameData,
+  IStatisticsOptional,
+  IStatisticsResponse,
+  IWordsProviderValue,
+} from '../services/interfaces';
 import {
   DIFFICULT_WORD_GROUP_NUMBER,
   FIRST_PAGE_NUMBER,
+  getUserStatistics,
   MAX_GROUP_NUMBER,
-  MAX_WORDS_ON_PAGE,
   TOKEN,
+  updateUserStatistics,
   USER_ID,
 } from '../services/requests';
 import Timer from '../components/SprintGame/Timer';
@@ -23,14 +29,7 @@ const POINTS_FOR_RIGHT_ANSWER = 10;
 const ADD_COMBO_FOR_RIGHT_ANSWERS_AMOUNT = 4;
 
 export default function SprintGame() {
-  const location = useLocation();
-  const GROUP_AMOUNT = USER_ID && TOKEN ? DIFFICULT_WORD_GROUP_NUMBER : MAX_GROUP_NUMBER;
-  const classnames = {
-    gameInfo: 'sprint-page__game-info',
-    buttonGroup: 'button group-nav__button',
-  };
-
-  const { wordsData, setWordsGroup, setPrevPage } = useWordsData() as IWordsProviderValue;
+  const { wordsData, setWordsGroup, setPrevPage, setPage } = useWordsData() as IWordsProviderValue;
   const [gameData, setGameData] = useState<ISprintGameData>({
     step: 0,
     originalWord: '',
@@ -42,12 +41,30 @@ export default function SprintGame() {
     isEnded: false,
   });
 
+  const location = useLocation();
+  const GROUP_AMOUNT = USER_ID && TOKEN ? DIFFICULT_WORD_GROUP_NUMBER : MAX_GROUP_NUMBER;
+  const MAX_WORDS_COUNT = wordsData.wordsPage.length;
+  const classnames = {
+    gameInfo: 'sprint-page__game-info',
+    buttonGroup: 'button group-nav__button sprint-game__group-button',
+  };
+
   const getRandomNumber = (min: number, max: number) =>
     Math.floor(Math.random() * (max - min) + min);
 
-  const endRound = () => {
+  const endRound = (prevRoundResult?: boolean) => {
     const isEnded = true;
+
+    if (prevRoundResult !== undefined) {
+      const rowRightAnswers = prevRoundResult ? gameData.rowRightAnswers + 1 : 0;
+      const combos = Math.ceil(rowRightAnswers / ADD_COMBO_FOR_RIGHT_ANSWERS_AMOUNT);
+      const score = gameData.score + POINTS_FOR_RIGHT_ANSWER * combos;
+      const totalAnswers = [...gameData.totalAnswers, prevRoundResult];
+
+      setGameData((prevData) => ({ ...prevData, isEnded, score, totalAnswers, rowRightAnswers }));
+    }
     setGameData((prevData) => ({ ...prevData, isEnded }));
+    setPage(FIRST_PAGE_NUMBER);
   };
 
   const saveRoundAndPlayNext = (nextStep?: number, prevRoundResult?: boolean) => {
@@ -56,7 +73,7 @@ export default function SprintGame() {
 
     if (nextStep === wordsData.wordsPage.length) {
       if (wordsData.page === FIRST_PAGE_NUMBER) {
-        endRound();
+        endRound(prevRoundResult);
         return;
       }
       setPrevPage();
@@ -66,8 +83,8 @@ export default function SprintGame() {
     }
 
     const step = nextStep || 0;
-    const minValue = step < 10 ? 0 : Math.round(MAX_WORDS_ON_PAGE / 2);
-    const maxValue = step < 10 ? Math.round(MAX_WORDS_ON_PAGE / 2) : MAX_WORDS_ON_PAGE;
+    const minValue = step <= 2 ? 0 : step - 2;
+    const maxValue = step >= MAX_WORDS_COUNT - 2 ? MAX_WORDS_COUNT : step + 2;
     const randomNum = getRandomNumber(minValue, maxValue);
 
     const originalWordObject = wordsData.wordsPage[step];
@@ -111,6 +128,37 @@ export default function SprintGame() {
 
   useEffect(() => saveRoundAndPlayNext(), [wordsData]);
 
+  useEffect(() => {
+    if (gameData.isEnded) {
+      getUserStatistics(USER_ID, TOKEN).then(async (statistics: IStatisticsResponse) => {
+        const newLearnedWordsCount = statistics.learnedWords + gameData.totalAnswers.length;
+
+        if (statistics.optional) {
+          const savedOptionalData = statistics.optional;
+
+          const receivedOptionalData: IStatisticsOptional = {
+            rightAnswers: gameData.totalAnswers.filter((elem) => elem).length,
+            totalAnswers: gameData.totalAnswers.length,
+            rowRightAnswers: gameData.rowRightAnswers,
+          };
+
+          const newOptionalData: IStatisticsOptional = {
+            rightAnswers: receivedOptionalData.rightAnswers + savedOptionalData.rightAnswers,
+            totalAnswers: receivedOptionalData.totalAnswers + savedOptionalData.totalAnswers,
+            rowRightAnswers:
+              savedOptionalData.rowRightAnswers < receivedOptionalData.rowRightAnswers
+                ? receivedOptionalData.rowRightAnswers
+                : savedOptionalData.rowRightAnswers,
+          };
+
+          updateUserStatistics(USER_ID, newLearnedWordsCount, TOKEN, newOptionalData);
+        } else {
+          updateUserStatistics(USER_ID, newLearnedWordsCount, TOKEN);
+        }
+      });
+    }
+  }, [gameData.isEnded]);
+
   if (location.state === FROM_TEXTBOOK_PAGE || location.state === FROM_MAIN_PAGE) {
     return (
       <PageTemplate>
@@ -146,7 +194,7 @@ export default function SprintGame() {
                 key={index}
                 data-group={index + 1}
                 className={`${classnames.buttonGroup}`}
-                onClick={(e) => setWordsGroup(e)}
+                onClick={(e) => setWordsGroup(e, true)}
               >
                 {index === MAX_GROUP_NUMBER ? 'Сложные слова' : `${index + 1}`}
               </button>

@@ -73,7 +73,7 @@ export interface IWordsProviderValue {
   setNextPage: () => void;
   setPrevPage: () => void;
   setPage: (pageNumber: number) => void;
-  setWordsGroup: (e: React.MouseEvent<HTMLElement>) => void;
+  setWordsGroup: (e: React.MouseEvent<HTMLElement>, isGame?: boolean) => void;
   showWordCard: (e: React.MouseEvent<HTMLElement>) => void;
   unmarkWord: (e: React.MouseEvent<HTMLElement>, wordId: string) => void;
   markWord: (e: React.MouseEvent<HTMLElement>, wordId: string) => void;
@@ -101,4 +101,16 @@ export interface IUserData {
 export interface ISprintGameButtonsProps {
   answer: boolean;
   getUserAnswer: (e: React.MouseEvent<HTMLElement>) => void;
+}
+
+export interface IStatisticsOptional {
+  rightAnswers: number
+  totalAnswers: number
+  rowRightAnswers: number
+}
+
+export interface IStatisticsResponse {
+  id: string
+  learnedWords: number
+  optional?: IStatisticsOptional
 }

@@ -5,6 +5,8 @@ import {
   IWord,
   UserWord,
   WordsPage,
+  IStatisticsOptional,
+  IStatisticsResponse,
 } from './interfaces';
 
 const BASIS_URL = 'https://rs-lang-1.herokuapp.com';
@@ -22,11 +24,10 @@ export const DIFFICULT_WEAK_WORD = 'both';
 const userData = localStorage.getItem('sigin');
 const parsedUserData: [IUserData] = userData ? JSON.parse(userData) : null;
 
-export const TOKEN = parsedUserData ? parsedUserData[0].token : '';
-export const USER_ID = parsedUserData ? parsedUserData[0].userId : '';
-/* export const TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDc3Yzk4NzczZWM1MDAxNmUwYmI3ZSIsImlhdCI6MTY0NDk0NjU3OSwiZXhwIjoxNjQ0OTYwOTc5fQ.s1kibtEOWnnXEPRf45wi-DyDSv5zodb1icHucCT7b4c';
-export const USER_ID = '62077c98773ec50016e0bb7e'; */
+export const TOKEN = parsedUserData
+  ? parsedUserData[0].token
+  : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDc3Yzk4NzczZWM1MDAxNmUwYmI3ZSIsImlhdCI6MTY0NTEyNzEyMSwiZXhwIjoxNjQ1MTQxNTIxfQ.n17MzmIHVKRH4exGHN2Bt3vy1vCqNwyQVuVnlv_l-eY';
+export const USER_ID = parsedUserData ? parsedUserData[0].userId : '62077c98773ec50016e0bb7e';
 
 export const getWordsPage = async (group: number, page: number) => {
   const response: Response = await fetch(`${BASIS_URL}/words?group=${group - 1}&page=${page - 1}`);
@@ -142,4 +143,35 @@ export const getAggregatedWordsPage = async (
   );
   const aggregatedWords: AggregatedWordsResponse = await response.json();
   return aggregatedWords[0].paginatedResults;
+};
+
+export const updateUserStatistics = async (
+  userId: string,
+  learnedWords: number,
+  token: string,
+  optional?: IStatisticsOptional
+) => {
+  const response: Response = await fetch(`${BASIS_URL}/users/${userId}/statistics`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ learnedWords, optional }),
+  });
+  const statistics: IStatisticsResponse = await response.json();
+  return statistics;
+};
+
+export const getUserStatistics = async (userId: string, token: string) => {
+  const response: Response = await fetch(`${BASIS_URL}/users/${userId}/statistics`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  });
+  const statistics: IStatisticsResponse = await response.json();
+  return statistics;
 };
