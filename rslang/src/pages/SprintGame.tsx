@@ -36,6 +36,7 @@ export default function SprintGame() {
     translatedWord: '',
     answer: false,
     rowRightAnswers: 0,
+    maxRow: 0,
     totalAnswers: [],
     score: 0,
     isEnded: false,
@@ -100,6 +101,7 @@ export default function SprintGame() {
     }
 
     const rowRightAnswers = prevRoundResult ? gameData.rowRightAnswers + 1 : 0;
+    const maxRow = Math.max(gameData.maxRow, rowRightAnswers);
     const combos = Math.ceil(rowRightAnswers / ADD_COMBO_FOR_RIGHT_ANSWERS_AMOUNT);
     const score = gameData.score + POINTS_FOR_RIGHT_ANSWER * combos;
 
@@ -115,6 +117,7 @@ export default function SprintGame() {
       translatedWord,
       answer,
       rowRightAnswers,
+      maxRow,
       totalAnswers,
       score,
     }));
@@ -133,28 +136,30 @@ export default function SprintGame() {
       getUserStatistics(USER_ID, TOKEN).then(async (statistics: IStatisticsResponse) => {
         const newLearnedWordsCount = statistics.learnedWords + gameData.totalAnswers.length;
 
-        if (statistics.optional) {
-          const savedOptionalData = statistics.optional;
+        const receivedOptionalData: IStatisticsOptional = {
+          rightAnswers: gameData.totalAnswers.filter((elem) => elem).length,
+          totalAnswers: gameData.totalAnswers.length,
+          maxRowRightAnswers: gameData.maxRow,
+        };
 
-          const receivedOptionalData: IStatisticsOptional = {
-            rightAnswers: gameData.totalAnswers.filter((elem) => elem).length,
-            totalAnswers: gameData.totalAnswers.length,
-            rowRightAnswers: gameData.rowRightAnswers,
-          };
+        let optional = { sprint: receivedOptionalData };
+
+        if (statistics.optional && statistics.optional.sprint) {
+          console.log(statistics.optional);
+          const savedOptionalData = statistics.optional.sprint;
 
           const newOptionalData: IStatisticsOptional = {
             rightAnswers: receivedOptionalData.rightAnswers + savedOptionalData.rightAnswers,
             totalAnswers: receivedOptionalData.totalAnswers + savedOptionalData.totalAnswers,
-            rowRightAnswers:
-              savedOptionalData.rowRightAnswers < receivedOptionalData.rowRightAnswers
-                ? receivedOptionalData.rowRightAnswers
-                : savedOptionalData.rowRightAnswers,
+            maxRowRightAnswers: Math.max(
+              savedOptionalData.maxRowRightAnswers,
+              receivedOptionalData.maxRowRightAnswers
+            ),
           };
-
-          updateUserStatistics(USER_ID, newLearnedWordsCount, TOKEN, newOptionalData);
-        } else {
-          updateUserStatistics(USER_ID, newLearnedWordsCount, TOKEN);
+          optional = { ...statistics.optional, ...{ sprint: newOptionalData } };
         }
+
+        updateUserStatistics(USER_ID, newLearnedWordsCount, TOKEN, optional);
       });
     }
   }, [gameData.isEnded]);

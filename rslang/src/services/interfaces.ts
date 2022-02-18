@@ -85,6 +85,7 @@ export interface ISprintGameData {
   translatedWord: string;
   answer: boolean;
   rowRightAnswers: number;
+  maxRow: number;
   totalAnswers: Array<boolean>;
   score: number;
   isEnded: boolean;
@@ -103,14 +104,33 @@ export interface ISprintGameButtonsProps {
   getUserAnswer: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
-export interface IStatisticsOptional {
-  rightAnswers: number
-  totalAnswers: number
-  rowRightAnswers: number
+export interface IStatisticsResponse {
+  id: string;
+  learnedWords: number;
+  optional: IStatistics;
 }
 
-export interface IStatisticsResponse {
-  id: string
-  learnedWords: number
-  optional?: IStatisticsOptional
+export interface IStatistics {
+  sprint?: IStatisticsOptional;
+  audiocall?: IStatisticsOptional;
+}
+export interface IStatisticsOptional {
+  rightAnswers: number;
+  totalAnswers: number;
+  maxRowRightAnswers: number;
+}
+
+export interface IStatisticsTotal {
+  newWords: number;
+  rightAnswersPercent: number;
+}
+
+export interface IStatisticsGame extends IStatisticsTotal {
+  maxRowRightAnswers: number
+}
+
+export interface IStatisticsPageData {
+  sprintGame: IStatisticsGame;
+  audiocallGame: IStatisticsGame;
+  total: IStatisticsTotal;
 }

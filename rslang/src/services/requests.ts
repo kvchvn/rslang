@@ -5,8 +5,8 @@ import {
   IWord,
   UserWord,
   WordsPage,
-  IStatisticsOptional,
   IStatisticsResponse,
+  IStatistics,
 } from './interfaces';
 
 const BASIS_URL = 'https://rs-lang-1.herokuapp.com';
@@ -26,7 +26,7 @@ const parsedUserData: [IUserData] = userData ? JSON.parse(userData) : null;
 
 export const TOKEN = parsedUserData
   ? parsedUserData[0].token
-  : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDc3Yzk4NzczZWM1MDAxNmUwYmI3ZSIsImlhdCI6MTY0NTEyNzEyMSwiZXhwIjoxNjQ1MTQxNTIxfQ.n17MzmIHVKRH4exGHN2Bt3vy1vCqNwyQVuVnlv_l-eY';
+  : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDc3Yzk4NzczZWM1MDAxNmUwYmI3ZSIsImlhdCI6MTY0NTE0MTkxOCwiZXhwIjoxNjQ1MTU2MzE4fQ.LEN0gicSeRhl3yZTBLYtOc98ZD4V3Cw6BjcwL1NhHog';
 export const USER_ID = parsedUserData ? parsedUserData[0].userId : '62077c98773ec50016e0bb7e';
 
 export const getWordsPage = async (group: number, page: number) => {
@@ -149,7 +149,7 @@ export const updateUserStatistics = async (
   userId: string,
   learnedWords: number,
   token: string,
-  optional?: IStatisticsOptional
+  optional?: IStatistics
 ) => {
   const response: Response = await fetch(`${BASIS_URL}/users/${userId}/statistics`, {
     method: 'PUT',
