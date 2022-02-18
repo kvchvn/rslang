@@ -11,6 +11,7 @@ import {
 
 const BASIS_URL = 'https://rs-lang-1.herokuapp.com';
 export const MAX_WORDS_ON_PAGE = 20;
+export const ALL_WORDS_COUNT = 3600;
 export const MAX_PAGE_NUMBER = 30;
 export const MAX_GROUP_NUMBER = 6;
 export const DIFFICULT_WORD_GROUP_NUMBER = 7;
@@ -26,7 +27,7 @@ const parsedUserData: [IUserData] = userData ? JSON.parse(userData) : null;
 
 export const TOKEN = parsedUserData
   ? parsedUserData[0].token
-  : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDc3Yzk4NzczZWM1MDAxNmUwYmI3ZSIsImlhdCI6MTY0NTE0MTkxOCwiZXhwIjoxNjQ1MTU2MzE4fQ.LEN0gicSeRhl3yZTBLYtOc98ZD4V3Cw6BjcwL1NhHog';
+  : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDc3Yzk4NzczZWM1MDAxNmUwYmI3ZSIsImlhdCI6MTY0NTE3MjE5MSwiZXhwIjoxNjQ1MTg2NTkxfQ.NfQgnh7b8RRB_EWQNhJthGtCGZTU-BH2wxA83BAP5QI';
 export const USER_ID = parsedUserData ? parsedUserData[0].userId : '62077c98773ec50016e0bb7e';
 
 export const getWordsPage = async (group: number, page: number) => {
@@ -118,21 +119,37 @@ export const updateUserWordById = async (
 
 export const getAggregatedWordsPage = async (
   userId: string,
-  page: number,
   token: string,
-  filterWithWeakWords: boolean,
+  allDifficultWords: boolean,
+  page?: number,
   group?: number
 ): Promise<AggregatedWordsPage> => {
   if (!userId || !token) return [];
 
+  // {"$and":[{"$or":[{"userWord.difficulty":"weak"},{"userWord.difficulty":"difficult"},{"userWord.difficulty":"both"}]},{"group":0},{"page":0}]}
+  // {"$or":[{"userWord.difficulty":"difficult"},{"userWord.difficulty":"both"}]}
+
   // filter by difficulty: "difficult" and "both"
-  const filter = filterWithWeakWords
-    ? '%7B%22%24or%22%3A%5B%7B%22userWord.difficulty%22%3A%22difficult%22%7D%2C%7B%22userWord.difficulty%22%3A%22weak%22%7D%2C%7B%22userWord.difficulty%22%3A%22both%22%7D%5D%7D'
-    : '%7B%22%24or%22%3A%5B%7B%22userWord.difficulty%22%3A%22difficult%22%7D%2C%7B%22userWord.difficulty%22%3A%22both%22%7D%5D%7D';
+  let filter: string;
+  let wordsPerPage: number;
+
+  const filterByAllUserWords =
+    '%7B%22%24or%22%3A%5B%7B%22userWord.difficulty%22%3A%22difficult%22%7D%2C%7B%22userWord.difficulty%22%3A%22both%22%7D%5D%7D';
+  const filterByDifficultWordsOnPage = (groupNum: number, pageNum: number) =>
+    `%7B%22%24and%22%3A%5B%7B%22%24or%22%3A%5B%7B%22userWord.difficulty%22%3A%22weak%22%7D%2C%7B%22userWord.difficulty%22%3A%22difficult%22%7D%2C%7B%22userWord.difficulty%22%3A%22both%22%7D%5D%7D%2C%7B%22group%22%3A${
+      groupNum - 1
+    }%7D%2C%7B%22page%22%3A${pageNum - 1}%7D%5D%7D`;
+
+  if (group && page) {
+    filter = allDifficultWords ? filterByAllUserWords : filterByDifficultWordsOnPage(group, page);
+    wordsPerPage = allDifficultWords ? ALL_WORDS_COUNT : MAX_WORDS_ON_PAGE;
+  } else {
+    filter = filterByAllUserWords;
+    wordsPerPage = ALL_WORDS_COUNT;
+  }
+
   const response: Response = await fetch(
-    `${BASIS_URL}/users/${userId}/aggregatedWords?${
-      group ? 'group=' + (group - 1) + '&' : ''
-    }page=${page - 1}&filter=${filter}`,
+    `${BASIS_URL}/users/${userId}/aggregatedWords?wordsPerPage=${wordsPerPage}&filter=${filter}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

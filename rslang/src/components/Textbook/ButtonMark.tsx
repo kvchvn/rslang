@@ -5,6 +5,10 @@ import { useWordsData } from '../providers/WordsProvider';
 
 export default function ButtonMark({ requireWordStatus }: { requireWordStatus: string }) {
   const { wordsData, markWord } = useWordsData() as IWordsProviderValue;
+  const classnames = {
+    button: `button button_mark button_mark_${requireWordStatus}`,
+  };
+
   let textContent: string;
 
   switch (wordsData.wordStatus) {
@@ -26,7 +30,7 @@ export default function ButtonMark({ requireWordStatus }: { requireWordStatus: s
       type="button"
       data-status={requireWordStatus}
       onClick={(e) => markWord(e, wordsData.wordId)}
-      className={`button button_mark button_mark_${requireWordStatus}`}
+      className={classnames.button}
     >
       {textContent}
     </button>

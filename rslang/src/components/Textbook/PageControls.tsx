@@ -3,10 +3,23 @@ import { IWordsProviderValue } from '../../services/interfaces';
 import { MAX_GROUP_NUMBER, MAX_PAGE_NUMBER } from '../../services/requests';
 import { useWordsData } from '../providers/WordsProvider';
 
-export default function PageControls() {
+export default function PageControls({ isStudiedPage }: { isStudiedPage: boolean }) {
   const { wordsData, setNextPage, setPrevPage, setPage } = useWordsData() as IWordsProviderValue;
 
-  const basisClassname = 'button page-nav__button page-nav__button_';
+  const buttonBasisClassname = `button ${
+    isStudiedPage ? 'studied-page' : ''
+  } page-nav__button page-nav__button_`;
+
+  const classnames = {
+    navBox: 'textbook-page__page-nav page-nav',
+    buttonPrev: `${buttonBasisClassname}prev-page`,
+    buttonFirst: `${buttonBasisClassname}first-page`,
+    buttonCurrentPrev: `${buttonBasisClassname}current-prev-page`,
+    buttonCurrent: `${buttonBasisClassname}current-page`,
+    buttonCurrentNext: `${buttonBasisClassname}current-next-page`,
+    buttonLast: `${buttonBasisClassname}last-page`,
+    buttonNext: `${buttonBasisClassname}next-page`,
+  };
 
   if (!wordsData.wordsPage.length) {
     return <p className="no-words-message">Здесь пока нет слов</p>;
@@ -17,15 +30,15 @@ export default function PageControls() {
   }
 
   return (
-    <nav className="textbook-page__page-nav page-nav">
+    <nav className={classnames.navBox}>
       <button
         type="button"
         onClick={setPrevPage}
-        className={`${basisClassname}prev-page`}
+        className={classnames.buttonPrev}
         disabled={wordsData.page === 1}
       />
       {wordsData.page !== 1 ? (
-        <button type="button" onClick={() => setPage(1)} className={`${basisClassname}first-page`}>
+        <button type="button" onClick={() => setPage(1)} className={classnames.buttonFirst}>
           1
         </button>
       ) : (
@@ -35,21 +48,21 @@ export default function PageControls() {
         <button
           type="button"
           onClick={() => setPage(wordsData.page - 1)}
-          className={`${basisClassname}current-prev-page`}
+          className={classnames.buttonCurrentPrev}
         >
           {wordsData.page - 1}
         </button>
       ) : (
         ''
       )}
-      <button type="button" className={`${basisClassname}current-page`}>
+      <button type="button" className={classnames.buttonCurrent}>
         {wordsData.page}
       </button>
       {wordsData.page < MAX_PAGE_NUMBER - 1 ? (
         <button
           type="button"
           onClick={() => setPage(wordsData.page + 1)}
-          className={`${basisClassname}current-next-page`}
+          className={classnames.buttonCurrentNext}
         >
           {wordsData.page + 1}
         </button>
@@ -60,7 +73,7 @@ export default function PageControls() {
         <button
           type="button"
           onClick={() => setPage(MAX_PAGE_NUMBER)}
-          className={`${basisClassname}last-page`}
+          className={classnames.buttonLast}
         >
           {MAX_PAGE_NUMBER}
         </button>
@@ -70,7 +83,7 @@ export default function PageControls() {
       <button
         type="button"
         onClick={setNextPage}
-        className={`${basisClassname}next-page`}
+        className={classnames.buttonNext}
         disabled={wordsData.page === MAX_PAGE_NUMBER}
       />
     </nav>

@@ -54,8 +54,8 @@ export default function WordsProvider({ children }: IChildren) {
   };
 
   const getUserWords = (choosedGroup: number, choosedPage: number) => {
-    const withWeakWords = true;
-    return getAggregatedWordsPage(USER_ID, choosedPage, TOKEN, withWeakWords, choosedGroup)
+    const allDifficultWords = false;
+    return getAggregatedWordsPage(USER_ID, TOKEN, allDifficultWords, choosedPage, choosedGroup)
       .then((userWords) => userWords)
       .catch(() => []);
   };
@@ -85,29 +85,27 @@ export default function WordsProvider({ children }: IChildren) {
     localStorage.setItem('group', String(group));
     localStorage.setItem('page', String(page));
 
-    const withWeakWords = false;
-    getAggregatedWordsPage(USER_ID, page, TOKEN, withWeakWords).then(
-      async (aggregatedWordsPage) => {
-        let wordId: string;
-        let wordStatus: string;
-        let wordsPage: WordsPage;
-        if (aggregatedWordsPage.length) {
-          wordsPage = aggregatedWordsPage.map((word) => {
-            const newWord = word;
-            newWord.id = word._id;
-            delete newWord._id;
-            return newWord as IWord;
-          });
-          wordId = wordsPage[0].id;
-          wordStatus = (await getWordStatus(wordId)) || '';
-        } else {
-          wordsPage = [];
-          wordId = '';
-          wordStatus = '';
-        }
-        setWordsData({ wordsPage, ...{ userWords: [] }, wordId, page, group, wordStatus });
+    const allDifficultWords = true;
+    getAggregatedWordsPage(USER_ID, TOKEN, allDifficultWords).then(async (aggregatedWordsPage) => {
+      let wordId: string;
+      let wordStatus: string;
+      let wordsPage: WordsPage;
+      if (aggregatedWordsPage.length) {
+        wordsPage = aggregatedWordsPage.map((word) => {
+          const newWord = word;
+          newWord.id = word._id;
+          delete newWord._id;
+          return newWord as IWord;
+        });
+        wordId = wordsPage[0].id;
+        wordStatus = (await getWordStatus(wordId)) || '';
+      } else {
+        wordsPage = [];
+        wordId = '';
+        wordStatus = '';
       }
-    );
+      setWordsData({ wordsPage, ...{ userWords: [] }, wordId, page, group, wordStatus });
+    });
   };
 
   const setNextPage = () => {
@@ -169,7 +167,10 @@ export default function WordsProvider({ children }: IChildren) {
     const settableDifficulty = target.dataset.status;
     if (settableDifficulty) {
       let wordStatus: string;
-      if (wordsData.wordStatus) {
+      if (wordsData.wordStatus === DIFFICULT_WORD) {
+        wordStatus = WEAK_WORD;
+        updateUserWordById(USER_ID, wordId, wordStatus, TOKEN);
+      } else if (wordsData.wordStatus === WEAK_WORD) {
         wordStatus = DIFFICULT_WEAK_WORD;
         updateUserWordById(USER_ID, wordId, wordStatus, TOKEN);
       } else {

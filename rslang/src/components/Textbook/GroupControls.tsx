@@ -11,13 +11,20 @@ import { useWordsData } from '../providers/WordsProvider';
 
 export default function GroupControls() {
   const { wordsData, setWordsGroup } = useWordsData() as IWordsProviderValue;
-  const basisButtonClassname = 'button group-nav__button group-nav__button_';
-  const basisBackgroundClassname = 'group-nav__button-background group-nav__button-background_';
   const GROUP_AMOUNT = !USER_ID || !TOKEN ? MAX_GROUP_NUMBER : DIFFICULT_WORD_GROUP_NUMBER;
 
+  const classnames = {
+    navBox: 'textbook__group-nav group-nav',
+    title: 'group-nav__title',
+    button: 'button group-nav__button group-nav__button_',
+    buttonBackground: 'group-nav__button-background group-nav__button-background_',
+    buttonText: 'group-nav__button-text',
+    selected: 'selected',
+  };
+
   return (
-    <nav onClick={setWordsGroup} className="textbook__group-nav group-nav">
-      <h4 className="group-nav__title">Сложность</h4>
+    <nav onClick={setWordsGroup} className={classnames.navBox}>
+      <h4 className={classnames.title}>Сложность</h4>
       {Array(GROUP_AMOUNT)
         .fill('')
         .map((_, index) => {
@@ -26,12 +33,12 @@ export default function GroupControls() {
               type="button"
               key={index}
               data-group={index + 1}
-              className={`${basisButtonClassname}${index + 1} ${
-                index + FIRST_GROUP_NUMBER === wordsData.group ? 'selected' : ''
+              className={`${classnames.button}${index + 1} ${
+                index + FIRST_GROUP_NUMBER === wordsData.group ? classnames.selected : ''
               }`}
             >
-              <span className={`${basisBackgroundClassname}${index + 1}`} />
-              <span className="group-nav__button-text">
+              <span className={`${classnames.buttonBackground}${index + 1}`} />
+              <span className={classnames.buttonText}>
                 {index === MAX_GROUP_NUMBER ? 'Сложные слова' : `${index + 1}`}
               </span>
             </button>

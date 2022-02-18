@@ -11,6 +11,17 @@ export default function Word() {
   sessionStorage.setItem('wordId', wordsData.wordId);
   const [wordCard, setWordCard] = useState<IWord>();
 
+  const classnames = {
+    box: 'textbook__word-box word-box word',
+    image: 'word__image',
+    mainTextBox: 'word__main-text',
+    name: 'word__name',
+    audio: 'word__audio',
+    subTextBox: 'word__sub-text',
+    meainingBox: 'word__meaning-box',
+    exampleBox: 'word__example-box',
+  };
+
   useEffect(() => {
     if (wordsData.wordId) {
       setWordCard(wordsData.wordsPage.find((word) => word.id === wordsData.wordId));
@@ -38,23 +49,23 @@ export default function Word() {
   };
 
   return (
-    <div className="textbook__word-box word-box word">
-      <div className="word__image" style={backgroundImage} />
-      <div className="word__main-text">
-        <p className="word__name">{wordCard.word}</p>
+    <div className={classnames.box}>
+      <div className={classnames.image} style={backgroundImage} />
+      <div className={classnames.mainTextBox}>
+        <p className={classnames.name}>{wordCard.word}</p>
         <p>{wordCard.transcription}</p>
         <p>{wordCard.wordTranslate}</p>
         <span
-          className="word__audio"
+          className={classnames.audio}
           onClick={() => playAudio([wordCard.audio, wordCard.audioMeaning, wordCard.audioExample])}
         />
       </div>
-      <div className="word__sub-text">
-        <div className="word__meaning-box">
+      <div className={classnames.subTextBox}>
+        <div className={classnames.meainingBox}>
           <p dangerouslySetInnerHTML={{ __html: wordCard.textMeaning }} />
           <p>{wordCard.textMeaningTranslate}</p>
         </div>
-        <div className="word__example-box">
+        <div className={classnames.exampleBox}>
           <p dangerouslySetInnerHTML={{ __html: wordCard.textExample }} />
           <p>{wordCard.textExampleTranslate}</p>
         </div>

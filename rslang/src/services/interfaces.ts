@@ -122,11 +122,14 @@ export interface IStatisticsOptional {
 
 export interface IStatisticsTotal {
   newWords: number;
+  learnedWords: number;
   rightAnswersPercent: number;
 }
 
-export interface IStatisticsGame extends IStatisticsTotal {
+export interface IStatisticsGame {
   maxRowRightAnswers: number
+  newWords: number;
+  rightAnswersPercent: number;
 }
 
 export interface IStatisticsPageData {

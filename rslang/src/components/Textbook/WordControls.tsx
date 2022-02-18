@@ -13,6 +13,9 @@ import ButtonUnmark from './ButtonUnmark';
 
 export default function WordControls() {
   const { wordsData } = useWordsData() as IWordsProviderValue;
+  const classnames = {
+    box: 'word__controls',
+  };
 
   if (!USER_ID || !TOKEN) return null;
 
@@ -44,7 +47,7 @@ export default function WordControls() {
       buttonsBox = (
         <>
           <ButtonUnmark requireWordStatus={DIFFICULT_WORD} />
-          <ButtonMark requireWordStatus={WEAK_WORD} />
+          <ButtonUnmark requireWordStatus={WEAK_WORD} />
         </>
       );
       break;
@@ -57,5 +60,5 @@ export default function WordControls() {
       );
   }
 
-  return <div className="word__controls">{buttonsBox}</div>;
+  return <div className={classnames.box}>{buttonsBox}</div>;
 }

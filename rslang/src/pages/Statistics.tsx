@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { IStatisticsPageData } from '../services/interfaces';
-import { getUserStatistics, TOKEN, USER_ID } from '../services/requests';
+import {
+  getAllUserWords,
+  getUserStatistics,
+  TOKEN,
+  USER_ID,
+  WEAK_WORD,
+} from '../services/requests';
 
 export default function Statistics() {
   const [statistics, setStatistics] = useState<IStatisticsPageData>({
@@ -16,6 +22,7 @@ export default function Statistics() {
     },
     total: {
       newWords: 0,
+      learnedWords: 0,
       rightAnswersPercent: 0,
     },
   });
@@ -28,7 +35,7 @@ export default function Statistics() {
   };
 
   const getStatistics = () => {
-    getUserStatistics(USER_ID, TOKEN).then((updatedStat) => {
+    getUserStatistics(USER_ID, TOKEN).then(async (updatedStat) => {
       let { sprintGame, audiocallGame, total } = statistics;
 
       if (updatedStat.optional.sprint) {
@@ -52,6 +59,9 @@ export default function Statistics() {
         rightAnswersPercent:
           (sprintGame.rightAnswersPercent + audiocallGame.rightAnswersPercent) / 2,
         newWords: updatedStat.learnedWords,
+        learnedWords: (await getAllUserWords(USER_ID, TOKEN)).filter(
+          (word) => word.difficulty === WEAK_WORD
+        ).length,
       };
 
       if (!sprintGame.rightAnswersPercent || !audiocallGame.rightAnswersPercent) {
@@ -76,7 +86,7 @@ export default function Statistics() {
             <li>
               <h3>Спринт</h3>
               <ul>
-                <li>{`Изученных слов: ${statistics.sprintGame.newWords}`}</li>
+                <li>{`Новых слов: ${statistics.sprintGame.newWords}`}</li>
                 <li>{`Правильных ответов: ${statistics.sprintGame.rightAnswersPercent}%`}</li>
                 <li>{`Серия правильных ответов: ${statistics.sprintGame.maxRowRightAnswers}`}</li>
               </ul>
@@ -84,7 +94,7 @@ export default function Statistics() {
             <li>
               <h3>Аудиовызов</h3>
               <ul>
-                <li>{`Изученных слов: ${statistics.audiocallGame.newWords}`}</li>
+                <li>{`Новых слов: ${statistics.audiocallGame.newWords}`}</li>
                 <li>{`Правильных ответов: ${statistics.audiocallGame.rightAnswersPercent}%`}</li>
                 <li>{`Серия правильных ответов: ${statistics.audiocallGame.maxRowRightAnswers}`}</li>
               </ul>
@@ -92,7 +102,8 @@ export default function Statistics() {
             <li>
               <h3>Общая статистика</h3>
               <ul>
-                <li>{`Изученных слов: ${statistics.total.newWords}`}</li>
+                <li>{`Новых слов: ${statistics.total.newWords}`}</li>
+                <li>{`Изученных слов: ${statistics.total.learnedWords}`}</li>
                 <li>{`Правильных ответов: ${statistics.total.rightAnswersPercent}%`}</li>
               </ul>
             </li>
