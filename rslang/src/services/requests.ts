@@ -27,7 +27,7 @@ const parsedUserData: [IUserData] = userData ? JSON.parse(userData) : null;
 
 export const TOKEN = parsedUserData
   ? parsedUserData[0].token
-  : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDc3Yzk4NzczZWM1MDAxNmUwYmI3ZSIsImlhdCI6MTY0NTIwNzg3NywiZXhwIjoxNjQ1MjIyMjc3fQ.MVS5qu4c4U4LIGJMXHsASQFI5miC65Q9ii_KlmSOb_g';
+  : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDc3Yzk4NzczZWM1MDAxNmUwYmI3ZSIsImlhdCI6MTY0NTI4MzM0MiwiZXhwIjoxNjQ1Mjk3NzQyfQ.6TepLdM_bLjdfCXeVM8tGmqTM5y3jV2yCYc7icfUIp0';
 export const USER_ID = parsedUserData ? parsedUserData[0].userId : '62077c98773ec50016e0bb7e';
 
 export const getWordsPage = async (group: number, page: number) => {

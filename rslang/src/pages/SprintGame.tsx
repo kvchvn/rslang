@@ -132,9 +132,25 @@ export default function SprintGame() {
     saveRoundAndPlayNext(gameData.step + 1, userAnswer);
   };
 
-  useEffect(() => saveRoundAndPlayNext(), [wordsData]);
+  const resetGame = () => {
+    const isEnded = false;
+    const step = 0;
+    const rowRightAnswers = 0;
+    const maxRow = 0;
+    const totalAnswers: Array<boolean> = [];
+    const score = 0;
+    setGameData((prevData) => ({
+      ...prevData,
+      isEnded,
+      step,
+      rowRightAnswers,
+      maxRow,
+      totalAnswers,
+      score,
+    }));
+  };
 
-  useEffect(() => {
+  const endGame = () => {
     if (gameData.isEnded) {
       getUserStatistics(USER_ID, TOKEN).then(async (statistics: IStatisticsResponse) => {
         const newLearnedWordsCount = statistics.learnedWords + gameData.totalAnswers.length;
@@ -165,7 +181,11 @@ export default function SprintGame() {
         updateUserStatistics(USER_ID, newLearnedWordsCount, TOKEN, optional);
       });
     }
-  }, [gameData.isEnded]);
+  };
+
+  useEffect(() => saveRoundAndPlayNext(), [wordsData]);
+
+  useEffect(() => endGame(), [gameData.isEnded]);
 
   if (location.state === FROM_TEXTBOOK_PAGE || location.state === FROM_MAIN_PAGE) {
     return (
@@ -184,7 +204,11 @@ export default function SprintGame() {
         />
         <GameButtons answer={gameData.answer} getUserAnswer={getUserAnswer} />
         {gameData.isEnded ? (
-          <GameResults totalAnswers={gameData.totalAnswers} score={gameData.score} />
+          <GameResults
+            resetGame={resetGame}
+            totalAnswers={gameData.totalAnswers}
+            score={gameData.score}
+          />
         ) : null}
       </PageTemplate>
     );

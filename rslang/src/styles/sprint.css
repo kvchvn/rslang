@@ -87,7 +87,9 @@
 }
 
 .sprint-page__button_true:hover,
-.sprint-page__button_false:hover {
+.sprint-page__button_false:hover,
+.sprint-page__button_true:active,
+.sprint-page__button_false:active {
   border: 2px solid var(--plum);
   color: var(--plum);
 }
@@ -216,17 +218,32 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  gap: 20px;
-  top: 35%;
+  top: 30%;
   background-color: var(--ocean);
-  width: 70%;
-  height: 30%;
+  width: 90%;
+  height: 40%;
   border-radius: 20px;
   color: var(--gray);
   z-index: 100;
   transition: all 0.5s;
+}
+
+.results-box__text-content {
+  position: absolute;
+  top: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  transition: all 0.5s;
+}
+
+.results-box__text-content > p {
+  font-size: 1.2rem;
+  letter-spacing: 2px;
 }
 
 .results-box__title {
@@ -243,6 +260,52 @@
   background: no-repeat var(--gray) url('../assets/svg/arrow.svg') 50% 50% / contain;
   background-size: 70%;
   border-radius: 50%;
+  transition: all 0.5s;
+}
+
+.results-box__words {
+  border: 1px solid red;
+  transform: translateX(-100vw);
+  transition: all 0.5s;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.results-box__links-box {
+  transform: translateX(-100vw);
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  gap: 20px;
+  transition: all 0.5s;
+}
+
+.results-box__link {
+  padding: 0 10px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 15px;
+  background-color: var(--gray);
+  color: var(--ocean);
+  transition: transform 0.25s;
+}
+
+.results-box__link:hover {
+  transform: scale(0.95);
+}
+
+.results-box__button.show-words-box ~ .results-box__text-content {
+  transform: translateX(-100vw);
+}
+
+.results-box__button.show-words-box ~ .results-box__words,
+.results-box__button.show-words-box ~ .results-box__links-box {
+  transform: translateX(0);
+}
+
+.results-box__button.show-words-box {
+  transform: rotateY(180deg);
 }
 
 .results-box__button:hover {

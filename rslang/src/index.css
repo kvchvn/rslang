@@ -3,6 +3,7 @@
 @import url('styles/navigation.css');
 @import url('styles/textbook.css');
 @import url('styles/sprint.css');
+@import url('styles/statistics.css');
 
 :root {
   --ocean: #223745;

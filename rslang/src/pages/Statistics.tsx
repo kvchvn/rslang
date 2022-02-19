@@ -32,6 +32,12 @@ export default function Statistics() {
     wrapper: 'wrapper statistics-wrapper',
     mainTitle: 'page__title statistics-page__title',
     mainSection: 'page__main-content statistics-page__main-content',
+    statisticsBox: 'statistics-page__statistics-box statistics-box',
+    statisticsSprint: 'statistics-box__sprint-box statistics-box__part statistics_sprint',
+    statisticsAudiocall: 'statistics-box__audiocall-box statistics-box__part statistics_audiocall',
+    statisticsTotal: 'statistics-box__total-box statistics-box__part statistics_total',
+    subtitle: 'statistics-box__subtitle',
+    info: 'statistics-box__info',
   };
 
   const getStatistics = () => {
@@ -80,31 +86,58 @@ export default function Statistics() {
   return (
     <main className={classnames.main}>
       <div className={classnames.wrapper}>
-        <h2 className={classnames.mainTitle}>Спринт</h2>
+        <h2 className={classnames.mainTitle}>Статистика</h2>
         <section className={classnames.mainSection}>
-          <ul>
-            <li>
-              <h3>Спринт</h3>
-              <ul>
-                <li>{`Новых слов: ${statistics.sprintGame.newWords}`}</li>
-                <li>{`Правильных ответов: ${statistics.sprintGame.rightAnswersPercent}%`}</li>
-                <li>{`Серия правильных ответов: ${statistics.sprintGame.maxRowRightAnswers}`}</li>
+          <ul className={classnames.statisticsBox}>
+            <li className={classnames.statisticsSprint}>
+              <h3 className={classnames.subtitle}>Спринт</h3>
+              <ul className={classnames.info}>
+                <li>
+                  Новых слов:
+                  <span>{statistics.sprintGame.newWords}</span>
+                </li>
+                <li>
+                  Правильных ответов:
+                  <span>{statistics.sprintGame.rightAnswersPercent}%</span>
+                </li>
+                <li>
+                  Макс. серия правильных ответов:
+                  <span>{statistics.sprintGame.maxRowRightAnswers}</span>
+                </li>
               </ul>
             </li>
-            <li>
-              <h3>Аудиовызов</h3>
-              <ul>
-                <li>{`Новых слов: ${statistics.audiocallGame.newWords}`}</li>
-                <li>{`Правильных ответов: ${statistics.audiocallGame.rightAnswersPercent}%`}</li>
-                <li>{`Серия правильных ответов: ${statistics.audiocallGame.maxRowRightAnswers}`}</li>
+            <li className={classnames.statisticsAudiocall}>
+              <h3 className={classnames.subtitle}>Аудиовызов</h3>
+              <ul className={classnames.info}>
+                <li>
+                  Новых слов:
+                  <span>{statistics.audiocallGame.newWords}</span>
+                </li>
+                <li>
+                  Правильных ответов:
+                  <span>{statistics.audiocallGame.rightAnswersPercent}%</span>
+                </li>
+                <li>
+                  Макс. серия правильных ответов:
+                  <span>{statistics.audiocallGame.maxRowRightAnswers}</span>
+                </li>
               </ul>
             </li>
-            <li>
-              <h3>Общая статистика</h3>
-              <ul>
-                <li>{`Новых слов: ${statistics.total.newWords}`}</li>
-                <li>{`Изученных слов: ${statistics.total.learnedWords}`}</li>
-                <li>{`Правильных ответов: ${statistics.total.rightAnswersPercent}%`}</li>
+            <li className={classnames.statisticsTotal}>
+              <h3 className={classnames.subtitle}>Общая статистика</h3>
+              <ul className={classnames.info}>
+                <li>
+                  Новых слов:
+                  <span>{statistics.total.newWords}</span>
+                </li>
+                <li>
+                  Изученных слов:
+                  <span>{statistics.total.learnedWords}</span>
+                </li>
+                <li>
+                  Правильных ответов:
+                  <span>{statistics.total.rightAnswersPercent}%</span>
+                </li>
               </ul>
             </li>
           </ul>
