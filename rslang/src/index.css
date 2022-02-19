@@ -34,3 +34,24 @@ a {
   letter-spacing: 1px;
   font-size: 1.1rem;
 }
+
+.form-block {
+  margin: 100px 0;
+}
+.form-block__item {
+  width: 300px;
+  border: 2px solid rgb(36, 34, 34);
+  border-radius: 20px;
+  text-align: center;
+  margin: 0 auto;
+}
+.formregistr {
+  width: 190px;
+  margin: 0  auto 15px auto;
+}
+
+.formsigin,
+.logoff {
+  width: 80px;
+  margin: 0  auto 15px auto;
+}
