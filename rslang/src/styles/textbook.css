@@ -1,0 +1,445 @@
+.textbook-page {
+  padding-top: 20px;
+  background-color: rgba(255, 230, 185, 0.2);
+}
+
+.textbook-page__title {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  color: rgb(0, 0, 58);
+}
+
+.textbook-page__main-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.textbook__group-nav {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 25%;
+  max-width: 200px;
+  background-color: rgba(255, 216, 165, 0.5);
+  border-radius: 20px;
+}
+
+.group-nav__title {
+  margin: 0 auto;
+  font-size: 1.2rem;
+  color: rgb(0, 0, 58);
+}
+
+.group-nav__button {
+  position: relative;
+  min-height: 50px;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.group-nav__button:hover > .group-nav__button-background {
+  transform: scale(10);
+}
+
+.group-nav__button.selected > .group-nav__button-background {
+  transform: scale(10);
+}
+
+.group-nav__button.selected > .group-nav__button-text {
+  color: white;
+}
+
+.group-nav__button-background {
+  position: absolute;
+  top: 0;
+  left: -20%;
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  transition: transform 0.75s;
+}
+
+.group-nav__button-background_1 {
+  background-color: rgba(0, 128, 0, 0.6);
+}
+
+.group-nav__button-background_2 {
+  background-color: rgba(0, 128, 0);
+}
+
+.group-nav__button-background_3 {
+  background-color: rgba(255, 217, 0);
+}
+
+.group-nav__button-background_4 {
+  background-color: orange;
+}
+
+.group-nav__button-background_5 {
+  background-color: tomato;
+}
+
+.group-nav__button-background_6 {
+  background-color: orangered;
+}
+
+.group-nav__button-background_7 {
+  background-color: rgba(0, 0, 139, 0.8);
+}
+
+.group-nav__button-text {
+  position: relative;
+  z-index: 100;
+  transition: color 0.5s;
+  font-size: 1.1rem;
+}
+
+.group-nav__button:hover > .group-nav__button-text {
+  color: white;
+}
+
+.textbook__word-box {
+  position: relative;
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 40%;
+  max-width: 350px;
+  background-color: rgba(116, 140, 155, 0.15);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.word__image {
+  position: relative;
+  top: -5px;
+  left: -5px;
+  width: 60%;
+  min-height: 170px;
+  height: 30%;
+  border-bottom-right-radius: 50%;
+}
+
+.word__main-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 40%;
+  height: 170px;
+}
+
+.word__name {
+  font-family: 'Gilroy Bold', sans-serif;
+  font-size: 1.1rem;
+}
+
+.word__audio {
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: no-repeat rgb(0, 0, 90) url('../assets/svg/audio.svg') 50% 50% / contain;
+  background-size: 70%;
+  cursor: pointer;
+}
+
+.word__audio:hover {
+  animation-name: pulse;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.word__sub-text {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: justify;
+}
+
+.word__meaning-box,
+.word__example-box {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: rgba(95, 139, 160, 0.15);
+  border-radius: 10px;
+}
+
+.word__controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.button_mark,
+.button_unmark {
+  position: relative;
+  width: 40%;
+  min-width: 100px;
+  height: 50px;
+  font-size: 1rem;
+  border-radius: 30px;
+  color: white;
+  transition: all 0.5s;
+  opacity: 0.6;
+  overflow: hidden;
+}
+
+.button_mark_difficult {
+  background-color: rgba(255, 68, 0, 0.6);
+}
+
+.button_mark_weak {
+  background-color: rgba(0, 128, 0, 0.6);
+}
+
+.button_unmark {
+  transform: scale(0.9);
+  opacity: 1;
+}
+
+.button_mark:hover {
+  opacity: 1;
+}
+
+.button_unmark_text,
+.button_unmark_hover-text {
+  padding-top: 15px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+}
+
+.button_unmark_difficult > .button_unmark_text {
+  background-color: rgba(255, 68, 0);
+}
+
+.button_unmark_weak > .button_unmark_text {
+  background-color: rgba(0, 128, 0);
+}
+
+.button_unmark_hover-text {
+  padding-top: 5px;
+  display: none;
+  background-color: rgba(128, 128, 128, 0.6);
+  color: black;
+}
+
+.button_unmark:hover > .button_unmark_hover-text {
+  display: block;
+}
+
+.button_unmark:hover > .button_unmark_text {
+  display: none;
+}
+
+.textbook__words-page {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 35%;
+  background-color: rgba(255, 216, 165, 0.5);
+  border-radius: 20px;
+}
+
+.words-page__words {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 10px;
+}
+
+.words-page__word {
+  position: relative;
+  width: 45%;
+  min-height: 35px;
+  line-height: 35px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.25s;
+  border-radius: 10px;
+}
+
+.words-page__word:hover,
+.words-page__word.selected {
+  background-color: rgba(100, 111, 138, 0.4);
+  color: white;
+}
+
+.words-page__word-mark {
+  position: absolute;
+  display: block;
+  top: -5px;
+  right: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.word-mark_difficult,
+.word-mark_both {
+  background: no-repeat url('../assets/svg/star.svg') 50% 50% / contain;
+}
+
+.word-mark_weak {
+  background: no-repeat url('../assets/svg/hat.svg') 50% 50% / contain;
+}
+
+.textbook-page__page-nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.page-nav__button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgb(248, 212, 144);
+  transition: all 0.25s;
+}
+
+.page-nav__button:disabled {
+  filter: grayscale(0.7);
+  transform: scale(0.9);
+  cursor: default;
+}
+
+.page-nav__button:disabled:hover {
+  background-color: rgb(248, 212, 144);
+}
+
+.page-nav__button:hover {
+  background-color: rgba(100, 111, 138, 0.4);
+}
+
+.page-nav__button_prev-page {
+  background: no-repeat rgb(248, 212, 144) url('../assets/svg/arrow.svg') 50% 50% / contain;
+  background-size: 60%;
+  transform: rotateY(180deg);
+}
+
+.page-nav__button_prev-page:disabled {
+  transform: rotateY(180deg) scale(0.9);
+}
+
+.page-nav__button_next-page {
+  background: no-repeat rgb(248, 212, 144) url('../assets/svg/arrow.svg') 50% 50% / contain;
+  background-size: 60%;
+}
+
+.page-nav__button_current-page,
+.page-nav__button_current-page:hover {
+  background-color: tomato;
+  font-size: 1.1rem;
+  font-family: 'Gilroy Bold';
+}
+
+.textbook__links {
+  margin-top: 30px;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.textbook__link {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  height: 100px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.textbook__link_sprint {
+  background-color: wheat;
+}
+
+.textbook__link_sprint:hover {
+  background-color: rgba(247, 190, 84, 0.5);
+}
+
+.textbook__link:hover > .textbook__link_picture {
+  transform: scale(1.4) translateX(-20px) rotateZ(-10deg);
+}
+
+.textbook__link > .textbook__link_text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+  margin-left: 10px;
+}
+
+.textbook__link_title {
+  font-family: 'Caveat';
+  font-size: 2rem;
+  letter-spacing: 2px;
+  transition: all 0.5s;
+  transform: translateY(25px);
+}
+
+.textbook__link:hover .textbook__link_title {
+  transform: translateY(0);
+}
+
+.textbook__link:hover .textbook__link_description {
+  opacity: 1;
+}
+
+.textbook__link_description {
+  font-size: 0.8rem;
+  text-align: center;
+  opacity: 0;
+  transition: all 0.5s;
+}
+
+.textbook__link_sprint > .textbook__link_picture {
+  display: block;
+  width: 50%;
+  height: 100%;
+  background: no-repeat url('../assets/svg/sprint-logo.svg') 50% 50% / contain;
+  transition: all 0.5s;
+}
+
+.textbook__link_audiocall {
+  background-color: rgb(167, 212, 255);
+}
+
+.textbook__link_audiocall > .textbook__link_text {
+  margin-left: 20px;
+}
+
+.textbook__link_audiocall .textbook__link_title {
+  transform: translateY(15px);
+}
+
+.textbook__link_audiocall > .textbook__link_picture {
+  display: block;
+  width: 50%;
+  height: 100%;
+  background: no-repeat url('../assets/svg/audiocall-logo.svg') 50% 50% / contain;
+  transition: all 0.5s;
+}
