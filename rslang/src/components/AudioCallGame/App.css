@@ -1,0 +1,106 @@
+html {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  
+  /* font-family: 'Inter', sans-serif;
+  font-family: 'Spartan', sans-serif;
+  font-family: 'Playfair Display SC', serif;
+  font-family: 'Montserrat', sans-serif;
+   */
+  
+  *,
+  *::after,
+  *::before {
+    -webkit-box-sizing: inherit;
+    box-sizing: inherit;
+  }
+  
+  ul[class],
+  ol[class] {
+    padding: 0;
+  }
+  
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  ul,
+  ol,
+  li,
+  figure,
+  figcaption,
+  blockquote,
+  dl,
+  dd,
+  input,
+  label,
+  video,
+  button {
+    padding: 0;
+    margin: 0;
+    font-size: inherit;
+  }
+  
+  body {
+    font-family: 'Spartan', sans-serif;
+    color: #121212;
+  }
+  
+  ul[class] {
+    list-style: none;
+  }
+  
+  img {
+    max-width: 100%;
+    display: block;
+  }
+  
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
+  
+  a,
+  a:focus,
+  a:active,
+  button,
+  button:active,
+  button:focus {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    outline: none;
+    border: 0;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+
+
+
+.buttons-block {
+    text-align: center;
+}
+.btn-category {
+    display: flex;
+    justify-content: center;
+}
+
+
+
+.btn-category button {
+    margin: 0 10px;
+    width: 100px;
+    height: 50px;
+}
+
+.buttons-title {
+    font-size: 44px;
+    margin-bottom: 40px;
+}

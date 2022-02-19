@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
+import AppAudioCallGame from '../components/AudioCallGame/App';
 
 export default function AudioCallGame() {
-  return <h1>AudioCallGame Page</h1>;
+  return <AppAudioCallGame/>;
 }

@@ -8,13 +8,8 @@ export default function SprintGame() {
   const location = useLocation();
   // const { wordsData } = useWordsData();
 
-
   if (location.state === FROM_TEXTBOOK_PAGE) {
-    return (
-      <main className="page sprints-page textbook">
-
-      </main>
-    );
+    return <main className="page sprints-page textbook" />;
   }
   return <p>from main menu</p>;
 }

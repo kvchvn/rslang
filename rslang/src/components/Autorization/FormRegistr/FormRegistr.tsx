@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import "./FormRegistr.css";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
+import React, { useState } from 'react';
+import './FormRegistr.css';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import {
   Dialog,
   DialogTitle,
@@ -9,45 +9,45 @@ import {
   DialogContentText,
   DialogActions,
   TextField,
-} from "@mui/material";
-import { changerRegistr } from "../../utils/api";
+} from '@mui/material';
+import { changerRegistr } from '../../utils/api';
 
 const FormRegistr: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [localRegistr, setLocalRegistr] = useState([]);
-  const [name, setName] = useState("");
-  const [password, setPass] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState('');
+  const [password, setPass] = useState('');
+  const [email, setEmail] = useState('');
   const handleClose = () => {
     setOpen(false);
   };
   const handleClickOpen = () => {
     setOpen(true);
   };
-  const handleChangePass: React.ChangeEventHandler<
-    HTMLTextAreaElement | HTMLInputElement
-  > = (event) => {
+  const handleChangePass: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> = (
+    event
+  ) => {
     setPass(event.target.value);
   };
-  const handleChangeEmail: React.ChangeEventHandler<
-    HTMLTextAreaElement | HTMLInputElement
-  > = (event) => {
+  const handleChangeEmail: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> = (
+    event
+  ) => {
     setEmail(event.target.value);
   };
-  const handleChangeName: React.ChangeEventHandler<
-    HTMLTextAreaElement | HTMLInputElement
-  > = (event) => {
+  const handleChangeName: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> = (
+    event
+  ) => {
     setName(event.target.value);
   };
 
   const handleRegistr = async () => {
     setOpen(false);
     const content = await changerRegistr(name, password, email);
-    let newArr: object[] = [...localRegistr, content];
-    localStorage.setItem("registr", JSON.stringify(newArr));
-    setPass("");
-    setEmail("");
-    setName("");
+    const newArr: object[] = [...localRegistr, content];
+    localStorage.setItem('registr', JSON.stringify(newArr));
+    setPass('');
+    setEmail('');
+    setName('');
   };
 
   return (
@@ -61,8 +61,8 @@ const FormRegistr: React.FC = () => {
         <DialogTitle>Регистрация</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Для регистрации введите имя, Ваш email и придумайте пароль (пароль
-            не менее восьми символов)
+            Для регистрации введите имя, Ваш email и придумайте пароль (пароль не менее восьми
+            символов)
           </DialogContentText>
           <TextField
             autoFocus
