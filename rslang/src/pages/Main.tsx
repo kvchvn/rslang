@@ -1,6 +1,32 @@
 import React from 'react';
 import Footer from '../components/Footer';
 import '../styles/mainPage.css';
+import teamCard from '../components/teamCard';
+
+const users = [
+  {
+    name: 'Антон',
+    location: 'Front-end Developer Островец, Беларусь',
+    contribution: 'Мини-игра "Спринт", словарь, страница статистики',
+    gitHubLink: 'https://github.com/urozhai',
+    avatarClassName: 'team__card__main_avatar_1',
+    style: "backgroundSize: 'cover'",
+  },
+  {
+    name: 'Дмитрий',
+    location: 'Front-end Developer Минск, Беларусь',
+    contribution: 'Мини-игра "Аудиовызов", авторизация',
+    gitHubLink: 'https://github.com/Dmitrii23748',
+    avatarClassName: 'team__card__main_avatar_2',
+  },
+  {
+    name: 'Вячеслав',
+    location: 'Front-end Developer Минск, Беларусь',
+    contribution: 'Главная страница',
+    gitHubLink: 'https://github.com/ExxZzyy',
+    avatarClassName: 'team__card__main_avatar_3',
+  },
+];
 
 export default function Main() {
   return (
@@ -37,68 +63,7 @@ export default function Main() {
       </div>
       <div className="team__wrapper">
         <div className="team__title">Команда разработчиков:</div>
-        <div className="team__cards">
-          <div className="team__card">
-            <div className="team__card__main">
-              Антон
-              <div className="team__card__main__info">Front-end Developer Минск, Беларусь</div>
-              <div className="team__card__main__avatar">
-                <div
-                  className="team__card__main_avatar_1 avatar__frame"
-                  style={{ backgroundSize: 'cover' }}
-                />
-              </div>
-            </div>
-            <div className="team__card__info">
-              <div className="team__card__info_contribution">
-                Вклад в разработку: Мини-игра &quot;Спринт&quot;
-              </div>
-              <div className="team__card__info__contacts">
-                <a href="https://github.com/urozhai">
-                  <div className="git__icon" />
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="team__card">
-            <div className="team__card__main">
-              Дмитрий
-              <div className="team__card__main__info">Front-end Developer Минск, Беларусь</div>
-              <div className="team__card__main__avatar">
-                <div className="team__card__main_avatar_2 avatar__frame" />
-              </div>
-            </div>
-            <div className="team__card__info">
-              <div className="team__card__info_contribution">
-                Вклад в разработку: Мини-игра &quot;Аудиовызов&quot;
-              </div>
-              <div className="team__card__info__contacts">
-                <a href="https://github.com/Dmitrii23748">
-                  <div className="git__icon" />
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="team__card">
-            <div className="team__card__main">
-              Вячеслав
-              <div className="team__card__main__info">Front-end Developer Минск, Беларусь</div>
-              <div className="team__card__main__avatar">
-                <div className="team__card__main_avatar_3 avatar__frame" />
-              </div>
-            </div>
-            <div className="team__card__info">
-              <div className="team__card__info_contribution">
-                Вклад в разработку: Главная страница
-              </div>
-              <div className="team__card__info__contacts">
-                <a href="https://github.com/ExxZzyy">
-                  <div className="git__icon" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div className="team__cards">{users.map((user) => teamCard(user))}</div>
       </div>
       <Footer />
     </div>
