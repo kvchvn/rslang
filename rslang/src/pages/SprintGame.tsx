@@ -47,7 +47,10 @@ export default function SprintGame() {
   const MAX_WORDS_COUNT = wordsData.wordsPage.length;
   const classnames = {
     gameInfo: 'sprint-page__game-info',
-    buttonGroup: 'button group-nav__button sprint-game__group-button',
+    title: 'sprint-page__list-title',
+    listButtons: 'sprint-page__list-buttons',
+    buttonGroup: 'button group-nav__button sprint-game__group-button sprint-game__group-button_',
+    link: 'link sprint-page__link-game',
   };
 
   const getRandomNumber = (min: number, max: number) =>
@@ -189,7 +192,8 @@ export default function SprintGame() {
 
   return (
     <PageTemplate>
-      <ul>
+      <h3 className={classnames.title}>Выберите уровень сложности</h3>
+      <ul className={classnames.listButtons}>
         {Array(GROUP_AMOUNT)
           .fill('')
           .map((_, index) => {
@@ -198,7 +202,9 @@ export default function SprintGame() {
                 type="button"
                 key={index}
                 data-group={index + 1}
-                className={`${classnames.buttonGroup}`}
+                className={`${classnames.buttonGroup}${index + 1} ${
+                  wordsData.group === index + 1 ? 'selected' : ''
+                }`}
                 onClick={(e) => setWordsGroup(e, true)}
               >
                 {index === MAX_GROUP_NUMBER ? 'Сложные слова' : `${index + 1}`}
@@ -206,7 +212,7 @@ export default function SprintGame() {
             );
           })}
       </ul>
-      <Link to="/sprint" state="main">
+      <Link to="/sprint" state="main" className={classnames.link}>
         Играть
       </Link>
     </PageTemplate>

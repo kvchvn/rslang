@@ -38,3 +38,9 @@
   src: local('Caveat-Bold'), local('Caveat Bold'), url('../assets/fonts/Caveat-Bold.eot'),
     url('../assets/fonts/Caveat-Bold.woff2');
 }
+
+@font-face {
+  font-family: 'TitanOne';
+  src: local('Titan-One'), local('TitanOne'), url('../assets/fonts/TitanOne.eot'),
+    url('../assets/fonts/TitanOne.woff2');
+}

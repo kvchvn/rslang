@@ -1,6 +1,6 @@
 .sprint {
   height: 70vh;
-  border: 1px solid green;
+  background-color: var(--gray);
 }
 
 .sprint-wrapper {
@@ -11,13 +11,15 @@
 }
 
 .sprint-page__main-content {
-  border: 1px solid red;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 40px;
   width: 100%;
   height: 100%;
+  background-color: var(--sand);
+  border-radius: 20px;
 }
 
 .sprint-page__game-info {
@@ -26,53 +28,236 @@
   width: 100%;
 }
 
-.sprint-page__progress-box {
-  display: flex;
-  justify-content: space-between;
-  width: 60%;
-}
-
 .words-comparing {
   padding: 10px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   width: 80%;
   height: 40%;
-  border: 1px solid blue;
 }
 
 .words-comparing__word {
-  width: 50%;
-  font-size: 1.4rem;
-  border: 1px solid blue;
+  width: 100%;
+  font-size: 2rem;
+  text-align: center;
+  letter-spacing: 2px;
+  color: black;
 }
 
-.words-comparing__translated-word {
-  bottom: 0;
-  right: 0;
-  align-self: flex-end;
-  text-align: right;
+.words-comparing__original-word {
+  font-weight: bold;
 }
 
 .words-comparing__center-line {
   display: block;
-  background-color: coral;
-  width: 5px;
-  height: 100%;
+  background-color: var(--hacki);
+  width: 20%;
+  height: 5px;
 }
 
 .sprint-page__buttons-box {
   display: flex;
   width: 50%;
   height: 50px;
-  border: 1px solid red;
+  border-radius: 20px;
 }
 
 .sprint-page__button {
   width: 50%;
+  font-size: 1.1rem;
+  transition: all 0.25s;
 }
 
-.sprint-page__button_true {
-  background-color: rgba(128, 128, 128, 0.6);
+.button.sprint-page__button_true {
+  background-color: var(--gray);
+  color: var(--sky);
+  border: 2px solid var(--gray);
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.button.sprint-page__button_false {
+  background-color: var(--sky);
+  color: var(--gray);
+  border: 2px solid var(--sky);
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.sprint-page__button_true:hover,
+.sprint-page__button_false:hover {
+  border: 2px solid var(--plum);
+  color: var(--plum);
+}
+
+/* CHOOSING A LEVEL OF DIFFICULTY */
+
+.sprint-page__list-buttons {
+  margin-top: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  height: 30%;
+  width: 70%;
+}
+
+.sprint-page__list-title {
+  letter-spacing: 2px;
+}
+
+.button.sprint-game__group-button {
+  width: 22%;
+  border: 4px solid #c8c8a9;
+  font-size: 1rem;
+  transition: all 0.5s;
+}
+
+.button.sprint-game__group-button_7 {
+  font-size: 0.7rem;
+}
+
+.sprint-game__group-button:hover {
+  background-color: var(--gray);
+}
+
+.sprint-game__group-button.selected {
+  background-color: var(--gray);
+  transform: scale(0.9);
+}
+
+.button.sprint-game__group-button_2 {
+  border: 4px solid #83ae9b;
+}
+
+.button.sprint-game__group-button_3 {
+  border: 4px solid #c06c84;
+}
+
+.button.sprint-game__group-button_4 {
+  border: 4px solid #6c5b7b;
+}
+
+.button.sprint-game__group-button_5 {
+  border: 4px solid #f8b195;
+}
+
+.button.sprint-game__group-button_6 {
+  border: 4px solid #f67280;
+}
+
+.button.sprint-game__group-button_7 {
+  border: 4px solid #355c7d;
+}
+
+.sprint-page__link-game {
+  width: 200px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  font-size: 1.5rem;
+  background-color: var(--ocean);
+  color: var(--gray);
+  border-radius: 10px;
+  opacity: 0.8;
+  transition: opacity 0.5s;
+}
+
+.sprint-page__link-game:hover {
+  opacity: 1;
+}
+
+/* GAME PROGRESS */
+
+.sprint-page__progress-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  height: 40px;
+  font-size: 1.1rem;
+}
+
+.progress-box__row-progress {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: var(--sky);
+  color: var(--ocean);
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.progress-box__score,
+.progress-box__right-answers {
+  font-family: 'Caveat';
+  font-size: 1.3rem;
+  color: var(--ocean);
+  letter-spacing: 1px;
+}
+
+.sprint-page__timer-box {
+  width: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: var(--ocean);
+  color: var(--sky);
+  font-size: 1.3rem;
+}
+
+/* GAME RRESULTS */
+
+.sprint-page__results-box {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  top: 35%;
+  background-color: var(--ocean);
+  width: 70%;
+  height: 30%;
+  border-radius: 20px;
+  color: var(--gray);
+  z-index: 100;
+  transition: all 0.5s;
+}
+
+.results-box__title {
+  font-size: 2rem;
+  letter-spacing: 1px;
+}
+
+.results-box__button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  background: no-repeat var(--gray) url('../assets/svg/arrow.svg') 50% 50% / contain;
+  background-size: 70%;
+  border-radius: 50%;
+}
+
+.results-box__button:hover {
+  animation-name: button;
+  animation-duration: 0.3s;
+  animation-iteration-count: 6;
+  animation-direction: alternate-reverse;
+  animation-timing-function: ease;
+}
+
+@keyframes button {
+  from {
+    background-position-x: 100%;
+  }
+  to {
+    background-position-x: 50%;
+  }
 }

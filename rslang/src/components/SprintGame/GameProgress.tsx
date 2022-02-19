@@ -22,9 +22,9 @@ export default function GameProgress({
 
   return (
     <div className={classnames.box}>
-      <p className={classnames.combos}>{`Комбо: ${combos}`}</p>
-      <p className={classnames.score}>{`Счет: ${score}`}</p>
+      <p className={classnames.combos}>{`х${combos}`}</p>
       <p className={classnames.rightAnswers}>{`Правильных ответов: ${rightAnswers}`}</p>
+      <p className={classnames.score}>{`Счет: ${score}`}</p>
     </div>
   );
 }

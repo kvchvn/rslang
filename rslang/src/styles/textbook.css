@@ -4,38 +4,38 @@
 }
 
 .textbook-page.textbook_1 {
-  background-color: rgba(0, 128, 0, 0.1);
+  background-color: rgba(200, 200, 169, 0.6);
 }
 
 .textbook-page.textbook_2 {
-  background-color: rgba(0, 128, 0, 0.1);
+  background-color: rgba(131, 174, 155, 0.6);
 }
 
 .textbook-page.textbook_3 {
-  background-color: rgba(255, 217, 0, 0.1);
+  background-color: rgba(85, 37, 51, 0.2);
 }
 
 .textbook-page.textbook_4 {
-  background-color: rgba(255, 165, 0, 0.1);
+  background-color: rgba(108, 91, 123, 0.4);
 }
 
 .textbook-page.textbook_5 {
-  background-color: rgba(255, 99, 71, 0.1);
+  background-color: rgba(248, 177, 149, 0.4);
 }
 
 .textbook-page.textbook_6 {
-  background-color: rgba(255, 217, 0, 0.1);
+  background-color: rgba(112, 45, 52, 0.3);
 }
 
 .textbook-page.textbook_7 {
-  background-color: rgba(0, 0, 139, 0.1);
+  background-color: rgba(53, 92, 125, 0.3);
 }
 
 .page__title {
   margin-bottom: 20px;
   font-size: 2rem;
   letter-spacing: 2px;
-  color: rgb(0, 0, 58);
+  color: var(--ocean);
 }
 
 .textbook-page__main-content {
@@ -44,6 +44,8 @@
   gap: 10px;
 }
 
+/* GROUP BUTTONS */
+
 .textbook__group-nav {
   padding: 10px;
   display: flex;
@@ -51,14 +53,14 @@
   gap: 10px;
   width: 25%;
   max-width: 200px;
-  background-color: rgba(255, 216, 165, 0.5);
+  background-color: var(--sand);
   border-radius: 20px;
 }
 
 .group-nav__title {
   margin: 0 auto;
   font-size: 1.2rem;
-  color: rgb(0, 0, 58);
+  color: var(--ocean);
 }
 
 .group-nav__button {
@@ -83,8 +85,8 @@
 
 .group-nav__button-background {
   position: absolute;
-  top: 0;
-  left: -20%;
+  top: 50%;
+  left: -25%;
   display: block;
   width: 50px;
   height: 50px;
@@ -93,31 +95,31 @@
 }
 
 .group-nav__button-background_1 {
-  background-color: rgba(0, 128, 0, 0.6);
+  background-color: #c8c8a9;
 }
 
 .group-nav__button-background_2 {
-  background-color: rgba(0, 128, 0);
+  background-color: #83ae9b;
 }
 
 .group-nav__button-background_3 {
-  background-color: rgba(255, 217, 0);
+  background-color: #c06c84;
 }
 
 .group-nav__button-background_4 {
-  background-color: orange;
+  background-color: #6c5b7b;
 }
 
 .group-nav__button-background_5 {
-  background-color: tomato;
+  background-color: #f8b195;
 }
 
 .group-nav__button-background_6 {
-  background-color: orangered;
+  background-color: #f67280;
 }
 
 .group-nav__button-background_7 {
-  background-color: rgba(0, 0, 139, 0.8);
+  background-color: #355c7d;
 }
 
 .group-nav__button-text {
@@ -131,23 +133,71 @@
   color: white;
 }
 
+@media screen and (max-width: 800px) {
+  .textbook-page__main-content {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px;
+  }
+  .textbook__group-nav {
+    width: 100%;
+    max-width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .group-nav__title {
+    display: none;
+  }
+  .group-nav__button {
+    width: 15%;
+  }
+  .group-nav__button-background {
+    left: -50%;
+  }
+  .group-nav__button-text {
+    font-size: 1rem;
+  }
+  .group-nav__button:last-child > .group-nav__button-text {
+    font-size: 0.7rem;
+  }
+}
+
+/* WORD CARD */
+
 .textbook__word-box {
   position: relative;
   padding: 5px;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 15px;
   width: 40%;
   max-width: 350px;
-  background-color: rgba(116, 140, 155, 0.15);
+  color: var(--ocean);
+  background-color: var(--gray);
+  border: 4px solid var(--plum);
   border-radius: 20px;
   overflow: hidden;
+}
+
+@media screen and (max-width: 800px) {
+  .textbook__word-box {
+    width: 59%;
+    height: 570px;
+  }
+}
+
+.word__main-content {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .word__image {
   position: relative;
   top: -5px;
   left: -5px;
-  width: 60%;
+  width: 50%;
   min-height: 170px;
   height: 30%;
   border-bottom-right-radius: 50%;
@@ -159,8 +209,9 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  width: 40%;
+  width: 50%;
   height: 170px;
+  font-size: 0.8rem;
 }
 
 .word__name {
@@ -173,8 +224,8 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: no-repeat rgb(0, 0, 90) url('../assets/svg/audio.svg') 50% 50% / contain;
-  background-size: 70%;
+  background: no-repeat var(--ocean) url('../assets/svg/audio.svg') 50% 50% / contain;
+  background-size: 60%;
   cursor: pointer;
 }
 
@@ -195,7 +246,6 @@
 }
 
 .word__sub-text {
-  margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -213,10 +263,14 @@
 }
 
 .word__controls {
+  position: absolute;
   display: flex;
+  bottom: 10px;
+  left: 0;
   justify-content: center;
   gap: 10px;
   width: 100%;
+  height: 50px;
 }
 
 .button_mark,
@@ -225,28 +279,30 @@
   width: 40%;
   min-width: 100px;
   height: 50px;
-  font-size: 1rem;
+  font-size: 0.8rem;
   border-radius: 30px;
-  color: white;
+  color: var(--gray);
   transition: all 0.5s;
   opacity: 0.6;
   overflow: hidden;
 }
 
-.button_mark_difficult {
-  background-color: rgba(255, 68, 0, 0.6);
+.button_mark:hover {
+  opacity: 1;
 }
 
-.button_mark_weak {
-  background-color: rgba(0, 128, 0, 0.6);
+.button_mark_difficult {
+  background-color: var(--plum);
+}
+
+.button_mark.button_mark_weak {
+  background-color: inherit;
+  color: var(--ocean);
+  border: 3px solid var(--ocean);
 }
 
 .button_unmark {
   transform: scale(0.9);
-  opacity: 1;
-}
-
-.button_mark:hover {
   opacity: 1;
 }
 
@@ -260,18 +316,24 @@
 }
 
 .button_unmark_difficult > .button_unmark_text {
-  background-color: rgba(255, 68, 0);
+  background-color: var(--plum);
 }
 
 .button_unmark_weak > .button_unmark_text {
-  background-color: rgba(0, 128, 0);
+  background-color: var(--ocean);
 }
 
-.button_unmark_hover-text {
+.button_unmark > .button_unmark_hover-text {
   padding-top: 5px;
   display: none;
-  background-color: rgba(128, 128, 128, 0.6);
-  color: black;
+  background-color: var(--gray);
+  color: var(--ocean);
+  border: 3px solid var(--ocean);
+}
+
+.button_unmark_difficult > .button_unmark_hover-text {
+  border: 3px solid var(--plum);
+  color: var(--plum);
 }
 
 .button_unmark:hover > .button_unmark_hover-text {
@@ -282,13 +344,15 @@
   display: none;
 }
 
+/* WORDS LIST */
+
 .textbook__words-page {
   padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 30px;
   width: 35%;
-  background-color: rgba(255, 216, 165, 0.5);
+  background-color: var(--sand);
   border-radius: 20px;
 }
 
@@ -297,6 +361,16 @@
   flex-wrap: wrap;
   justify-content: space-between;
   row-gap: 10px;
+}
+
+@media screen and (max-width: 800px) {
+  .textbook__words-page {
+    padding: 5px;
+  }
+  .words-page__words {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
 }
 
 .words-page__word {
@@ -310,19 +384,26 @@
   border-radius: 10px;
 }
 
+@media screen and (max-width: 800px) {
+  .words-page__word {
+    width: 100%;
+    font-size: 1.1rem;
+  }
+}
+
 .words-page__word:hover,
 .words-page__word.selected {
-  background-color: rgba(100, 111, 138, 0.4);
-  color: white;
+  background-color: var(--hacki);
+  color: var(--gray);
 }
 
 .words-page__word-mark {
   position: absolute;
   display: block;
-  top: -5px;
+  top: -15px;
   right: 0;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
 }
 
 .word-mark_difficult,
@@ -340,29 +421,29 @@
 }
 
 .page-nav__button {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
-  background-color: rgb(248, 212, 144);
+  background-color: var(--hacki);
   transition: all 0.25s;
 }
 
 .page-nav__button:disabled {
-  filter: grayscale(0.7);
-  transform: scale(0.9);
+  transform: scale(0.6);
   cursor: default;
 }
 
 .page-nav__button:disabled:hover {
-  background-color: rgb(248, 212, 144);
+  background-color: var(--hacki);
 }
 
 .page-nav__button:hover {
-  background-color: rgba(100, 111, 138, 0.4);
+  background-color: var(--ocean);
+  color: var(--gray);
 }
 
 .page-nav__button_prev-page {
-  background: no-repeat rgb(248, 212, 144) url('../assets/svg/arrow.svg') 50% 50% / contain;
+  background: no-repeat var(--hacki) url('../assets/svg/arrow.svg') 50% 50% / contain;
   background-size: 60%;
   transform: rotateY(180deg);
 }
@@ -372,15 +453,23 @@
 }
 
 .page-nav__button_next-page {
-  background: no-repeat rgb(248, 212, 144) url('../assets/svg/arrow.svg') 50% 50% / contain;
+  background: no-repeat var(--hacki) url('../assets/svg/arrow.svg') 50% 50% / contain;
   background-size: 60%;
 }
 
 .page-nav__button_current-page,
 .page-nav__button_current-page:hover {
-  background-color: tomato;
+  background-color: rgb(135, 63, 76);
+  color: var(--gray);
   font-size: 1.1rem;
   font-family: 'Gilroy Bold';
+}
+
+@media screen and (max-width: 800px) {
+  .page-nav__button.page-nav__button_current-prev-page,
+  .page-nav__button.page-nav__button_current-next-page {
+    display: none;
+  }
 }
 
 .no-words-message {
@@ -389,12 +478,20 @@
   font-size: 1.1rem;
 }
 
+/* LINK TO GAMES */
+
 .textbook__links {
   margin-top: 30px;
   padding: 5px;
   display: flex;
   justify-content: space-between;
   gap: 20px;
+}
+
+@media screen and (max-width: 800px) {
+  .textbook__links {
+    flex-direction: column;
+  }
 }
 
 .textbook__link {
@@ -406,6 +503,13 @@
   overflow: hidden;
 }
 
+@media screen and (max-width: 800px) {
+  .textbook__link {
+    width: 100%;
+    height: 125px;
+  }
+}
+
 .textbook__link.disabled {
   filter: grayscale(0.8);
   cursor: default;
@@ -413,11 +517,11 @@
 }
 
 .textbook__link_sprint {
-  background-color: wheat;
+  background-color: rgba(40, 76, 123, 0.7);
 }
 
 .textbook__link_sprint:hover {
-  background-color: rgba(247, 190, 84, 0.5);
+  background-color: rgba(40, 76, 123, 0.9);
 }
 
 .textbook__link:hover > .textbook__link_picture {
@@ -431,14 +535,19 @@
   align-items: center;
   width: 40%;
   margin-left: 10px;
+  color: var(--gray);
+}
+
+.textbook__link_audiocall > .textbook__link_text {
+  color: var(--ocean);
 }
 
 .textbook__link_title {
   font-family: 'Caveat';
-  font-size: 2rem;
+  font-size: 2.5rem;
   letter-spacing: 2px;
   transition: all 0.5s;
-  transform: translateY(25px);
+  transform: translateY(18px);
 }
 
 .textbook__link:hover .textbook__link_title {
@@ -450,7 +559,7 @@
 }
 
 .textbook__link_description {
-  font-size: 0.8rem;
+  font-size: 1rem;
   text-align: center;
   opacity: 0;
   transition: all 0.5s;
@@ -465,7 +574,11 @@
 }
 
 .textbook__link_audiocall {
-  background-color: rgb(167, 212, 255);
+  background-color: rgba(243, 162, 153, 0.7);
+}
+
+.textbook__link_audiocall:hover {
+  background-color: rgba(243, 162, 153, 1);
 }
 
 .textbook__link_audiocall > .textbook__link_text {

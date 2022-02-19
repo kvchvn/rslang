@@ -1,7 +1,6 @@
 import React from 'react';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { DataProvider } from './components/providers/DataProvider';
-import Navigation from './components/Navigation';
 import About from './pages/About';
 import AudioCallGame from './pages/AudioCallGame';
 import Authorization from './pages/Authorization';
@@ -11,13 +10,14 @@ import SprintGame from './pages/SprintGame';
 import Statistics from './pages/Statistics';
 import Textbook from './pages/Textbook';
 import WordsProvider from './components/providers/WordsProvider';
+import Header from './components/Header';
 
 function App() {
   return (
     <DataProvider>
       <WordsProvider>
         <Router>
-          <Navigation />
+          <Header />
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/authorization" element={<Authorization />} />

@@ -9,7 +9,7 @@ export default function WordsList() {
   const classnames = {
     list: 'words-page__words',
     wordItemBasis: 'words-page__word',
-    selected: 'selectes',
+    selected: 'selected',
     wordItemMarkBasis: 'words-page__word-mark word-mark_',
   };
 

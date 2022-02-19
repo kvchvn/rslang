@@ -13,6 +13,7 @@ export default function Word() {
 
   const classnames = {
     box: 'textbook__word-box word-box word',
+    mainContent: 'word__main-content',
     image: 'word__image',
     mainTextBox: 'word__main-text',
     name: 'word__name',
@@ -50,15 +51,19 @@ export default function Word() {
 
   return (
     <div className={classnames.box}>
-      <div className={classnames.image} style={backgroundImage} />
-      <div className={classnames.mainTextBox}>
-        <p className={classnames.name}>{wordCard.word}</p>
-        <p>{wordCard.transcription}</p>
-        <p>{wordCard.wordTranslate}</p>
-        <span
-          className={classnames.audio}
-          onClick={() => playAudio([wordCard.audio, wordCard.audioMeaning, wordCard.audioExample])}
-        />
+      <div className={classnames.mainContent}>
+        <div className={classnames.image} style={backgroundImage} />
+        <div className={classnames.mainTextBox}>
+          <p className={classnames.name}>{wordCard.word}</p>
+          <p>{wordCard.transcription}</p>
+          <p>{wordCard.wordTranslate}</p>
+          <span
+            className={classnames.audio}
+            onClick={() =>
+              playAudio([wordCard.audio, wordCard.audioMeaning, wordCard.audioExample])
+            }
+          />
+        </div>
       </div>
       <div className={classnames.subTextBox}>
         <div className={classnames.meainingBox}>
