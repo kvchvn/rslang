@@ -3,7 +3,7 @@ import { IWord, IWordsProviderValue } from '../../services/interfaces';
 import { useWordsData } from '../providers/WordsProvider';
 import WordControls from './WordControls';
 
-const MEDIA_BASIS_URL =
+export const MEDIA_BASIS_URL =
   'https://raw.githubusercontent.com/rolling-scopes-school/react-rslang-be/main';
 
 export default function Word() {

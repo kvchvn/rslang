@@ -127,7 +127,7 @@ export interface IStatisticsTotal {
 }
 
 export interface IStatisticsGame {
-  maxRowRightAnswers: number
+  maxRowRightAnswers: number;
   newWords: number;
   rightAnswersPercent: number;
 }
@@ -136,4 +136,23 @@ export interface IStatisticsPageData {
   sprintGame: IStatisticsGame;
   audiocallGame: IStatisticsGame;
   total: IStatisticsTotal;
+}
+
+export interface IAudiocallGameData {
+  step: number;
+  word: IWord;
+  answersWords: Array<string>;
+  answer: number;
+  rowRightAnswers: number;
+  maxRow: number;
+  totalAnswers: Array<boolean>;
+  score: number;
+  isAnswered: boolean;
+  isEnded: boolean;
+}
+
+export interface IAudiocallGameButtonsProps {
+  answersWords: Array<string>;
+  getAnswer: (e: React.MouseEvent<HTMLElement>) => void;
+  answer: number;
 }

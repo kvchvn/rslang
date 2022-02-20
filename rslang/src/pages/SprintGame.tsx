@@ -176,6 +176,8 @@ export default function SprintGame() {
             ),
           };
           optional = { ...statistics.optional, ...{ sprint: newOptionalData } };
+        } else {
+          optional = { ...statistics.optional, ...{ sprint: receivedOptionalData } };
         }
 
         updateUserStatistics(USER_ID, newLearnedWordsCount, TOKEN, optional);

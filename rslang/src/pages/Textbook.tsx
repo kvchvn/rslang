@@ -56,7 +56,7 @@ export default function Textbook() {
             </div>
             <span className={`${linkBasisClassname}picture`} />
           </Link>
-          <Link to="/audiocall" className={classnames.audiocallLink}>
+          <Link to="/audiocall" state="textbook" className={classnames.audiocallLink}>
             <div className={`${linkBasisClassname}text`}>
               <p className={`${linkBasisClassname}title`}>Аудиовызов</p>
               <p className={`${linkBasisClassname}description`}>Определи слово на слух</p>

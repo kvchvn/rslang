@@ -19,10 +19,8 @@ export default function Navigation() {
   const hideMenu = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
     const linksList = target.closest(`.${classnames.linksList}`);
-    console.log(linksList);
     if (linksList) {
       const buttonSwitch = document.querySelector(`.navbar__button__switch`);
-      console.log(buttonSwitch);
       if (buttonSwitch) {
         buttonSwitch.classList.add(`${hideClassname}`);
       }

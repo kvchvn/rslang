@@ -101,7 +101,7 @@ export default function Statistics() {
                   <span>{statistics.sprintGame.rightAnswersPercent}%</span>
                 </li>
                 <li>
-                  Макс. серия правильных ответов:
+                  Максимальное комбо:
                   <span>{statistics.sprintGame.maxRowRightAnswers}</span>
                 </li>
               </ul>
@@ -118,7 +118,7 @@ export default function Statistics() {
                   <span>{statistics.audiocallGame.rightAnswersPercent}%</span>
                 </li>
                 <li>
-                  Макс. серия правильных ответов:
+                  Максимальное комбо:
                   <span>{statistics.audiocallGame.maxRowRightAnswers}</span>
                 </li>
               </ul>
