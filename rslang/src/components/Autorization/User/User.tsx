@@ -1,24 +1,17 @@
-import React, { useState, useEffect } from "react";
-
-
+import React from 'react';
 
 interface IUserFormState {
-  stateUser: boolean
+  stateUser: boolean;
 }
 
-const User: React.FC<IUserFormState> = ({stateUser}) => {
+function User({ stateUser }: IUserFormState) {
+  const userName = JSON.parse(localStorage.getItem('sigin')!);
 
-  let userName = JSON.parse(localStorage.getItem("sigin")!);
-  
   return (
-    <>
-      <div className="title-user">
-        {
-          stateUser ? <p>Приветсвуем Вас, {userName[0].name}</p> : <p>Пользователь не авторизован</p>
-        }
-      </div>
-    </>
+    <div className="title-user">
+      {stateUser ? <p>Приветсвуем Вас, {userName[0].name}</p> : <p>Пользователь не авторизован</p>}
+    </div>
   );
-};
+}
 
 export default User;

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import "./FormSigIn.css";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
+import React, { useState } from 'react';
+import './FormSigIn.css';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import {
   Dialog,
   DialogTitle,
@@ -9,18 +9,18 @@ import {
   DialogContentText,
   DialogActions,
   TextField,
-} from "@mui/material";
-import { changeSigIn } from "../../utils/api";
+} from '@mui/material';
+import { changeSigIn } from '../../utils/api';
 
 interface IFormSigin {
   changeFormStateUser: () => void;
 }
 
-const FormSigIn: React.FC<IFormSigin> = ({ changeFormStateUser }) => {
+function FormSigIn({ changeFormStateUser }: IFormSigin) {
   const [open, setOpen] = React.useState(false);
-  const [localSigIn, setlocalSigIn] = useState([]);
-  const [password, setPass] = useState("");
-  const [email, setEmail] = useState("");
+  const [localSigIn] = useState([]);
+  const [password, setPass] = useState('');
+  const [email, setEmail] = useState('');
   const handleClose = () => {
     setOpen(false);
   };
@@ -28,24 +28,24 @@ const FormSigIn: React.FC<IFormSigin> = ({ changeFormStateUser }) => {
     setOpen(true);
   };
 
-  const handleChangePassSigIN: React.ChangeEventHandler<
-    HTMLTextAreaElement | HTMLInputElement
-  > = (event) => {
+  const handleChangePassSigIN: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> = (
+    event
+  ) => {
     setPass(event.target.value);
   };
-  const handleChangeEmailSigIn: React.ChangeEventHandler<
-    HTMLTextAreaElement | HTMLInputElement
-  > = (event) => {
+  const handleChangeEmailSigIn: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> = (
+    event
+  ) => {
     setEmail(event.target.value);
   };
 
   const handleSigIn = async () => {
     setOpen(false);
     const content = await changeSigIn(email, password);
-    let newArr: object[] = [...localSigIn, content];
-    localStorage.setItem("sigin", JSON.stringify(newArr));
-    setPass("");
-    setEmail("");
+    const newArr: object[] = [...localSigIn, content];
+    localStorage.setItem('sigin', JSON.stringify(newArr));
+    setPass('');
+    setEmail('');
     changeFormStateUser();
   };
 
@@ -59,9 +59,7 @@ const FormSigIn: React.FC<IFormSigin> = ({ changeFormStateUser }) => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Войти</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Для входа введите Ваш email и пароль
-          </DialogContentText>
+          <DialogContentText>Для входа введите Ваш email и пароль</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
@@ -91,6 +89,6 @@ const FormSigIn: React.FC<IFormSigin> = ({ changeFormStateUser }) => {
       </Dialog>
     </div>
   );
-};
+}
 
 export default FormSigIn;
