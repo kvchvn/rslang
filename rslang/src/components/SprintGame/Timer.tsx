@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const ROUND_TIME = 5;
+const ROUND_TIME = 30;
 
 export default function Timer({ endRound, isEnded }: { endRound: () => void; isEnded: boolean }) {
   const [seconds, setSeconds] = useState(ROUND_TIME);

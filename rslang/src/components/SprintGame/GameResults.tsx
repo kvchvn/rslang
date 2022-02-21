@@ -30,9 +30,7 @@ export default function GameResults({
   return (
     <div className={classnames.box}>
       <button type="button" className={classnames.button} onClick={(e) => showWordsBox(e)} />
-      <ul className={classnames.wordsBox}>
-        <li>word</li>
-      </ul>
+      <ul className={classnames.wordsBox} />
       <div className={classnames.textContent}>
         <h3 className={classnames.title}>Игра окончена</h3>
         <p>{`Правильных ответов: ${rightAnswers}`}</p>

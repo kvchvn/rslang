@@ -119,7 +119,7 @@ export default function AudioCallGame() {
     if (!wordsData.wordsPage.length) return;
     if (gameData.isEnded) return;
 
-    if (nextStep === 3) {
+    if (nextStep === MAX_WORDS_COUNT) {
       const isEnded = true;
       setGameData((prevData) => ({ ...prevData, isEnded }));
       endGame();
