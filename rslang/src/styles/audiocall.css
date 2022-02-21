@@ -108,3 +108,9 @@
   background: no-repeat var(--hacki) url('../assets/svg/arrow.svg') 70% 50% / contain;
   background-size: 70%;
 }
+
+@media screen and (max-width: 720px) {
+  .audiocall-page__content {
+    flex-direction: column;
+  }
+}

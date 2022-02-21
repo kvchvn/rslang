@@ -1,7 +1,6 @@
 import React from 'react';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { DataProvider } from './components/providers/DataProvider';
-import About from './pages/About';
 import AudioCallGame from './pages/AudioCallGame';
 import Main from './pages/Main';
 import Authorization from './pages/Authorization';
@@ -25,7 +24,6 @@ function App() {
             <Route path="/sprint" element={<SprintGame />} />
             <Route path="/audiocall" element={<AudioCallGame />} />
             <Route path="/statistics" element={<Statistics />} />
-            <Route path="/about" element={<About />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>

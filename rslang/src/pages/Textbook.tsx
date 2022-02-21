@@ -7,6 +7,7 @@ import GroupControls from '../components/Textbook/GroupControls';
 import { useWordsData } from '../components/providers/WordsProvider';
 import { IWordsProviderValue } from '../services/interfaces';
 import { DIFFICULT_WEAK_WORD, WEAK_WORD } from '../services/requests';
+import Footer from '../components/Footer';
 
 export default function Textbook() {
   const { wordsData } = useWordsData() as IWordsProviderValue;
@@ -65,6 +66,7 @@ export default function Textbook() {
           </Link>
         </div>
       </div>
+      <Footer />
     </main>
   );
 }

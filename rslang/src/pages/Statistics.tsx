@@ -7,6 +7,7 @@ import {
   USER_ID,
   WEAK_WORD,
 } from '../services/requests';
+import Footer from '../components/Footer';
 
 export default function Statistics() {
   const [statistics, setStatistics] = useState<IStatisticsPageData>({
@@ -143,6 +144,7 @@ export default function Statistics() {
           </ul>
         </section>
       </div>
+      <Footer />
     </main>
   );
 }
