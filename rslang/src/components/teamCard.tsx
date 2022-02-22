@@ -9,29 +9,20 @@ interface usersData {
   avatarClassName: string;
 }
 
-export default function teamCard(props: usersData) {
+export default function TeamCard({ user, index }: { user: usersData; index: number }) {
   return (
-    <div className="team__card">
-      <div className="team__card__main">
-        {props.name}
-        <div className="team__card__main__info">{props.location}</div>
-        <div className="team__card__main__avatar">
-          <div
-            className={'avatar__frame ' + props.avatarClassName}
-            style={{ backgroundSize: 'cover' }}
-          />
-        </div>
-      </div>
-      <div className="team__card__info">
-        <div className="team__card__info_contribution">
-          Вклад в разработку: {props.contribution}
-        </div>
-        <div className="team__card__info__contacts">
-          <a href={props.gitHubLink}>
-            <div className="git__icon" />
+    <li key={index} className="team-card">
+      <span className="team-card__avatar" />
+      <div className="team-card__info">
+        <div className="team-card__name-box">
+          <h5 className="team-card__name">{user.name}</h5>
+          <a className="link team-card__link" href={user.gitHubLink}>
+            <span className="team-card__github-icon" />
           </a>
         </div>
+        <p className="team-card__location">{user.location}</p>
+        <p className="team-card__contribution">Вклад в разработку: {user.contribution}</p>
       </div>
-    </div>
+    </li>
   );
 }

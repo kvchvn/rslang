@@ -1,0 +1,90 @@
+.about-page {
+  background-color: var(--sky);
+}
+
+.about-page__intro-box {
+  text-align: justify;
+}
+
+.about-page__intro {
+  margin-bottom: 10px;
+}
+
+.about-page__intro-link {
+  display: inline-block;
+  border-bottom: 1px solid black;
+  transition: all 0.25s;
+}
+
+.about-page__intro-link:hover {
+  color: #a33d2b;
+  border-bottom: 1px solid #a33d2b;
+}
+
+.about-page__team-title {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.about-page__team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.team-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.team-card__avatar {
+  display: block;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: no-repeat url('../assets/svg/user-icon.svg') 50% 50% / contain;
+}
+
+.team-card:first-child > .team-card__avatar {
+  background: url('../assets/png/AntonAvatar.jpg') 50% 50% / cover;
+}
+
+.team-card__name-box {
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+.team-card__github-icon {
+  margin-left: 5px;
+  display: block;
+  width: 15px;
+  height: 15px;
+  background: no-repeat url('../assets/svg/github.svg') 50% 50% / contain;
+  transition: all 0.25s;
+}
+
+.team-card__github-icon:hover {
+  filter: invert(28%) sepia(12%) saturate(4777%) hue-rotate(330deg) brightness(103%) contrast(94%);
+}
+
+.team-card__location {
+  font-size: 0.7rem;
+}
+
+.team-card__location::before {
+  margin-right: 3px;
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: no-repeat url('../assets/svg/map-pin.svg') 50% 50% / contain;
+}
+
+.team-card__info {
+  width: calc(100% - 90px);
+}

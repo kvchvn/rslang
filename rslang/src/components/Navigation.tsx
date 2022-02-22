@@ -56,6 +56,11 @@ export default function Navigation() {
             Статистика
           </Link>
         </li>
+        <li className={classnames.linkItem}>
+          <Link to="/about" className={classnames.link}>
+            О нас
+          </Link>
+        </li>
       </ul>
     </nav>
   );
