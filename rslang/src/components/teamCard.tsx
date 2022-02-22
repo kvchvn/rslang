@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styles/mainPage.css';
 
 interface usersData {
   name: string;

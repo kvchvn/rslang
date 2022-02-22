@@ -50,7 +50,7 @@
 }
 
 .team-card:first-child > .team-card__avatar {
-  background: url('../assets/png/AntonAvatar.jpg') 50% 50% / cover;
+  background: url('../assets/images/AntonAvatar.jpg') 50% 50% / cover;
 }
 
 .team-card__name-box {

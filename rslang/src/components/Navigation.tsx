@@ -32,11 +32,6 @@ export default function Navigation() {
       <button type="button" className={classnames.buttonSwitch} onClick={(e) => switchMenu(e)} />
       <ul className={classnames.linksList} onClick={(e) => hideMenu(e)}>
         <li className={classnames.linkItem}>
-          <Link to="/" className={classnames.link}>
-            Главная
-          </Link>
-        </li>
-        <li className={classnames.linkItem}>
           <Link to="/textbook" className={classnames.link}>
             Учебник
           </Link>
