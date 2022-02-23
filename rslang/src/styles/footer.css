@@ -38,7 +38,7 @@
   }
 }
 
-@media screen and (min-width: 120px) {
+@media screen and (min-width: 1200px) {
   .footer__link_rsschool {
     width: 160px;
     height: 70px;
@@ -55,7 +55,7 @@
   letter-spacing: 2px;
 }
 
-@media screen and (min-width: 120px) {
+@media screen and (min-width: 1200px) {
   .footer__year {
     font-size: 2rem;
   }

@@ -30,8 +30,8 @@
 @media screen and (min-width: 1200px) {
   .menu-box {
     gap: 0;
-    flex-direction: row-reverse;
-    justify-content: space-between;
+    flex-direction: column-reverse;
+    align-items: flex-start;
     width: 90%;
     max-width: 1000px;
   }
@@ -43,11 +43,17 @@
   }
 }
 
-.header__title > a {
+.header__title > .link {
   font-size: 2.5rem;
   letter-spacing: 2px;
   font-family: 'TitanOne', sans-serif;
   transition: color 0.25s;
+}
+
+@media screen and (min-width: 1200px) {
+  .header__title > .link {
+    font-size: 2rem;
+  }
 }
 
 .header__title:hover {

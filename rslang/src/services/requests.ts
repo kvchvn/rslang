@@ -25,8 +25,8 @@ export const DIFFICULT_WEAK_WORD = 'both';
 const userData = localStorage.getItem('sigin');
 const parsedUserData: [IUserData] = userData ? JSON.parse(userData) : null;
 
-export const TOKEN = parsedUserData ? parsedUserData[0].token : '';
-export const USER_ID = parsedUserData ? parsedUserData[0].userId : '';
+export const TOKEN = parsedUserData ? parsedUserData[0].token : 'sdcsdc';
+export const USER_ID = parsedUserData ? parsedUserData[0].userId : 'sdcsdc';
 
 export const getWordsPage = async (group: number, page: number) => {
   const response: Response = await fetch(`${BASIS_URL}/words?group=${group - 1}&page=${page - 1}`);

@@ -36,37 +36,39 @@ export default function Textbook() {
   };
 
   return (
-    <main className={classnames.main}>
-      <div className={classnames.wrapper}>
-        <h2 className={classnames.title}>Учебник</h2>
-        <section className={classnames.mainSection}>
-          <GroupControls />
-          <Word />
-          <article className={classnames.wordsList}>
-            <WordsList />
-            <PageControls isStudiedPage={isStudiedPage} />
-          </article>
-        </section>
-        <div className={classnames.gamesLinksBox}>
-          <Link to="/sprint" state="textbook" className={classnames.sprintLink}>
-            <div className={`${linkBasisClassname}text`}>
-              <p className={`${linkBasisClassname}title`}>Спринт</p>
-              <p className={`${linkBasisClassname}description`}>
-                Переведи как можно больше слов на время
-              </p>
-            </div>
-            <span className={`${linkBasisClassname}picture`} />
-          </Link>
-          <Link to="/audiocall" state="textbook" className={classnames.audiocallLink}>
-            <div className={`${linkBasisClassname}text`}>
-              <p className={`${linkBasisClassname}title`}>Аудиовызов</p>
-              <p className={`${linkBasisClassname}description`}>Определи слово на слух</p>
-            </div>
-            <span className={`${linkBasisClassname}picture`} />
-          </Link>
+    <>
+      <main className={classnames.main}>
+        <div className={classnames.wrapper}>
+          <h2 className={classnames.title}>Учебник</h2>
+          <section className={classnames.mainSection}>
+            <GroupControls />
+            <Word />
+            <article className={classnames.wordsList}>
+              <WordsList />
+              <PageControls isStudiedPage={isStudiedPage} />
+            </article>
+          </section>
+          <div className={classnames.gamesLinksBox}>
+            <Link to="/sprint" state="textbook" className={classnames.sprintLink}>
+              <div className={`${linkBasisClassname}text`}>
+                <p className={`${linkBasisClassname}title`}>Спринт</p>
+                <p className={`${linkBasisClassname}description`}>
+                  Переведи как можно больше слов на время
+                </p>
+              </div>
+              <span className={`${linkBasisClassname}picture`} />
+            </Link>
+            <Link to="/audiocall" state="textbook" className={classnames.audiocallLink}>
+              <div className={`${linkBasisClassname}text`}>
+                <p className={`${linkBasisClassname}title`}>Аудиовызов</p>
+                <p className={`${linkBasisClassname}description`}>Определи слово на слух</p>
+              </div>
+              <span className={`${linkBasisClassname}picture`} />
+            </Link>
+          </div>
         </div>
-      </div>
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }
