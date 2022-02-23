@@ -152,36 +152,40 @@ export default function SprintGame() {
 
   const endGame = () => {
     if (gameData.isEnded) {
-      getUserStatistics(USER_ID, TOKEN).then(async (statistics: IStatisticsResponse) => {
-        const newLearnedWordsCount = statistics.learnedWords + gameData.totalAnswers.length;
+      getUserStatistics(USER_ID, TOKEN)
+        .then(async (statistics: IStatisticsResponse) => {
+          const newLearnedWordsCount = statistics.learnedWords + gameData.totalAnswers.length;
 
-        const receivedOptionalData: IStatisticsOptional = {
-          rightAnswers: gameData.totalAnswers.filter((elem) => elem).length,
-          totalAnswers: gameData.totalAnswers.length,
-          maxRowRightAnswers: gameData.maxRow,
-        };
-
-        let optional = { sprint: receivedOptionalData };
-
-        if (statistics.optional && statistics.optional.sprint) {
-          console.log(statistics.optional);
-          const savedOptionalData = statistics.optional.sprint;
-
-          const newOptionalData: IStatisticsOptional = {
-            rightAnswers: receivedOptionalData.rightAnswers + savedOptionalData.rightAnswers,
-            totalAnswers: receivedOptionalData.totalAnswers + savedOptionalData.totalAnswers,
-            maxRowRightAnswers: Math.max(
-              savedOptionalData.maxRowRightAnswers,
-              receivedOptionalData.maxRowRightAnswers
-            ),
+          const receivedOptionalData: IStatisticsOptional = {
+            rightAnswers: gameData.totalAnswers.filter((elem) => elem).length,
+            totalAnswers: gameData.totalAnswers.length,
+            maxRowRightAnswers: gameData.maxRow,
           };
-          optional = { ...statistics.optional, ...{ sprint: newOptionalData } };
-        } else {
-          optional = { ...statistics.optional, ...{ sprint: receivedOptionalData } };
-        }
 
-        updateUserStatistics(USER_ID, newLearnedWordsCount, TOKEN, optional);
-      });
+          let optional = { sprint: receivedOptionalData };
+
+          if (statistics.optional && statistics.optional.sprint) {
+            const savedOptionalData = statistics.optional.sprint;
+
+            const newOptionalData: IStatisticsOptional = {
+              rightAnswers: receivedOptionalData.rightAnswers + savedOptionalData.rightAnswers,
+              totalAnswers: receivedOptionalData.totalAnswers + savedOptionalData.totalAnswers,
+              maxRowRightAnswers: Math.max(
+                savedOptionalData.maxRowRightAnswers,
+                receivedOptionalData.maxRowRightAnswers
+              ),
+            };
+            optional = { ...statistics.optional, ...{ sprint: newOptionalData } };
+          } else {
+            optional = { ...statistics.optional, ...{ sprint: receivedOptionalData } };
+          }
+
+          updateUserStatistics(USER_ID, newLearnedWordsCount, TOKEN, optional);
+        })
+        .catch(async () => {
+          await updateUserStatistics(USER_ID, 0, TOKEN);
+          endGame();
+        });
     }
   };
 

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import AnswersBox from '../components/AudiocallGame/AnswersBox';
 import { useWordsData } from '../components/providers/WordsProvider';
 import GameProgress from '../components/SprintGame/GameProgress';
 import GameResults from '../components/AudiocallGame/GameResults';
 import PageTemplate from '../components/AudiocallGame/PageTemplate';
+import AudioCallDifficulty from './AudioCallDifficulty';
 import { MEDIA_BASIS_URL } from '../components/Textbook/Word';
 import {
   IAudiocallGameData,
@@ -13,10 +14,8 @@ import {
   IWordsProviderValue,
 } from '../services/interfaces';
 import {
-  DIFFICULT_WORD_GROUP_NUMBER,
   FIRST_PAGE_NUMBER,
   getUserStatistics,
-  MAX_GROUP_NUMBER,
   TOKEN,
   updateUserStatistics,
   USER_ID,
@@ -26,10 +25,10 @@ const FROM_TEXTBOOK_PAGE = 'textbook';
 const FROM_MAIN_PAGE = 'main';
 const POINTS_FOR_RIGHT_ANSWER = 10;
 const ADD_COMBO_FOR_RIGHT_ANSWERS_AMOUNT = 4;
-const NUMBER_OF_ANSWERS_VARIANTS = 4;
+const NUMBER_OF_ANSWERS_VARIANTS = 5;
 
 export default function AudioCallGame() {
-  const { wordsData, setWordsGroup, setPage } = useWordsData() as IWordsProviderValue;
+  const { wordsData, setPage } = useWordsData() as IWordsProviderValue;
   const [gameData, setGameData] = useState<IAudiocallGameData>({
     step: 0,
     word: wordsData.wordsPage[0],
@@ -44,7 +43,6 @@ export default function AudioCallGame() {
   });
 
   const location = useLocation();
-  const GROUP_AMOUNT = USER_ID && TOKEN ? DIFFICULT_WORD_GROUP_NUMBER : MAX_GROUP_NUMBER;
   const MAX_WORDS_COUNT = wordsData.wordsPage.length;
   const classnames = {
     gameInfo: 'audiocall-page__game-info',
@@ -58,7 +56,7 @@ export default function AudioCallGame() {
     link: 'link sprint-page__link-game',
     buttonNext: 'button audiocall-page__button_next',
   };
-  console.log(gameData);
+
   const getRandomNumber = (min: number, max: number) =>
     Math.floor(Math.random() * (max - min) + min);
 
@@ -83,35 +81,40 @@ export default function AudioCallGame() {
 
   const endGame = () => {
     if (gameData.isEnded) {
-      getUserStatistics(USER_ID, TOKEN).then(async (statistics: IStatisticsResponse) => {
-        const newLearnedWordsCount = statistics.learnedWords + gameData.totalAnswers.length;
+      getUserStatistics(USER_ID, TOKEN)
+        .then(async (statistics: IStatisticsResponse) => {
+          const newLearnedWordsCount = statistics.learnedWords + gameData.totalAnswers.length;
 
-        const receivedOptionalData: IStatisticsOptional = {
-          rightAnswers: gameData.totalAnswers.filter((elem) => elem).length,
-          totalAnswers: gameData.totalAnswers.length,
-          maxRowRightAnswers: gameData.maxRow,
-        };
-
-        let optional = { audiocall: receivedOptionalData };
-
-        if (statistics.optional && statistics.optional.audiocall) {
-          const savedOptionalData = statistics.optional.audiocall;
-
-          const newOptionalData: IStatisticsOptional = {
-            rightAnswers: receivedOptionalData.rightAnswers + savedOptionalData.rightAnswers,
-            totalAnswers: receivedOptionalData.totalAnswers + savedOptionalData.totalAnswers,
-            maxRowRightAnswers: Math.max(
-              savedOptionalData.maxRowRightAnswers,
-              receivedOptionalData.maxRowRightAnswers
-            ),
+          const receivedOptionalData: IStatisticsOptional = {
+            rightAnswers: gameData.totalAnswers.filter((elem) => elem).length,
+            totalAnswers: gameData.totalAnswers.length,
+            maxRowRightAnswers: gameData.maxRow,
           };
-          optional = { ...statistics.optional, ...{ audiocall: newOptionalData } };
-        } else {
-          optional = { ...statistics.optional, ...{ audiocall: receivedOptionalData } };
-        }
 
-        updateUserStatistics(USER_ID, newLearnedWordsCount, TOKEN, optional);
-      });
+          let optional = { audiocall: receivedOptionalData };
+
+          if (statistics.optional && statistics.optional.audiocall) {
+            const savedOptionalData = statistics.optional.audiocall;
+
+            const newOptionalData: IStatisticsOptional = {
+              rightAnswers: receivedOptionalData.rightAnswers + savedOptionalData.rightAnswers,
+              totalAnswers: receivedOptionalData.totalAnswers + savedOptionalData.totalAnswers,
+              maxRowRightAnswers: Math.max(
+                savedOptionalData.maxRowRightAnswers,
+                receivedOptionalData.maxRowRightAnswers
+              ),
+            };
+            optional = { ...statistics.optional, ...{ audiocall: newOptionalData } };
+          } else {
+            optional = { ...statistics.optional, ...{ audiocall: receivedOptionalData } };
+          }
+
+          updateUserStatistics(USER_ID, newLearnedWordsCount, TOKEN, optional);
+        })
+        .catch(async () => {
+          await updateUserStatistics(USER_ID, 0, TOKEN);
+          endGame();
+        });
     }
   };
 
@@ -141,9 +144,11 @@ export default function AudioCallGame() {
     }
 
     const answersVariants = getAnswersVariants(minValue, maxValue, step);
-    const answersWords = answersVariants.map((wordIndex) => wordsData.wordsPage[wordIndex].word);
+    const answersWords = answersVariants.map(
+      (wordIndex) => wordsData.wordsPage[wordIndex].wordTranslate
+    );
 
-    const answer = answersWords.indexOf(word.word);
+    const answer = answersWords.indexOf(word.wordTranslate);
 
     const rowRightAnswers = prevRoundResult ? gameData.rowRightAnswers + 1 : 0;
     const maxRow = Math.max(gameData.maxRow, rowRightAnswers);
@@ -183,7 +188,6 @@ export default function AudioCallGame() {
   const getUserAnswer = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
     const userAnswer = target.classList.contains('true');
-    console.log(userAnswer);
     saveRoundAndPlayNext(gameData.step, userAnswer);
   };
 
@@ -229,6 +233,7 @@ export default function AudioCallGame() {
               alt={`${gameData.word.wordTranslate}`}
             />
             <p>{gameData.word.word}</p>
+            <p>{gameData.word.wordTranslate}</p>
           </div>
         ) : null}
         <div className={classnames.mainContent}>
@@ -260,31 +265,5 @@ export default function AudioCallGame() {
     );
   }
 
-  return (
-    <PageTemplate>
-      <h3 className={classnames.title}>Выберите уровень сложности</h3>
-      <ul className={classnames.listButtons}>
-        {Array(GROUP_AMOUNT)
-          .fill('')
-          .map((_, index) => {
-            return (
-              <button
-                type="button"
-                key={index}
-                data-group={index + 1}
-                className={`${classnames.buttonGroup}${index + 1} ${
-                  wordsData.group === index + 1 ? 'selected' : ''
-                }`}
-                onClick={(e) => setWordsGroup(e, true)}
-              >
-                {index === MAX_GROUP_NUMBER ? 'Сложные слова' : `${index + 1}`}
-              </button>
-            );
-          })}
-      </ul>
-      <Link to="/audiocall" state="main" className={classnames.link}>
-        Играть
-      </Link>
-    </PageTemplate>
-  );
+  return <AudioCallDifficulty />;
 }

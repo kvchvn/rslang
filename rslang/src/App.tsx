@@ -11,6 +11,7 @@ import Textbook from './pages/Textbook';
 import WordsProvider from './components/providers/WordsProvider';
 import Header from './components/Header';
 import About from './pages/About';
+import AudioCallDifficulty from './pages/AudioCallDifficulty';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/textbook" element={<Textbook />} />
             <Route path="/sprint" element={<SprintGame />} />
             <Route path="/audiocall" element={<AudioCallGame />} />
+            <Route path="/audiocall_difficulty" element={<AudioCallDifficulty />} />
             <Route path="/statistics" element={<Statistics />} />
             <Route path="/about" element={<About />} />
             <Route path="*" element={<NotFound />} />

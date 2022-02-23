@@ -42,7 +42,7 @@ export default function GameResults({
         <Link to="/" className={classnames.linkToMain}>
           На главную
         </Link>
-        <Link to="/audiocall" className={classnames.linkToSprint} onClick={resetGame}>
+        <Link to="/audiocall_difficulty" className={classnames.linkToSprint} onClick={resetGame}>
           Сыграть еще раз
         </Link>
       </div>

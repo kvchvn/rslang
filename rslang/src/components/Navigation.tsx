@@ -42,7 +42,7 @@ export default function Navigation() {
           </Link>
         </li>
         <li className={classnames.linkItem}>
-          <Link to="/audiocall" className={classnames.link}>
+          <Link to="/audiocall_difficulty" className={classnames.link}>
             Аудиовызов
           </Link>
         </li>

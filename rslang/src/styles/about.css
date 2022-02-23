@@ -11,6 +11,7 @@
 }
 
 .about-page__intro-link {
+  margin-left: 5px;
   display: inline-block;
   border-bottom: 1px solid black;
   transition: all 0.25s;
