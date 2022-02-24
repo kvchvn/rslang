@@ -1,0 +1,15 @@
+.form-block {
+  padding-top: 100px;
+  margin: 0;
+  background-color: var(--gray);
+  height: 100%;
+}
+
+.form-block__item {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 20px;
+  background-color: var(--sand);
+  border: none;
+}

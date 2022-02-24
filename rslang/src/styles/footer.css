@@ -1,0 +1,111 @@
+.footer {
+  flex: 0 0 auto;
+  background-color: var(--ocean);
+  color: white;
+  height: 100px;
+}
+
+@media screen and (min-width: 800px) {
+  .footer {
+    height: 150px;
+  }
+}
+
+.footer__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.footer__link_rsschool {
+  width: 70px;
+  height: 30px;
+}
+
+.footer__link-background_rsschool {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: invert(1);
+  background: no-repeat url('../assets/svg/rs-logo.svg') 50% 50% / contain;
+}
+
+@media screen and (min-width: 600px) {
+  .footer__link_rsschool {
+    width: 120px;
+    height: 50px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .footer__link_rsschool {
+    width: 160px;
+    height: 70px;
+  }
+}
+
+.footer__link-background_rsschool:hover {
+  filter: invert(28%) sepia(12%) saturate(4777%) hue-rotate(330deg) brightness(103%) contrast(94%);
+}
+
+.footer__year {
+  font-family: 'TitanOne', 'Gilroy', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+
+@media screen and (min-width: 1200px) {
+  .footer__year {
+    font-size: 2rem;
+  }
+}
+
+.footer__command {
+  display: flex;
+  height: 50px;
+}
+
+.footer__command::before {
+  margin: auto 0;
+  margin-right: 10px;
+  content: '';
+  display: block;
+  width: 40px;
+  height: 40px;
+  filter: invert(1);
+  background: no-repeat url('../assets/svg/github.svg') 50% 50% / contain;
+}
+
+@media screen and (min-width: 800px) {
+  .footer__command {
+    height: 90px;
+  }
+  .footer__command::before {
+    margin-right: 20px;
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .footer__command::before {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.footer__command_github-links {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.footer__link_command-github {
+  transition: color 0.25s;
+  font-size: 0.8rem;
+}
+
+.footer__link_command-github:hover {
+  color: #a33d2b;
+}
